@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const slides = [
-  "/banners/banner-1.png",
-  "/banners/banner-2.png",
-];
+const slides = ["/banners/banner-1.png", "/banners/banner-2.png"];
 
-export default function CustomSlider() {
+export default function HomeSlider() {
   const [current, setCurrent] = useState(0);
 
   const nextSlide = () => {
@@ -19,7 +17,7 @@ export default function CustomSlider() {
   };
 
   return (
-    <div className="relative w-full h-64 overflow-hidden rounded-xl">
+    <div className="relative w-full h-64 md:h-[600px] overflow-hidden">
       <AnimatePresence>
         <motion.img
           key={slides[current]}
@@ -36,15 +34,15 @@ export default function CustomSlider() {
       {/* Navigation Buttons */}
       <Button
         onClick={prevSlide}
-        className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 text-white"
+        className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/75 p-2 text-black"
       >
-        ⬅
+        <ChevronLeft size={32} />
       </Button>
       <Button
         onClick={nextSlide}
-        className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 p-2 text-white"
+        className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/75 p-2 text-black"
       >
-        ➡
+        <ChevronRight size={32} />
       </Button>
     </div>
   );
