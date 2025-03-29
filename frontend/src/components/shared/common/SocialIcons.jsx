@@ -2,17 +2,17 @@ import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 
 const SocialIcons = () => {
   return (
-    <div className="flex space-x-4">
-      <a href="#" className="text-gray-600 hover:text-blue-600">
+    <div className="flex space-x-4 text-black">
+      <a href="#">
         <Facebook size={24} />
       </a>
-      <a href="#" className="text-gray-600 hover:text-blue-600">
+      <a href="#">
         <Twitter size={24} />
       </a>
-      <a href="#" className="text-gray-600 hover:text-blue-600">
+      <a href="#">
         <Instagram size={24} />
       </a>
-      <a href="#" className="text-gray-600 hover:text-blue-600">
+      <a href="#">
         <Youtube size={24} />
       </a>
     </div>
