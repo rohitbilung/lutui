@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import TopHeader from "../../components/shared/common/TopHeader";
 import Footer from "../../components/shared/common/Footer";
-import HomeSlider from "../../components/shared/common/HomeSlider";
-import FeaturedProducts from "../../components/shared/common/FeaturedProducts";
+import HomeSlider from "../../components/shared/HomeSlider";
+import FeaturedProducts from "../../components/shared/FeaturedProducts";
 import Header from "../../components/shared/common/Header";
 
 const Home = () => {
