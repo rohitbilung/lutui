@@ -38,7 +38,7 @@ export default function Header () {
           <Link href="/" className="hover:text-gray-900">
             Home
           </Link>
-          <Link href="/products" className="hover:text-gray-900">
+          <Link href="/products" className="hover:text-gray-900 capitalize">
             Products
           </Link>
           <Link href="/about-us" className="hover:text-gray-900">
