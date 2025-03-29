@@ -1,26 +1,27 @@
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { ourDetails } from "../../data/info";
 import PageWrapper from "../../components/shared/common/layouts/PageWrapper";
 import PageContent from "../../components/shared/common/layouts/PageContent";
-import { ourDetails } from "../../data/info";
+import TextToHtml from "../../components/shared/common/TextToHtml";
 
 const About = () => {
   return (
     <PageWrapper>
       <PageContent title="About Us">
         {ourDetails && (
-          <div>
+          <div className="flex flex-col gap-4">
             {/* Our Story */}
             <section>
-              <h2 className="text-2xl font-bold mb-4">Our Story</h2>
-              <div className="prose">{ourDetails.ourStory}</div>
+              <TextToHtml
+                content={ourDetails.ourStory ? ourDetails.ourStory : ""}
+              />
             </section>
 
             {/* Our Brand & Key Points in Grid */}
-            <section className="md:grid md:grid-cols-2 gap-8">
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Our Brand */}
               <div>
                 <h2 className="text-2xl font-bold mb-4">Our Brand</h2>
-                <div className="prose">{ourDetails.ourBrand}</div>
+                <TextToHtml content={ourDetails.ourBrand?ourDetails.ourBrand:""} />
               </div>
 
               {/* Key Points */}
