@@ -19,8 +19,8 @@ module.exports = {
         }
     },
 
-    z : async (req, res) => {
-        let result = await userService.signup(req.body)
+    getProductsById : async (req, res) => {
+        let result = await userService.getProductsById(req.body)
 
         if(result){
             res.status(result.status).send({
@@ -37,9 +37,9 @@ module.exports = {
         }
     },
 
-    x : async (req,res) => {
+    getProducts : async (req,res) => {
         
-        let result = {status:200}
+        let result = await productService.getProducts()
 
         if(result){
             res.status(result.status).send({
