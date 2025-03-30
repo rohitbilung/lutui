@@ -12,9 +12,12 @@ module.exports = {
         }
     },
 
-    getOrderByID : async (userId) => {
+    getCart : async (params) => {
         try {
-            let res = Order.findById(userId)
+            console.log((params))
+            let res = await Order.find(params)
+                    .populate('userId')
+                    .populate('products.productId')
             return res
         } catch (error) {
             return error
@@ -23,7 +26,7 @@ module.exports = {
 
     addCart : async (body) => {
         try {            
-            let res = Order.create(body)
+            let res = await Order.create(body)
             return res
         } catch (error) {
             return error

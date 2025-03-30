@@ -10,5 +10,21 @@ module.exports = {
                 error: error
             }
         }
-    }
+    },
+    
+    getCart: async (params) => {
+        try {
+            params.status = "pending"
+            let data = await orderModel.getCart(params)
+            if(data.length>0){
+                return { status: 200, data: data, message:"Product created successful"}
+            }else{
+                return { status: 404, data: data, message:"No product available"}
+            }
+        } catch (error) {
+            return {
+                error: error
+            }
+        }
+    },
 }
