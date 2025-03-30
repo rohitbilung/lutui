@@ -7,7 +7,6 @@ module.exports = {
             res.status(result.status).send({
                 success: true,
                 data: result.data,
-                token: token || "",
                 message: result.message
             });
         }else{

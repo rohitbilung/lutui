@@ -2,18 +2,18 @@ const mongoose = require('mongoose')
 const Product = require('../productModel/product.schema')
 
 module.exports = {
-    getUser : async (params) => {
+    getProduct : async (params) => {
         try {
-            let res = Users.findOne(params)
+            let res = Product.findOne(params)
             return res
         } catch (error) {
             return error
         }
     },
 
-    getUserByID : async (userId) => {
+    getProductByID : async (userId) => {
         try {
-            let res = Users.findById(userId)
+            let res = Product.findById(userId)
             return res
         } catch (error) {
             return error
@@ -22,7 +22,7 @@ module.exports = {
 
     createProduct : async (body) => {
         try {
-            let res = Product.create(body)
+            let res = await Product.create(body)
             return res
         } catch (error) {
             return error

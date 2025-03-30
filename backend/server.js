@@ -1,8 +1,8 @@
 const express = require('express')
 const app = require('./app')
 const http = require('http')
-const dotenv = require('dotenv')
-dotenv.config()
+require('dotenv').config();
+
 const port  = process.env.PORT
 
 require('./config/db')

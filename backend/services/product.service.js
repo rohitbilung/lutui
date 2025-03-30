@@ -18,8 +18,8 @@ module.exports = {
 
     createProduct: async (body) => {
         try {
-            let user = await productModel.createProduct(body)
-            return { status: 201, data: user, message:"Product created successful"}
+            let data = await productModel.createProduct(body)
+            return { status: 201, data: data, message:"Product created successful"}
         } catch (error) {
             return {
                 error: error

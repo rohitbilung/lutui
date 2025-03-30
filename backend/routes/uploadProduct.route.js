@@ -3,8 +3,9 @@ const router = express.Router();
 const multer = require("multer");
 const cloudinary = require('cloudinary').v2
 const fs = require('fs')
+require('dotenv').config();
 
-const upload = multer({ dest: "uploads/" }).array("image", 3);
+const upload = multer({ dest: "uploads/" }).array("image", 5);
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_API_CLOUDNAME,
