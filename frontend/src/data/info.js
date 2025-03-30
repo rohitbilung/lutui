@@ -96,17 +96,4 @@ export const products = [
     image: "/product/product-image-2.JPG",
   },
   { _id: 3, name: "Phool", price: 499, image: "/product/product-image-3.JPG" },
-  {
-    _id: 4,
-    name: "Banda Bhunjri",
-    price: 499,
-    image: "/product/product-image-4.JPG",
-  },
-  {
-    _id: 5,
-    name: "Roz Roz Guna Tiyan",
-    price: 499,
-    image: "/product/product-image-5.JPG",
-  },
-  { _id: 6, name: "Phool", price: 499, image: "/product/product-image-6.JPG" },
 ];

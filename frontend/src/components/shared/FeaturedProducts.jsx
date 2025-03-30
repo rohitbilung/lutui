@@ -23,7 +23,7 @@ const FeaturedProducts = () => {
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full object-fill"
+                className="w-full object-cover aspect-square"
               />
 
               {/* Add To Cart Button - Hidden by default, shown on hover */}
