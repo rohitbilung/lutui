@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { ShoppingBag, Menu, X } from "lucide-react"; // Icons from Lucide
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import CartIcon from "./CartIcon";
 
 export default function Header({
   className = "bg-[#440505] text-white",
@@ -58,14 +59,7 @@ export default function Header({
         </nav>
 
         {/* Cart Icon */}
-        <div className="relative">
-          <Link to="/cart" className="relative">
-            <ShoppingBag className="w-6 h-6" />
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-              2
-            </span>
-          </Link>
-        </div>
+        <CartIcon />
       </div>
     </header>
   );

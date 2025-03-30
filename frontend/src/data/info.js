@@ -42,25 +42,25 @@ export const ourDetails = {
     </div>
   `,
 
-//   ourBrand: `
-//         **LUTUI**, a textile brand, was established on **April 1, 2025**.  
-//         The word *‘Lutui’* means **cloth** in *Khadia*.  
+  //   ourBrand: `
+  //         **LUTUI**, a textile brand, was established on **April 1, 2025**.
+  //         The word *‘Lutui’* means **cloth** in *Khadia*.
 
-//         At LUTUI, we believe **Adivasi communities** hold immense potential to contribute meaningfully to both the national and global textile industries—not merely in terms of GDP, but through:
-//         - Dismantling stigma  
-//         - Strengthening rural livelihoods  
-//         - Championing sustainable practices  
+  //         At LUTUI, we believe **Adivasi communities** hold immense potential to contribute meaningfully to both the national and global textile industries—not merely in terms of GDP, but through:
+  //         - Dismantling stigma
+  //         - Strengthening rural livelihoods
+  //         - Championing sustainable practices
 
-//         ### Our Mission  
-//         Central to LUTUI's mission is the **commitment to reposition Adivasis** at the heart of textile production, moving them from the periphery to the center.  
+  //         ### Our Mission
+  //         Central to LUTUI's mission is the **commitment to reposition Adivasis** at the heart of textile production, moving them from the periphery to the center.
 
-//         Moreover, LUTUI aspires to **challenge and redefine** prevailing notions of aesthetics, fashion, and value—**forging a path towards sustainable modernity** informed by Adivasi perspectives and wisdom.  
+  //         Moreover, LUTUI aspires to **challenge and redefine** prevailing notions of aesthetics, fashion, and value—**forging a path towards sustainable modernity** informed by Adivasi perspectives and wisdom.
 
-//         ### Our Vision  
-//         We envision a future where **Adivasis are not just participants but pioneers**—shaping trends, creating innovative designs, and leading the discourse on ethical, sustainable textile production.  
+  //         ### Our Vision
+  //         We envision a future where **Adivasis are not just participants but pioneers**—shaping trends, creating innovative designs, and leading the discourse on ethical, sustainable textile production.
 
-//         It is not merely about revival; it is about **reclaiming and reshaping the narrative of fashion itself**.
-//     `,
+  //         It is not merely about revival; it is about **reclaiming and reshaping the narrative of fashion itself**.
+  //     `,
 
   keyPoints: [
     {
@@ -81,3 +81,32 @@ export const ourDetails = {
     },
   ],
 };
+
+export const products = [
+  {
+    _id: 1,
+    name: "Banda Bhunjdi",
+    price: 499,
+    image: "/product/product-image-1.JPG",
+  },
+  {
+    _id: 2,
+    name: "Roz Roz Guna Tiyan",
+    price: 499,
+    image: "/product/product-image-2.JPG",
+  },
+  { _id: 3, name: "Phool", price: 499, image: "/product/product-image-3.JPG" },
+  {
+    _id: 4,
+    name: "Banda Bhunjri",
+    price: 499,
+    image: "/product/product-image-4.JPG",
+  },
+  {
+    _id: 5,
+    name: "Roz Roz Guna Tiyan",
+    price: 499,
+    image: "/product/product-image-5.JPG",
+  },
+  { _id: 6, name: "Phool", price: 499, image: "/product/product-image-6.JPG" },
+];

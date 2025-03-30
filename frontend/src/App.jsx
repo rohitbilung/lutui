@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom"
-import { About, Home, Login, PageNotFound, Register } from "./pages"
+import { About, Cart, Home, Login, PageNotFound, Register } from "./pages"
 
 const App = () => {
   return (
@@ -8,6 +8,7 @@ const App = () => {
       <Route path="/about-us" element={<About />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/cart" element={<Cart />} />
       
       <Route path="/page-not-found" element={<PageNotFound />} />
 
