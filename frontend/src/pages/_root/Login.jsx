@@ -14,16 +14,19 @@ import {
   FormLabel,
   FormMessage,
 } from "../../components/ui/form";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
+  const { login, isAuthenticated } = useAuth()
   const loginForm = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: "",
+      email: "",
+      password: "",
     },
   });
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     console.log(values);
   };
 

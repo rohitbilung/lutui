@@ -6,6 +6,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+import { Link } from "react-router-dom";
 
 const TopHeader = () => {
   return (
@@ -57,10 +58,10 @@ const TopHeader = () => {
           {/* Login & Signup (Desktop) */}
           <ul className="hidden md:flex space-x-4 text-sm">
             <li>
-              <a href="#" className="hover:text-blue-500 capitalize">LOGIN</a>
+              <Link to="/login" className="hover:text-blue-500 uppercase">Login</Link>
             </li>
             <li>
-              <a href="#" className="hover:text-blue-500 capitalize">CREATE ACCOUNT</a>
+              <Link to="/register" className="hover:text-blue-500 uppercase">Create Account</Link>
             </li>
           </ul>
         </div>

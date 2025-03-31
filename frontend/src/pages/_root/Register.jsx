@@ -14,17 +14,24 @@ import {
   FormLabel,
   FormMessage,
 } from "../../components/ui/form";
+import { useRegisterUser } from "../../lib/queries/Mutations";
 
 const Register = () => {
+  const { mutateAsync: registerUser, isPending: isRegistering } = useRegisterUser()
   const registerForm = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      username: "",
+      name: "",
+      email: "",
+      mobile: "",
+      password: "",
+      repeat_password: "",
     },
   });
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     console.log(values);
+    // const response = await registerUser(values);
   };
 
   return (
@@ -34,34 +41,22 @@ const Register = () => {
           <Form {...registerForm}>
             <form
               onSubmit={registerForm.handleSubmit(onSubmit)}
-              className="space-y-8 w-full"
+              className="space-y-6 w-full"
             >
               <FormField
                 control={registerForm.control}
-                name="first_name"
+                name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First Name</FormLabel>
+                    <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input  placeholder="Enter your first name" {...field} />
+                      <Input placeholder="Enter your name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <FormField
-                control={registerForm.control}
-                name="last_name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>First Name</FormLabel>
-                    <FormControl>
-                      <Input  placeholder="Enter your last name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
               <FormField
                 control={registerForm.control}
                 name="email"
@@ -69,12 +64,35 @@ const Register = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="Enter you email" {...field} />
+                      <Input
+                        type="email"
+                        placeholder="Enter your email"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={registerForm.control}
+                name="mobile"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Mobile Number</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="tel"
+                        placeholder="+91 1234567890"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={registerForm.control}
                 name="password"
@@ -82,14 +100,41 @@ const Register = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="Enter you password" {...field} />
+                      <Input
+                        type="password"
+                        placeholder="Enter your password"
+                        autoComplete="new-password"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={registerForm.control}
+                name="repeat_password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Repeat Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Enter your repeat password"
+                        autoComplete="new-password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <div className="flex justify-center items-center">
-                <Button type="submit" className="w-full">Create</Button>
+                <Button type="submit" className="w-full">
+                  Create
+                </Button>
               </div>
             </form>
           </Form>
