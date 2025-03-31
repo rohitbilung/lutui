@@ -84,16 +84,34 @@ export const ourDetails = {
 
 export const products = [
   {
-    _id: 1,
+    _id: "1",
     name: "Banda Bhunjdi",
+    images: ["/product/product-image-1.JPG"],
+    brand: "Local Handloom", // Update with actual brand if available
+    category: "Clothing",
+    description: "Traditional handwoven attire with intricate designs.",
     price: 499,
-    image: "/product/product-image-1.JPG",
+    countInStock: 10, // Adjust stock count as needed
   },
   {
-    _id: 2,
+    _id: "2",
     name: "Roz Roz Guna Tiyan",
+    images: ["/product/product-image-2.JPG", "/product/product-image-5.JPG", "/product/product-image-6.JPG"],
+    brand: "Local Handloom",
+    category: "Clothing",
+    description: "Elegant ethnic wear, crafted with premium fabric.",
     price: 499,
-    image: "/product/product-image-2.JPG",
+    countInStock: 15,
   },
-  { _id: 3, name: "Phool", price: 499, image: "/product/product-image-3.JPG" },
+  {
+    _id: "3",
+    name: "Phool",
+    images: ["/product/product-image-3.JPG"],
+    brand: "Local Handloom",
+    category: "Clothing",
+    description: "A stylish outfit featuring floral embroidery patterns.",
+    price: 499,
+    countInStock: 20,
+  },
 ];
+

@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom"
-import { About, Cart, Home, Login, PageNotFound, Register } from "./pages"
+import { About, Cart, Home, Login, PageNotFound, ProductDetails, Register } from "./pages"
 import { Toaster } from "sonner"
 
 const App = () => {
@@ -12,6 +12,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
         
         <Route path="/page-not-found" element={<PageNotFound />} />
 
