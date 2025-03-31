@@ -1,13 +1,15 @@
 const mongoose = require('mongoose');
 
-const orderSchema = new mongoose.Schema({
+const itemSku = new mongoose.Schema({
     productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+    bodyType: { type: String },
     itemQuantity: [{
-        sizeType: { type: String},
-        quantity: { type: Number}
-    }]
+        sizeType: { type: String },
+        quantity: { type: Number }
+    }],
+    price: {type: Number}
 });
 
-const Order = mongoose.model('Order', orderSchema);
+const ItemSku = mongoose.model('ItemSku', itemSku);
 
-module.exports = Order;
+module.exports = ItemSku;

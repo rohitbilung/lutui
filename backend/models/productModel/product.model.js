@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Product = require('../productModel/product.schema')
+const ItemSku = require("../itemsku/itemskuSchema")
 
 module.exports = {
     getProduct : async (params) => {
@@ -11,9 +12,9 @@ module.exports = {
         }
     },
 
-    getProductByID : async (userId) => {
+    getProductsById : async (productId) => {
         try {
-            let res = Product.findById(userId)
+            let res = await ItemSku.find({productId:productId}).populate('productId')
             return res
         } catch (error) {
             return error
