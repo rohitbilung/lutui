@@ -15,9 +15,13 @@ import {
   FormMessage,
 } from "../../components/ui/form";
 import { useRegisterUser } from "../../lib/queries/Mutations";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const { mutateAsync: registerUser, isPending: isRegistering } = useRegisterUser()
+  const navigate = useNavigate()
+  const { mutateAsync: registerUser, isPending: isRegistering } =
+    useRegisterUser();
   const registerForm = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -30,8 +34,17 @@ const Register = () => {
   });
 
   const onSubmit = async (values) => {
-    console.log(values);
-    // const response = await registerUser(values);
+    const response = await registerUser(values);
+    if (response.success) {
+      toast.success(response.message);
+      registerForm.reset();
+      // Delay navigation by 2 seconds (2000ms)
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } else {
+      toast.error(response.message);
+    }
   };
 
   return (

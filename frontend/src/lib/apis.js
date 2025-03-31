@@ -1,12 +1,9 @@
 import axios from "axios"
 import { API_URL } from "../config";
 
-console.log("API_URL: ", API_URL);
-
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: `${API_URL}/api`,
 });
-console.log("api: ", api);
 
 const apiRequest = async ({ method = "GET", url = '', auth = false, data = {}, paginate = false, multipart = false, signal }) => {
   try {
@@ -34,9 +31,9 @@ const apiRequest = async ({ method = "GET", url = '', auth = false, data = {}, p
   } catch (e) {
     let response = null;
     if (e.response) {
-      response = e.response.data ? { ...e.response.data, statusCode: e.response.status } : { status: false, statusCode: 500, message: "Something went wrong in server." };
+      response = e.response.data ? { ...e.response.data, statusCode: e.response.status } : { success: false, statusCode: 500, message: "Something went wrong in server." };
     } else {
-      response = { status: false, statusCode: 500, message: "Something went wrong!!!" };
+      response = { success: false, statusCode: 500, message: "Something went wrong!!!" };
     }
     if (paginate && !response.pagination) {
       const pagination = {
@@ -58,6 +55,5 @@ export const loginUser = async (data) => {
 }
 
 export const registerUser = async (data) => {
-  console.log("data: ", data)
-  return await apiRequest({ method: "POST", url: '/user/register', data });
+  return await apiRequest({ method: "POST", url: '/user/signup', data });
 }

@@ -5,7 +5,7 @@ import { Toaster } from "sonner"
 const App = () => {
   return (
     <>
-      <Toaster />
+      <Toaster richColors />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about-us" element={<About />} />
