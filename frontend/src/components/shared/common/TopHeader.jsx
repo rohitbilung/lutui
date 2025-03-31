@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import UserAvatar from "./UserAvatar";
 
 const TopHeader = () => {
   const { isAuthenticated } = useAuth();
@@ -19,7 +20,10 @@ const TopHeader = () => {
           {/* Currency Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="text-sm font-medium text-white px-2">
+              <Button
+                variant="ghost"
+                className="text-sm font-medium text-white px-2"
+              >
                 INR <ChevronDown className="w-4 h-4 ml-1" />
               </Button>
             </DropdownMenuTrigger>
@@ -33,7 +37,10 @@ const TopHeader = () => {
           {/* Language Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="text-sm font-medium text-white px-2">
+              <Button
+                variant="ghost"
+                className="text-sm font-medium text-white px-2"
+              >
                 English <ChevronDown className="w-4 h-4 ml-1" />
               </Button>
             </DropdownMenuTrigger>
@@ -46,7 +53,8 @@ const TopHeader = () => {
 
           {/* Phone Contact */}
           <p className="text-sm flex items-center gap-2">
-            <Phone className="w-4 h-4 -scale-x-100 text-white" /> +91 9938 452 439
+            <Phone className="w-4 h-4 -scale-x-100 text-white" /> +91 9938 452
+            439
           </p>
         </div>
 
@@ -59,8 +67,18 @@ const TopHeader = () => {
 
           {/* Login & Signup (Desktop) */}
           <div className="hidden md:flex space-x-4 text-sm">
-            <Link to="/login" className="hover:text-blue-500 uppercase">Login</Link>
-            <Link to="/register" className="hover:text-blue-500 uppercase">Create Account</Link>
+            {isAuthenticated ? (
+              <UserAvatar />
+            ) : (
+              <>
+                <Link to="/login" className="hover:text-blue-500 uppercase">
+                  Login
+                </Link>
+                <Link to="/register" className="hover:text-blue-500 uppercase">
+                  Create Account
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
