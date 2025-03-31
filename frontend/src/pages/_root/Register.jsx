@@ -43,7 +43,7 @@ const Register = () => {
         navigate("/login");
       }, 2000);
     } else {
-      toast.error(response.message);
+      toast.error(response?.message || 'Something went wrong!')
     }
   };
 
@@ -145,8 +145,8 @@ const Register = () => {
               />
 
               <div className="flex justify-center items-center">
-                <Button type="submit" className="w-full">
-                  Create
+                <Button type="submit" className="w-full" disabled={isRegistering}>
+                  Register
                 </Button>
               </div>
             </form>

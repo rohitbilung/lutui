@@ -15,9 +15,14 @@ import {
   FormMessage,
 } from "../../components/ui/form";
 import { useAuth } from "../../context/AuthContext";
+import { useLoginUser } from "../../lib/queries/Mutations";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { login, isAuthenticated } = useAuth()
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const { mutateAsync: loginUser, isPending: isLoggingIn } = useLoginUser();
   const loginForm = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -27,7 +32,19 @@ const Login = () => {
   });
 
   const onSubmit = async (values) => {
-    console.log(values);
+    const response = await loginUser(values);
+    if (response.success) {
+      const { token, data: userData } = response;
+      toast.error(response.message);
+      loginForm.reset();
+      await login({ token, userData });
+      // Delay navigation by 2 seconds (2000ms)
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    } else {
+      toast.error(response?.message || "Something went wrong!!!");
+    }
   };
 
   return (
@@ -46,7 +63,11 @@ const Login = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="Enter you email" {...field} />
+                      <Input
+                        type="email"
+                        placeholder="Enter you email"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -59,14 +80,20 @@ const Login = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="Enter you password" {...field} />
+                      <Input
+                        type="password"
+                        placeholder="Enter you password"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <div className="flex justify-center items-center">
-                <Button type="submit" className="w-full">Sign In</Button>
+                <Button type="submit" className="w-full" disabled={isLoggingIn}>
+                  Sign In
+                </Button>
               </div>
             </form>
           </Form>

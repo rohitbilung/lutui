@@ -7,8 +7,10 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
 const TopHeader = () => {
+  const { isAuthenticated } = useAuth();
   return (
     <div className="bg-black text-white py-2">
       <div className="container mx-auto px-4 flex flex-wrap items-center justify-between">
@@ -56,14 +58,10 @@ const TopHeader = () => {
           </Button>
 
           {/* Login & Signup (Desktop) */}
-          <ul className="hidden md:flex space-x-4 text-sm">
-            <li>
-              <Link to="/login" className="hover:text-blue-500 uppercase">Login</Link>
-            </li>
-            <li>
-              <Link to="/register" className="hover:text-blue-500 uppercase">Create Account</Link>
-            </li>
-          </ul>
+          <div className="hidden md:flex space-x-4 text-sm">
+            <Link to="/login" className="hover:text-blue-500 uppercase">Login</Link>
+            <Link to="/register" className="hover:text-blue-500 uppercase">Create Account</Link>
+          </div>
         </div>
       </div>
     </div>

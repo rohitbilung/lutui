@@ -37,12 +37,6 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  
-  --toast-background: #1e293b; /* Dark Blue Background */
-  --toast-text: #f8fafc; /* Light Text */
-  --toast-border: #64748b; /* Gray Border */
-  --toast-icon: #0ea5e9; /* Blue Icon */
-  --toast-close: #f87171; /* Red Close Button */
 }
 
 .dark {
@@ -77,27 +71,6 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-}
-
-/* Customize success, error, warning, and info toasts */
-[data-sonner-toast][data-type="success"] {
-  --toast-background: #047857;
-  --toast-text: #d1fae5;
-}
-
-[data-sonner-toast][data-type="error"] {
-  --toast-background: #b91c1c;
-  --toast-text: #fee2e2;
-}
-
-[data-sonner-toast][data-type="warning"] {
-  --toast-background: #f59e0b;
-  --toast-text: #fff7ed;
-}
-
-[data-sonner-toast][data-type="info"] {
-  --toast-background: #0369a1;
-  --toast-text: #e0f2fe;
 }
 
 
