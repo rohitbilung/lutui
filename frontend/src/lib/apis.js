@@ -57,3 +57,7 @@ export const loginUser = async (data) => {
 export const registerUser = async (data) => {
   return await apiRequest({ method: "POST", url: '/user/signup', data });
 }
+
+export const getProductList = async () => {
+  return await apiRequest({ method: "GET", url: '/product/get-products' });
+}
