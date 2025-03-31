@@ -7,7 +7,8 @@ module.exports = {
         const { email, password } = req.body
         let result = await userService.login(email, password)
         if(result.status===200){
-            token = generateToken(result.data._id)
+            console.log(result.data)
+            token = generateToken(result.data)
         }
         if(result){
             res.status(result.status).send({
