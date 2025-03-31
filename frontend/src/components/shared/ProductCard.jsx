@@ -1,29 +1,34 @@
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
-import AddToCartButton from "./common/layouts/AddToCartButton";
 
 const ProductCard = ({ product }) => {
-  return product ? (
+  const navigate = useNavigate();
+
+  if (!product) return null;
+
+  const visitProductDetails = () => {
+    navigate(`/product/${product._id}`);
+  };
+
+  return (
     <Card key={product._id} className="shadow-lg border-0 group relative">
       {/* Product Image Wrapper */}
       <div className="relative">
         <img
           src={product.images[0]}
           alt={product.name}
-          className="w-full object-cover aspect-square"
+          className="w-full object-cover aspect-square cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+          onClick={visitProductDetails}
         />
-
-        {/* Add To Cart Button - Hidden by default, shown on hover */}
-        <div className="absolute inset-0 flex items-end justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 lg:p-4">
-          <AddToCartButton product={product} showViewButton={true} />
-        </div>
+        {/* <div className="absolute inset-0 bg-black opacity-0 hover:opacity-20 transition-opacity duration-300"></div> */}
       </div>
 
       <CardContent className="text-center">
         <h3 className="text-lg font-semibold">{product.name}</h3>
-        <p className="text-primary font-bold">₹{product.price}.00</p>
+        {/* <p className="text-primary font-bold">₹{product.price}.00</p> */}
       </CardContent>
     </Card>
-  ) : null;
+  );
 };
 
 export default ProductCard;

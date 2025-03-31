@@ -50,6 +50,9 @@ export default function Header({
           <Link to="/products" className="hover:text-gray-600 capitalize">
             Products
           </Link>
+          <Link to="/collection" className="hover:text-gray-600">
+            Collection
+          </Link>
           <Link to="/about-us" className="hover:text-gray-600">
             About Us
           </Link>

@@ -14,11 +14,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const [viewSize, setViewSize] = useState(false);
   const [size, setSize] = useState("regular");
+  const [shirtSize, setShirtSize] = useState("s");
   const product = products.find((item) => item._id === id);
   const [selectedImage, setSelectedImage] = useState(product?.images[0] || "");
 
@@ -32,10 +34,16 @@ const ProductDetails = () => {
             <Dialog open={viewSize} onOpenChange={setViewSize}>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>Regular Shirt Size</DialogTitle>
+                  <DialogTitle>
+                    <span className="capitalize">{size}</span> Shirt Size
+                  </DialogTitle>
                   <DialogDescription>
                     <img
-                      src="/sizes/regular-shirt.png"
+                      src={
+                        size === "regular"
+                          ? "/sizes/regular-shirt.png"
+                          : "/sizes/oversize-shirt.png"
+                      }
                       className="max-h-[500px]"
                     />
                   </DialogDescription>
@@ -76,7 +84,11 @@ const ProductDetails = () => {
             <div className="space-y-4">
               <h2 className="text-2xl font-bold">{product.name}</h2>
               {/* <h3 className="text-xl font-semibold">₹{product.price}</h3> */}
-              <h3 className="text-xl font-semibold">{size === 'regular' ? `₹${product.price}` : `₹${product.price + 100}`}</h3>
+              <h3 className="text-xl font-semibold">
+                {size === "regular"
+                  ? `₹${product.price}`
+                  : `₹${product.price + 100}`}
+              </h3>
 
               <Tabs value={size} className="w-[400px]" onValueChange={setSize}>
                 <TabsList className="grid w-full grid-cols-2">
@@ -101,15 +113,6 @@ const ProductDetails = () => {
                     <div>
                       <strong>GSM:</strong> 180 GSM
                     </div>
-                    <div>
-                      <Button
-                        variant="ghost"
-                        className="cursor-pointer"
-                        onClick={openViewSize}
-                      >
-                        <ShirtIcon /> View Size Chart
-                      </Button>
-                    </div>
                   </div>
                 </TabsContent>
                 <TabsContent value="oversize">
@@ -130,18 +133,61 @@ const ProductDetails = () => {
                     <div>
                       <strong>GSM:</strong> 220 GSM
                     </div>
-                    <div>
-                      <Button
-                        variant="ghost"
-                        className="cursor-pointer"
-                        onClick={openViewSize}
-                      >
-                        <ShirtIcon /> View Size Chart
-                      </Button>
-                    </div>
                   </div>
                 </TabsContent>
               </Tabs>
+
+              <div className="flex flex-col gap-1">
+                <div className="flex gap-2 items-center">
+                  <strong>Size:</strong>
+                  <div>
+                    <Button
+                      variant="ghost"
+                      className="cursor-pointer"
+                      onClick={openViewSize}
+                    >
+                      <ShirtIcon /> View Size Chart
+                    </Button>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Badge
+                    className="rounded-xl cursor-pointer"
+                    variant={shirtSize === "s" ? "default" : "secondary"}
+                    onClick={() => setShirtSize("s")}
+                  >
+                    S
+                  </Badge>
+                  <Badge
+                    className="rounded-xl cursor-pointer"
+                    variant={shirtSize === "m" ? "default" : "secondary"}
+                    onClick={() => setShirtSize("m")}
+                  >
+                    M
+                  </Badge>
+                  <Badge
+                    className="rounded-xl cursor-pointer"
+                    variant={shirtSize === "l" ? "default" : "secondary"}
+                    onClick={() => setShirtSize("l")}
+                  >
+                    L
+                  </Badge>
+                  <Badge
+                    className="rounded-xl cursor-pointer"
+                    variant={shirtSize === "xl" ? "default" : "secondary"}
+                    onClick={() => setShirtSize("xl")}
+                  >
+                    XL
+                  </Badge>
+                  <Badge
+                    className="rounded-xl cursor-pointer"
+                    variant={shirtSize === "xxl" ? "default" : "secondary"}
+                    onClick={() => setShirtSize("xxl")}
+                  >
+                    XXL
+                  </Badge>
+                </div>
+              </div>
 
               <AddToCartButton product={product} btnVariant="blue" />
             </div>
