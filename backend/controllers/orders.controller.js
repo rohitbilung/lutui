@@ -34,4 +34,22 @@ module.exports = {
             });
         }
     },
+    
+    removeProductCart : async (req,res)=> {
+        let result = await orderService.removeProductCart(req.body)
+        if(result){
+            res.status(result.status).send({
+                success: true,
+                data: result.data,
+                message: result.message
+            });
+        }else{
+            res.status(500).send({
+                success: false,
+                message: 'Server error',
+                error: result.error,
+            });
+        }
+    },
+
 }
