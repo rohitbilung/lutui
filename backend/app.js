@@ -8,10 +8,12 @@ app.use(express.json());
 const userRoutes = require('./routes/user.route')
 const productRoutes = require('./routes/product.route')
 const uploadRoutes = require('./routes/uploadProduct.route')
+const ordersRoutes = require('./routes/orders.route')
 
 app.use('/api/user', userRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/upload', uploadRoutes)
+app.use('/api/orders', ordersRoutes)
 
 app.use(function (req, res, next) {
     res.status(404);

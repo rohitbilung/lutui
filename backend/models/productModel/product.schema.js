@@ -2,17 +2,17 @@ const mongoose = require('mongoose')
 
 const productSchema = mongoose.Schema(
     {
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'User',
-        },
+        // user: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     required: false,
+        //     ref: 'User',
+        // },
         name: {
             type: String,
             required: true,
         },
         images: [{
-            url : { type:String, required:true}
+            type: String, required: true
         }],
         brand: {
             type: String,
@@ -26,16 +26,16 @@ const productSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        rating: {
-            type: Number,
-            required: true,
-            default: 0,
-        },
-        numReviews: {
-            type: Number,
-            required: true,
-            default: 0,
-        },
+        // rating: {
+        //     type: Number,
+        //     required: true,
+        //     default: 0,
+        // },
+        // numReviews: {
+        //     type: Number,
+        //     required: true,
+        //     default: 0,
+        // },
         price: {
             type: Number,
             required: true,

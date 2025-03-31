@@ -4,8 +4,12 @@ module.exports = {
     login: async (email, password) => {
         try {
             let user = await userModel.getUser({ email })
-            if (user && (await user.matchPassword(password))) {
-                return { status:200, data: user, message: "data found" }
+            if (user) {
+                if(await user.matchPassword(password)){
+                    return { status:200, data: user, message: "data found" }
+                }else{
+                    return {status:401, data: null, message: "password mismatch" }
+                }
             } else {
                 return {status:404, data: null, message: "not found" }
             }
