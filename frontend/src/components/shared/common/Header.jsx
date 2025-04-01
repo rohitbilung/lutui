@@ -87,7 +87,7 @@ export default function Header({
               </HoverCardContent>
             </HoverCard>
           </span>
-          <Link to="/collection" className="hover:text-gray-600">
+          <span className="hover:text-gray-600 capitalize">
             <HoverCard>
               <HoverCardTrigger>Collection</HoverCardTrigger>
               <HoverCardContent className="bg-[#440505] border-0 z-[100]">
@@ -107,7 +107,7 @@ export default function Header({
                 </div>
               </HoverCardContent>
             </HoverCard>
-          </Link>
+          </span>
           <Link to="/about-us" className="hover:text-gray-600">
             About Us
           </Link>

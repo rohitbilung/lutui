@@ -58,6 +58,10 @@ export const registerUser = async (data) => {
   return await apiRequest({ method: "POST", url: '/user/signup', data });
 }
 
+export const getCurrentUser = async ({ signal = null }) => {
+  return await apiRequest({ method: "GET", auth: true, signal, url: '/user/getCurrentUser' });
+}
+
 export const getProductList = async () => {
   return await apiRequest({ method: "GET", url: '/product/get-products' });
 }
