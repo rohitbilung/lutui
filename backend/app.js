@@ -1,8 +1,22 @@
 const express = require('express');
 const app = express();
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 
-app.use(cors())
+let corsOptions = {
+    origin: true,
+    methods: ["GET", "PUT", "POST", "OPTIONS"],
+    allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+    ],
+    credentials: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(express.json());
 
 const userRoutes = require('./routes/user.route')

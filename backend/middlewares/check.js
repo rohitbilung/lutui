@@ -3,7 +3,7 @@ const UserModel = require("../models/userModel/user.schema");
 
 const isLoggedIn = async (req, res, next) => {
   try {
-    let token = req.cookies && req.cookies.bw_provider_order;
+    let token = req.cookies && req.cookies['lutui-auth-token'];
     if (token === undefined) {
       token = req.headers.token || req.body.headers.Cookie;
     }
@@ -13,7 +13,6 @@ const isLoggedIn = async (req, res, next) => {
         message: "You should be logged in to perform this action.",
       });
     }
-    console.log(token)
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     console.log(decoded)
     const user = await UserModel.findById(decoded.id);

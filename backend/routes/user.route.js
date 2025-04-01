@@ -12,6 +12,8 @@ router.post('/login', login);
 
 router.post('/signup', signup);
 
-router.get('/getuser', isLoggedIn, getUsers)
+router.get('/getCurrentUser', isLoggedIn, getUsers) 
+
+// router.get('/getUser/:userId', isLoggedIn, getUsers) // for admin
 
 module.exports = router;
