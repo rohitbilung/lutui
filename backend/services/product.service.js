@@ -15,11 +15,14 @@ module.exports = {
 
     createProduct: async (body) => {
         try {
+            let size = ['regular','oversized']
             let data = await productModel.createProduct(body)
-            console.log(data)
             body.productId = data._id
-            console.log(body,"body")
-            let createSku = await ItemSku.createItemSku(body)
+            for(let i=0;i<2;i++){
+                body.bodyType = size[i]
+                body.price = Number(body.price)+(i*100)
+                let createSku = await ItemSku.createItemSku(body)
+            }
             return { status: 201, data: data, message:"Product created successful"}
         } catch (error) {
             return {

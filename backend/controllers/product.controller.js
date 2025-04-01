@@ -19,9 +19,7 @@ module.exports = {
     },
 
     getProductsById : async (req, res) => {
-        console.log(req.query)
         let result = await productService.getProductsById(req.query)
-        console.log(result)
         if(result){
             res.status(result.status).send({
                 success: true,
