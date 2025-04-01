@@ -5,7 +5,6 @@ const isLoggedIn = async (req, res, next) => {
   try {
     let token = req.cookies && req.cookies.bw_provider_order;
     if (token === undefined) {
-        console.log(req.headers)
       token = req.headers.token || req.body.headers.Cookie;
     }
     if (!token) {
