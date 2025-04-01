@@ -19,13 +19,12 @@ module.exports = {
     },
 
     getProductsById : async (req, res) => {
-        let result = await userService.getProductsById(req.body)
-
+        let result = await productService.getProductsById(req.query)
         if(result){
             res.status(result.status).send({
                 success: true,
-                data: result.data,
-                message: result.message
+                data: result.data || "",
+                message: result.message || ""
             });
         }else{
             res.status(500).send({

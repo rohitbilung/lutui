@@ -6,11 +6,14 @@ const {
     getUsers
  } = require('../controllers/user.controller');
  const {auth} = require('../middlewares/auth')
+ const {isLoggedIn} = require('../middlewares/check')
 
 router.post('/login', login);
 
 router.post('/signup', signup);
 
-router.get('/getuser', auth, getUsers)
+router.get('/getCurrentUser', isLoggedIn, getUsers) 
+
+// router.get('/getUser/:userId', isLoggedIn, getUsers) // for admin
 
 module.exports = router;
