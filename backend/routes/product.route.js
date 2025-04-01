@@ -6,13 +6,13 @@ const {
     getProductsById,
     deleteProduct
  } = require('../controllers/product.controller');
- const {auth} = require('../middlewares/auth')
+ const {isLoggedIn} = require('../middlewares/check')
 
 router.post('/create-product', createProduct);
 
 router.get('/get-product-by-id', getProductsById);
 
-router.get('/get-products', auth, getProducts)
+router.get('/get-products', getProducts);
 
 // router.delete('/delete-product', auth, deleteProduct)
 

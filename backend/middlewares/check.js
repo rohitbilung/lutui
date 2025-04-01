@@ -9,7 +9,7 @@ const isLoggedIn = async (req, res, next) => {
     }
     if (!token) {
       return res.status(403).json({
-        status: false,
+        success: false,
         message: "You should be logged in to perform this action.",
       });
     }
@@ -19,13 +19,13 @@ const isLoggedIn = async (req, res, next) => {
     if (!user) {
       return res
         .status(404)
-        .json({ status: false, message: "User does not exists." });
+        .json({ success: false, message: "User does not exists." });
     }
     req.user = user;
     next();
   } catch (error) {
     return res.status(401).json({
-      status: false,
+      success: false,
       message:
         "Invalid token. Please refresh the page and try logging in again.",
     });
