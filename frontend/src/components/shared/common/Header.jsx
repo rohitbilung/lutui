@@ -4,6 +4,19 @@ import { ShoppingBag, Menu, X } from "lucide-react"; // Icons from Lucide
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import CartIcon from "./CartIcon";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Header({
   className = "bg-[#440505] text-white",
@@ -47,11 +60,53 @@ export default function Header({
           <Link to="/" className="hover:text-gray-600">
             Home
           </Link>
-          <Link to="/products" className="hover:text-gray-600 capitalize">
-            Products
-          </Link>
+          <span className="hover:text-gray-600 capitalize">
+            <HoverCard>
+              <HoverCardTrigger>Products</HoverCardTrigger>
+              <HoverCardContent className="bg-[#440505] border-0 z-[100]">
+                <div className="flex flex-col gap-2">
+                  <Link
+                    to="/coming-soon"
+                    className="text-white hover:text-white/75 capitalize rounded-xl text-center"
+                  >
+                    T-Shirt
+                  </Link>
+                  <Link
+                    to="/coming-soon"
+                    className="text-white hover:text-white/75 capitalize rounded-xl text-center"
+                  >
+                    Bag
+                  </Link>
+                  <Link
+                    to="/coming-soon"
+                    className="text-white hover:text-white/75 capitalize rounded-xl text-center"
+                  >
+                    Apron
+                  </Link>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
+          </span>
           <Link to="/collection" className="hover:text-gray-600">
-            Collection
+            <HoverCard>
+              <HoverCardTrigger>Collection</HoverCardTrigger>
+              <HoverCardContent className="bg-[#440505] border-0 z-[100]">
+                <div className="flex flex-col gap-2 text-center">
+                  <Link
+                    to="/coming-soon"
+                    className="text-white hover:text-white/75 capitalize rounded-xl text-center"
+                  >
+                    Jethuari
+                  </Link>
+                  <Link
+                    to="/coming-soon"
+                    className="text-white hover:text-white/75 capitalize rounded-xl text-center"
+                  >
+                    Khadia Tribe
+                  </Link>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
           </Link>
           <Link to="/about-us" className="hover:text-gray-600">
             About Us

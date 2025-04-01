@@ -89,7 +89,7 @@ export const products = [
     images: ["/product/product-image-1.JPG"],
     brand: "Local Handloom", // Update with actual brand if available
     category: "Clothing",
-    description: "Traditional handwoven attire with intricate designs.",
+    description: "Banda Bhunjdi, a cherished delicacy in and around  Chota-Nagpur region is a mouthwatering dish crafted from Pork Organ Meat. More than just food, it embodies cultural heritage, gracing grand feasts and festive gatherings.Served with rice or millet rotis, its spicy, aromatic gravy leaves a lasting impression. Despite changing food trends, Banda Bhunjdi remains a symbol of hospitality, unity, and tradition. Its enduring legacy continues to delight food lovers, preserving a deep-rooted culinary tradition that speaks of history, warmth, and the joy of shared meals.",
     price: 499,
     countInStock: 10, // Adjust stock count as needed
   },
@@ -99,7 +99,7 @@ export const products = [
     images: ["/product/product-image-2.JPG", "/product/product-image-5.JPG", "/product/product-image-6.JPG"],
     brand: "Local Handloom",
     category: "Clothing",
-    description: "Elegant ethnic wear, crafted with premium fabric.",
+    description: "Powdered dry moringa leaves, commonly known as Munga Guna , is an Adivasi delicacy in and around Chota-Nagpur region, which is rich in nutrients and earthy flavors. The phrase “Roj Roj Guna Tiyan” originates from a popular Sadri folk song, typically sung during the vibrant Sailo Dance. In this melodious tune, a younger brother playfully complains to his elder brother, expressing his longing for variety in their meals. He humorously requests that his sister-in-law be persuaded to cook something other than Guna Tiyan every day, craving the indulgence of a hearty non-vegetarian dish.",
     price: 499,
     countInStock: 15,
   },
@@ -109,7 +109,7 @@ export const products = [
     images: ["/product/product-image-3.JPG"],
     brand: "Local Handloom",
     category: "Clothing",
-    description: "A stylish outfit featuring floral embroidery patterns.",
+    description: "The intricate design ‘Phul’ beautifully showcases an array of edible flowers, highlighting their significance in Adivasi culinary traditions across different states of India. More than just ingredients, these flowers symbolize sustainability, ancestral wisdom, and the harmonious relationship between humans and nature. Every petal, every bloom carries a story—of seasons, rituals, and the enduring legacy of indigenous food traditions that continue to thrive despite the passage of time.",
     price: 499,
     countInStock: 20,
   },
