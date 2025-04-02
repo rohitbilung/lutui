@@ -5,7 +5,7 @@ module.exports = {
   getProductsById: async (query) => {
     try {
       let user = await productModel.getProductsById(query.productId);
-      return { status: 200, data: user, message: "data found" };
+      return { status: 200, data: user, message: "Fetched product details successfully." };
     } catch (error) {
       return {
         error: error,

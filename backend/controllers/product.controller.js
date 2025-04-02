@@ -29,7 +29,7 @@ module.exports = {
         }else{
             res.status(500).send({
                 success: false,
-                message: 'Server error',
+                message: 'Something went wrong in the server.',
                 error: result.error,
             });
         }

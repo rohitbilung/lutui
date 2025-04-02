@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "../../components/ui/input";
 
 const ProductDetails = () => {
   const { id } = useParams();
