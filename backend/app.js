@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const path = require('path')
 
 let corsOptions = {
     origin: ['http://localhost:5173'],
@@ -19,6 +20,8 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
+const _dirname = path.resolve();
+
 const userRoutes = require('./routes/user.route')
 const productRoutes = require('./routes/product.route')
 const uploadRoutes = require('./routes/uploadProduct.route')
@@ -30,6 +33,11 @@ app.use('/api/product', productRoutes);
 app.use('/api/upload', uploadRoutes)
 app.use('/api/orders', ordersRoutes)
 app.use('/api/skus', skuRoutes)
+
+app.use(express.static(path.join(_dirname, '/frontend/dist')))
+app.get('*',(req, res)=>{
+    res.sendFile(path.resolve(_dirname, 'frontend', 'dist', 'index.html'));
+})
 
 app.use(function (req, res, next) {
     res.status(404);
