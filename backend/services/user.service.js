@@ -6,7 +6,7 @@ module.exports = {
             let user = await userModel.getUser({ email })
             if (user) {
                 if(await user.matchPassword(password)){
-                    return { status:200, data: user, message: "data found" }
+                    return { status:200, data: user, token:1, message: "data found" }
                 }else{
                     return {status:401, data: null, message: "password mismatch" }
                 }

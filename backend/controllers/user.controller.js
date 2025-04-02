@@ -1,5 +1,6 @@
 const userService = require('../services/user.service')
 const { generateToken } = require('../utils/generateToken')
+const { sendSuccessResponse, sendFailedResponse } = require('../utils/responseUtil')
 
 module.exports = {
     login: async (req, res) => {
@@ -7,23 +8,13 @@ module.exports = {
         const { email, password } = req.body
         let result = await userService.login(email, password)
         if (result.status === 200) {
-            console.log(result.data)
             token = generateToken(result.data)
         }
         if (result) {
             res.cookie('lutui-auth-token', token, { maxAge: 7 * 24 * 60 * 60 * 1000 }); // 1 day
-            res.status(result.status).send({
-                success: true,
-                data: result.data,
-                token: token || "",
-                message: result.message
-            });
+            sendSuccessResponse(req, res, result)
         } else {
-            res.status(500).send({
-                success: false,
-                message: 'Server error',
-                error: result.error,
-            });
+            sendFailedResponse(req, res, result)
         }
     },
 
@@ -31,17 +22,9 @@ module.exports = {
         let result = await userService.signup(req.body)
 
         if (result) {
-            res.status(result.status).send({
-                success: true,
-                data: result.data,
-                message: result.message
-            });
+            sendSuccessResponse(req, res, result)
         } else {
-            res.status(500).send({
-                success: false,
-                message: 'Server error',
-                error: result.error,
-            });
+            sendFailedResponse(req, res, result)
         }
     },
 
@@ -50,17 +33,21 @@ module.exports = {
         let result = { status: 200 }
 
         if (result) {
-            res.status(result.status).send({
-                success: true,
-                data: result.data || req.user,
-                message: result.message || ""
-            });
+            sendSuccessResponse(req, res, result)
         } else {
-            res.status(500).send({
-                success: false,
-                message: 'Server error',
-                error: result.error,
-            });
+            sendFailedResponse(req, res, result)
         }
-    }
+    },
+    
+    getCurrentUsers: async (req, res) => {
+
+        let result = { status: 200 }
+
+        if (result) {
+            sendSuccessResponse(req, res, result)
+        } else {
+            sendFailedResponse(req, res, result)
+        }
+    },
+
 }

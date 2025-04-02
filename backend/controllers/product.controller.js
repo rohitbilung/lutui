@@ -37,7 +37,7 @@ module.exports = {
 
     getProducts : async (req,res) => {
         
-        let result = await productService.getProducts()
+        let result = await productService.getProducts(req.query)
 
         if(result){
             res.status(result.status).send({
