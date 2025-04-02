@@ -3,7 +3,8 @@ const orderModel = require('../models/ordersModel/orders.model')
 module.exports = {
     addCart: async (body) => {
         try {
-            body.status = "pending"
+            body.status = "pending",
+            body.delhiveryStatus = "pending"
             let cartExist = await orderModel.getCart(body)
             if(cartExist.length == 0){
                 let cart = await orderModel.addCart(body)
