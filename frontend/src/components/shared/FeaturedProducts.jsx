@@ -1,8 +1,11 @@
 import React from "react";
 import { products } from "../../data/info";
 import ProductCard from "./ProductCard";
+import { useGetProducts } from "../../lib/queries/queries";
 
 const FeaturedProducts = () => {
+  // const { data, isPending } = useGetProducts({ limit: 10, page: 1 })
+  // console.log("data: ", data)
   return (
     <div className="container mx-auto py-10">
       <div className="text-center mb-6">

@@ -35,7 +35,7 @@ const Login = () => {
     const response = await loginUser(values);
     if (response.success) {
       const { token, data: userData } = response;
-      toast.error(response.message);
+      toast.success(response.message);
       loginForm.reset();
       await login({ token, userData });
       // Delay navigation by 2 seconds (2000ms)

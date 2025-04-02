@@ -4,7 +4,7 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser')
 
 let corsOptions = {
-    origin: true,
+    origin: ['http://localhost:5173'],
     methods: ["GET", "PUT", "POST", "OPTIONS"],
     allowedHeaders: [
         "Content-Type",
