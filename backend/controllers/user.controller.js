@@ -38,7 +38,7 @@ module.exports = {
             sendFailedResponse(req, res, result)
         }
     },
-    
+
     getCurrentUsers: async (req, res) => {
 
         let result = { status: 200 }
@@ -48,6 +48,11 @@ module.exports = {
         } else {
             sendFailedResponse(req, res, result)
         }
+    },
+
+    logout: async (req, res) => {
+        res.clearCookie('lutui-auth-token');
+        sendSuccessResponse(req, res, { message: "logged out successful" })
     },
 
 }

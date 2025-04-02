@@ -14,7 +14,7 @@ function sendSuccessResponse(req, res, result) {
     }else{
       res.status(result.status || 200).send({
         success: true,
-        data: result.data || null,
+        data: result.data || req.user,
         message: result.message || 'Request was successful',
       });
     }
