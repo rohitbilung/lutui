@@ -11,7 +11,7 @@ module.exports = {
             }
             let res = await Order.find(params)
                 .populate('userId')
-                .populate('products.productId')
+                .populate('products.productId','name category -_id')
             return res
         } catch (error) {
             return error

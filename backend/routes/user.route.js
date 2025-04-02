@@ -4,7 +4,8 @@ const {
     login,
     signup,
     getUsers,
-    getCurrentUsers
+    getCurrentUsers,
+    logout
  } = require('../controllers/user.controller');
  const {auth} = require('../middlewares/auth')
  const {isLoggedIn, isAdmin} = require('../middlewares/check')
@@ -15,6 +16,8 @@ router.post('/signup', signup);
 
 router.get('/getCurrentUser', isLoggedIn, getCurrentUsers) 
 
-router.get('/getUser/:userId', isAdmin, getUsers) // for admin
+router.get('/getUser/',isLoggedIn, isAdmin, getUsers) // for admin
+
+router.get('/logout', isLoggedIn, logout)
 
 module.exports = router;
