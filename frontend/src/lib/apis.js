@@ -46,7 +46,6 @@ const apiRequest = async ({ method = "GET", url = '', auth = false, data = {}, p
       };
       response = { ...response, pagination };
     }
-    console.log("e: ", e)
     return response;
   }
 }
@@ -64,11 +63,11 @@ export const getCurrentUser = async ({ signal = null }) => {
 }
 
 export const createProduct = async (data) => {
-  return await apiRequest({ method: "POST", auth: true, data, url: `/user/create-product` });
+  return await apiRequest({ method: "POST", auth: true, data, url: `/product/create-product` });
 }
 
 export const getProductByID = async ({ signal = null, productId = '' }) => {
-  return await apiRequest({ method: "GET", signal, url: `/user/get-product-by-id?productId=${productId}` });
+  return await apiRequest({ method: "GET", signal, url: `/product/get-product-by-id?productId=${productId}` });
 }
 
 export const getProductList = async ({ signal = null, limit = 10, page = 1 }) => {
