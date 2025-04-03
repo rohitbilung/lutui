@@ -1,6 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import QUERY_KEYS from "./queryKeys";
-import { getCurrentUser, getProductByID, getProductList } from "../apis";
+import {
+  getCart,
+  getCurrentUser,
+  getProductByID,
+  getProductList,
+} from "../apis";
 
 export const useGetCurrentUser = () => {
   return useQuery({
@@ -22,6 +27,15 @@ export const useGetProducts = ({ limit, page }) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_PRODUCT_LIST, limit, page],
     queryFn: ({ signal }) => getProductList({ signal, limit, page }),
-    refetchOnWindowFocus: false
-  })
-}
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const useGetCart = ({ userId }) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_CART_DETAILS, userId],
+    queryFn: ({ signal }) => getCart({ signal, userId }),
+    refetchOnWindowFocus: false,
+    enabled: !!userId, // Prevent query from running if userId is missing
+  });
+};

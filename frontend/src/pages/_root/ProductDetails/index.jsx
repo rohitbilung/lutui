@@ -18,12 +18,18 @@ import { useGetProductByID } from "../../../lib/queries/queries";
 import SizeBadges from "./components/SizeBadges";
 import ColorOptions from "./components/ColorOptions";
 import SizeTabContent from "./components/SizeTabContent";
+import { useAuth } from "../../../context/AuthContext";
 
 const ProductDetails = () => {
   const { productId } = useParams();
   const [size, setSize] = useState("regular");
   const [shirtSize, setShirtSize] = useState("S");
 
+  const { user } = useAuth();
+  const userId = useMemo(() => {
+    if (user) return user._id;
+    else return "";
+  }, [user]);
   const { data, isPending } = useGetProductByID({ productId });
   const product = data?.data || null;
 
@@ -37,6 +43,14 @@ const ProductDetails = () => {
       return 0;
     }
   }, [product, size]);
+
+  const cartData = useMemo(() => {
+    if (product && size && shirtSize && colorData) {
+      return { productId: product._id, color: colorData.color, size: shirtSize, type: size, price: price || 0, product   };
+    } else {
+      return null;
+    }
+  },[product, price, size, shirtSize, colorData])
 
   return (
     <PageWrapper>
@@ -117,6 +131,9 @@ const ProductDetails = () => {
                 </div>
 
                 <AddToCartButton product={product} btnVariant="blue" />
+                {/* {cartData && (
+                  <AddToCartButton product={cartData} btnVariant="blue" />
+                )} */}
               </div>
             </div>
 

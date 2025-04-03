@@ -73,3 +73,11 @@ export const getProductByID = async ({ signal = null, productId = '' }) => {
 export const getProductList = async ({ signal = null, limit = 10, page = 1 }) => {
   return await apiRequest({ method: "GET", paginate: true, signal, url: `/product/get-products?page=${page}&limit=${limit}` });
 }
+
+export const getCart = async ({ signal = null, userId }) => {
+  return await apiRequest({ method: "GET", auth: true, signal, url: `/orders/get-cart-details/${userId}` });
+}
+
+export const addToCart = async (data) => {
+  return await apiRequest({ method: "POST", auth: true, data, url: `/orders/add-to-cart` });
+}

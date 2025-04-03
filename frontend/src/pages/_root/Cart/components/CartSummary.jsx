@@ -6,7 +6,7 @@ const CartSummary = () => {
   const { cart } = useCart();
   const navigate = useNavigate();
 
-  const totalAmount = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+  const totalAmount = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
     <div className="p-4 border rounded-lg shadow-sm">
