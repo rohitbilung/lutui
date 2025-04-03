@@ -4,7 +4,7 @@
  * @param {Object} result - The result object containing status, message, and data
  */
 function sendSuccessResponse(req, res, result) {
-    if(result.token == 1){
+    if(result.token) {
       res.status(result.status || 200).send({
         success: true,
         data: result.data || null,

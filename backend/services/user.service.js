@@ -6,12 +6,12 @@ module.exports = {
             let user = await userModel.getUser({ email })
             if (user) {
                 if(await user.matchPassword(password)){
-                    return { status:200, data: user, token:1, message: "data found" }
+                    return { status:200, data: user, token:1, message: "You have been logged in successfully." }
                 }else{
-                    return {status:401, data: null, message: "password mismatch" }
+                    return {status:401, data: null, message: "Please enter valid credentials." }
                 }
             } else {
-                return {status:404, data: null, message: "not found" }
+                return {status:404, data: null, message: "Could not find the resource you are looking for." }
             }
         } catch (error) {
             return {

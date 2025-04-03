@@ -50,6 +50,21 @@ module.exports = {
         }
     },
 
+    removeAnItemFromCart: async (body) => {
+        try {
+            let data = await orderModel.removeAnProductCart(body)
+            if (data.modifiedCount === 1) {
+                return { status: 200, data: "", message: "Product modified successful" }
+            } else {
+                return { status: 200, data: "", message: "Nothing happened" }
+            }
+        } catch (error) {
+            return {
+                error: error
+            }
+        }
+    },
+
     removeProductCart: async (body) => {
         try {
             let data = await orderModel.removeProductCart(body)

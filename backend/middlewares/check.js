@@ -35,7 +35,7 @@ const isLoggedIn = async (req, res, next) => {
 const isAdmin = (req, res, next) => {
   if (req.user.role !== "admin") {
     return res.status(401).json({
-      status: false,
+      success: false,
       message: "You are not authorized for this action.",
     });
   }
@@ -45,7 +45,7 @@ const isAdmin = (req, res, next) => {
 const isProvider = (req, res, next) => {
   if (req.user.role !== "provider") {
     return res.status(401).json({
-      status: false,
+      success: false,
       message: "You are not authorized for this action.",
     });
   }
@@ -55,7 +55,7 @@ const isProvider = (req, res, next) => {
 const isManager = (req, res, next) => {
   if (req.user.role !== "manager") {
     return res.status(401).json({
-      status: false,
+      success: false,
       message: "You are not authorized for this action.",
     });
   }
@@ -65,7 +65,7 @@ const isManager = (req, res, next) => {
 const isNotAdmin = (req, res, next) => {
   if (req.user.role === 'admin') {
     return res.status(401).json({
-      status: false,
+      success: false,
       message: "You are not authorized for this action.",
     });
   }
@@ -75,7 +75,7 @@ const isNotAdmin = (req, res, next) => {
 const isAdminOrManager = (req, res, next) => {
   if (!['admin', 'manager'].includes(req.user.role)) {
     return res.status(401).json({
-      status: false,
+      success: false,
       message: "You are not authorized for this action.",
     });
   }

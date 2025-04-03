@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useGetCart } from "../lib/queries/queries";
 import { useAuth } from "./AuthContext";
-import { useAddToCart } from "../lib/queries/Mutations";
+import { useAddToCart, useRemoveAnItemFromCart, useRemoveItemsFromCart } from "../lib/queries/Mutations";
 import { toast } from "sonner";
 
 const CartContext = createContext(null);
@@ -11,6 +11,8 @@ export const CartProvider = ({ children }) => {
   const { user } = useAuth();
   const { mutateAsync: addItemToCart, isPending: isAddingToCart } =
     useAddToCart();
+  const { mutateAsync: removeItemsFromCart, isPending: isRemoving } = useRemoveItemsFromCart()
+  const { mutateAsync: removeAnItemFromCart, isPending: isRemovingAnItem } = useRemoveAnItemFromCart()
 
   const userId = useMemo(() => {
     if (user) return user._id;
@@ -21,8 +23,8 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     if (!isPending && data) {
-      if (data.data && data.data.length > 0) {
-        setCart([ ...data.data[0].products ]);
+      if (data.data) {
+        setCart([ ...data.data.products ]);
       }
     }
   },[data, isPending])
@@ -57,33 +59,22 @@ export const CartProvider = ({ children }) => {
       updatedCart = [...cart, { ...item, quantity: 1 }];
     }
     
-    // calculate total from all products
-    // const totalPrice = updatedCart.reduce((acc, i) => acc + i.price * i.quantity, 0);
-    // const cartObject = { userId, ...item, totalPrice };
+    // const reqObject = { ...item, quantity: 1, productId: item.productId._id }
+    // // calculate total from all products
+    // const totalPrice = cart.reduce((acc, i) => acc + i.price * i.quantity, 0);
+    // const cartObject = { userId, ...reqObject, totalPrice };
     // const response = await addItemToCart(cartObject)
     // if (response.success) {
     //   toast.success(response.message);
+    //   refetch();
     // } else {
     //   toast.error(response.message);
     // }
-    setCart([ ...updatedCart ]);
 
-    // setCart((prevCart) => {
-    //   const existingItem = prevCart.find((cartItem) => cartItem._id === item._id);
-
-    //   if (existingItem) {
-    //     return prevCart.map((cartItem) =>
-    //       cartItem._id === item._id
-    //         ? { ...cartItem, qty: cartItem.qty + 1 }
-    //         : cartItem
-    //     );
-    //   } else {
-    //     return [...prevCart, { ...item, qty: 1 }];
-    //   }
-    // });
+    setCart([ ...updatedCart ])
   };
 
-  const removeOneFromCart = (_id) => {
+  const removeOneFromCart = async (_id) => {
     // Create the updated cart array
     const updatedCart = cart
     .map((item) =>
@@ -93,14 +84,32 @@ export const CartProvider = ({ children }) => {
     )
     .filter((item) => item.quantity > 0); // Remove item if quantity becomes 0
     console.log("updatedCart in removeonefromcart: ", updatedCart)
-    
+
+    // const totalPrice = cart.reduce((acc, i) => acc + i.price * i.quantity, 0);
+    // const response = await removeAnItemFromCart({ userId, productId: _id, totalPrice })
+    // if (response.success) {
+    //   toast.success(response.message);
+    //   refetch();
+    // } else {
+    //   toast.error(response.message);
+    // }
+
     setCart([ ...updatedCart ]);
   };
   
-  const removeFromCart = (_id) => {
+  const removeFromCart = async (_id) => {
     const updatedCart = cart.filter((item) => item.productId._id !== _id);
     // API call to remove
     console.log("updatedCart in removeFromCart: ", updatedCart)
+
+    // const totalPrice = cart.reduce((acc, i) => acc + i.price * i.quantity, 0);
+    // const response = await removeItemsFromCart({ userId, productId: _id, totalPrice })
+    // if (response.success) {
+    //   toast.success(response.message);
+    //   refetch();
+    // } else {
+    //   toast.error(response.message);
+    // }
 
     setCart([ ...updatedCart ])
   };

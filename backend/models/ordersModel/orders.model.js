@@ -49,6 +49,27 @@ module.exports = {
         }
     },
 
+    removeAnProductCart: async (body) => {
+    try {
+        let res = await Order.updateOne(
+            {
+                userId: body.userId,
+                paymentStatus: "pending",
+                "products.productId": body.productId, // Ensure the product exists
+            },
+            {
+                $set: {
+                "products.$.quantity": body.quantity, // Update the qty for the matched product
+                totalPrice: body.totalPrice, // Update the total price
+                },
+            }
+        );
+        return res;
+    } catch (error) {
+        return error;
+    }
+    },
+
     removeProductCart: async (body) => {
         try {
             let res = await Order.updateOne(

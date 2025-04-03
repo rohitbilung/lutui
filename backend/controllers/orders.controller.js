@@ -20,6 +20,15 @@ module.exports = {
         }
     },
     
+    removeAnItemFromCart : async (req,res)=> {
+        let result = await orderService.removeAnItemFromCart(req.body)
+        if(result){
+            sendSuccessResponse(req, res, result)
+        }else{
+            sendFailedResponse(req, res, result)
+        }
+    },
+
     removeProductCart : async (req,res)=> {
         let result = await orderService.removeProductCart(req.body)
         if(result){

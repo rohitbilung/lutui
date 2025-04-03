@@ -4,7 +4,7 @@ import {
   // useQuery,
   // useQueryClient,
 } from "@tanstack/react-query";
-import { addToCart, createProduct, loginUser, registerUser } from "../apis";
+import { addToCart, createProduct, loginUser, registerUser, removeAnItemFromCart, removeItemsFromCart } from "../apis";
 
 export const useLoginUser = () => {
   return useMutation({
@@ -27,5 +27,17 @@ export const useCreateProduct = () => {
 export const useAddToCart = () => {
   return useMutation({
     mutationFn: (data) => addToCart(data),
+  });
+};
+
+export const useRemoveItemsFromCart = () => {
+  return useMutation({
+    mutationFn: (data) => removeItemsFromCart(data),
+  });
+};
+
+export const useRemoveAnItemFromCart = () => {
+  return useMutation({
+    mutationFn: (data) => removeAnItemFromCart(data),
   });
 };

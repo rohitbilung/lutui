@@ -12,7 +12,7 @@ router.post('/create-product',isAdmin, createProduct);
 
 router.get('/get-product-by-id',isLoggedIn, getProductsById);
 
-router.get('/get-products',isLoggedIn, getProducts);
+router.get('/get-products', getProducts);
 
 // router.delete('/delete-product', auth, deleteProduct)
 

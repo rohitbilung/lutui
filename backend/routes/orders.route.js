@@ -3,6 +3,7 @@ const router = express.Router();
 const { 
     addCart,
     getCart,
+    removeAnItemFromCart,
     removeProductCart,
     checkout
  } = require('../controllers/orders.controller');
@@ -12,6 +13,8 @@ const {
 router.post('/add-to-cart',isLoggedIn, addCart);
 
 router.get('/get-cart-details/:userId',isLoggedIn, getCart);
+
+router.post('/remove-an-item-from-cart',isLoggedIn, removeAnItemFromCart);
 
 router.post('/remove-items-cart',isLoggedIn, removeProductCart);
 

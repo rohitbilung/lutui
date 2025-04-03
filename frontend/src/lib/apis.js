@@ -81,3 +81,11 @@ export const getCart = async ({ signal = null, userId }) => {
 export const addToCart = async (data) => {
   return await apiRequest({ method: "POST", auth: true, data, url: `/orders/add-to-cart` });
 }
+
+export const removeItemsFromCart = async (data) => {
+  return await apiRequest({ method: "POST", auth: true, data, url: `/orders/remove-items-cart` });
+}
+
+export const removeAnItemFromCart = async (data) => {
+  return await apiRequest({ method: "POST", auth: true, data, url: `/orders/remove-an-item-from-cart` });
+}
