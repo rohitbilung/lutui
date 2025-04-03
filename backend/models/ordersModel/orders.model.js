@@ -9,9 +9,9 @@ module.exports = {
                 userId: body.userId,
                 "paymentStatus": body.paymentStatus
             }
-            let res = await Order.find(params)
+            let res = await Order.findOne(params)
                 .populate('userId')
-                .populate('products.productId','name category -_id')
+                .populate('products.productId','name category _id')
             return res
         } catch (error) {
             return error

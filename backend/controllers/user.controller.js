@@ -9,6 +9,7 @@ module.exports = {
         let result = await userService.login(email, password)
         if (result.status === 200) {
             token = generateToken(result.data)
+            result.token = token
         }
         if (result) {
             res.cookie('lutui-auth-token', token, { maxAge: 7 * 24 * 60 * 60 * 1000 }); // 1 day
