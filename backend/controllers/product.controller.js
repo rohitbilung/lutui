@@ -1,21 +1,14 @@
 const productService = require('../services/product.service')
 const mongoose = require('mongoose')
+const { sendSuccessResponse, sendFailedResponse } = require('../utils/responseUtil')
 
 module.exports = {
     createProduct : async (req,res)=> {
         let result = await productService.createProduct(req.body)
         if(result){
-            res.status(result.status).send({
-                success: true,
-                data: result.data,
-                message: result.message
-            });
+            sendSuccessResponse(req, res, result)
         }else{
-            res.status(500).send({
-                success: false,
-                message: 'Server error',
-                error: result.error,
-            });
+            sendFailedResponse(req, res, result)
         }
     },
 
@@ -219,17 +212,14 @@ module.exports = {
             }
         }
         if(true){
+            // sendSuccessResponse(req, res, result)
             res.status(200).send({
                 success: true,
                 data: data || "",
                 message:  ""
             });
         }else{
-            res.status(500).send({
-                success: false,
-                message: 'Something went wrong in the server.',
-                error: result.error,
-            });
+            sendFailedResponse(req, res, result)
         }
     },
 

@@ -4,6 +4,7 @@ const multer = require("multer");
 const cloudinary = require('cloudinary').v2
 const fs = require('fs')
 require('dotenv').config();
+const {isLoggedIn, isAdmin} = require('../middlewares/check')
 
 const upload = multer({ dest: "uploads/" }).array("image", 5);
 
@@ -13,7 +14,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-router.post('/product-upload', upload, async (req, res) => {
+router.post('/product-upload',isAdmin, upload, async (req, res) => {
     const files = req.files;
     const urls = [];
 

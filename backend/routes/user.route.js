@@ -16,7 +16,7 @@ router.post('/signup', signup);
 
 router.get('/getCurrentUser', isLoggedIn, getCurrentUsers) 
 
-router.get('/getUser/',isLoggedIn, isAdmin, getUsers) // for admin
+router.get('/getUser',isLoggedIn, isAdmin, getUsers) // for admin
 
 router.get('/logout', isLoggedIn, logout)
 
