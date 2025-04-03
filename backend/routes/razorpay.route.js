@@ -5,7 +5,7 @@ const {
     verifyPayments
  } = require('../controllers/razorpay.controller');
 
-router.post('/create-order', createPayments);
+router.post('/create-payment', createPayments);
 
 router.post('/verify-payment', verifyPayments);
 
