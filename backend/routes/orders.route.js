@@ -3,14 +3,18 @@ const router = express.Router();
 const { 
     addCart,
     getCart,
-    removeProductCart
+    removeProductCart,
+    checkout
  } = require('../controllers/orders.controller');
  const {auth} = require('../middlewares/auth')
+ const {isLoggedIn, isAdmin} = require('../middlewares/check')
 
-router.post('/add-to-cart', addCart);
+router.post('/add-to-cart',isLoggedIn, addCart);
 
-router.get('/get-cart-details/:userId', getCart);
+router.get('/get-cart-details/:userId',isLoggedIn, getCart);
 
-router.post('/remove-items-cart/', removeProductCart);
+router.post('/remove-items-cart',isLoggedIn, removeProductCart);
+
+router.post('/checkout',isLoggedIn, checkout);
 
 module.exports = router;

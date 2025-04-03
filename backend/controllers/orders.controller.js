@@ -1,54 +1,40 @@
 const orderService = require('../services/orders.service')
+const { sendSuccessResponse, sendFailedResponse } = require('../utils/responseUtil')
 
 module.exports = {
     addCart : async (req,res)=> {
-        let result = await orderService.addCart(req.body)
+        let result = await orderService.addCart(req.body, req.user)
         if(result){
-            res.status(result.status).send({
-                success: true,
-                data: result.data,
-                message: result.message
-            });
+            sendSuccessResponse(req, res, result)
         }else{
-            res.status(500).send({
-                success: false,
-                message: 'Server error',
-                error: result.error,
-            });
+            sendFailedResponse(req, res, result)
         }
     },
 
     getCart : async (req,res)=> {
-        let result = await orderService.getCart(req.params)
+        let result = await orderService.getCart(req.params, req.user)
         if(result){
-            res.status(result.status).send({
-                success: true,
-                data: result.data,
-                message: result.message
-            });
+            sendSuccessResponse(req, res, result)
         }else{
-            res.status(500).send({
-                success: false,
-                message: 'Server error',
-                error: result.error,
-            });
+            sendFailedResponse(req, res, result)
         }
     },
     
     removeProductCart : async (req,res)=> {
         let result = await orderService.removeProductCart(req.body)
         if(result){
-            res.status(result.status).send({
-                success: true,
-                data: result.data,
-                message: result.message
-            });
+            sendSuccessResponse(req, res, result)
         }else{
-            res.status(500).send({
-                success: false,
-                message: 'Server error',
-                error: result.error,
-            });
+            sendFailedResponse(req, res, result)
+        }
+    },
+    
+    checkout : async (req,res)=> {
+        let result = await orderService.checkout(req.body, req.user)
+        if(result){
+            sendSuccessResponse(req, res, result)
+        }else{
+            sendFailedResponse(req, res, result)
         }
     },
 

@@ -9,12 +9,12 @@ function sendSuccessResponse(req, res, result) {
         success: true,
         data: result.data || null,
         message: result.message || 'Request was successful',
-        token: req.cookies['lutui-auth-token']
+        token: result.token
       });
     }else{
       res.status(result.status || 200).send({
         success: true,
-        data: result.data || req.user,
+        data: result.data || null,
         message: result.message || 'Request was successful',
       });
     }
