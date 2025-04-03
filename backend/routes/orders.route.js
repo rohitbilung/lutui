@@ -11,6 +11,6 @@ router.post('/add-to-cart', addCart);
 
 router.get('/get-cart-details/:userId', getCart);
 
-router.post('/remove-product-cart/', removeProductCart);
+router.post('/remove-items-cart/', removeProductCart);
 
 module.exports = router;

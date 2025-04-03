@@ -7,7 +7,7 @@ module.exports = {
         try {
             let params = {
                 userId: body.userId,
-                "status": body.status
+                "paymentStatus": body.paymentStatus
             }
             let res = await Order.find(params)
                 .populate('userId')
@@ -32,7 +32,7 @@ module.exports = {
             let res = await Order.updateOne(
                 {
                     userId: body.userId,
-                    status: body.status
+                    paymentStatus: body.paymentStatus
                 },
                 {
                     $push: {
@@ -54,7 +54,7 @@ module.exports = {
             let res = await Order.updateOne(
                 { 
                     userId: body.userId,
-                    status: "pending"
+                    paymentStatus: "pending"
                  }, 
                 {
                     $pull: {

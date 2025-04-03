@@ -11,7 +11,7 @@ const orderSchema = new mongoose.Schema({
         quantity: { type: Number },
     }],
     totalPrice: { type: Number },
-    status: { type: String, default: 'pending' },
+    paymentStatus: { type: String, default: 'pending' },
     delhiveryStatus: { type: String, default: 'pending' }
 });
 

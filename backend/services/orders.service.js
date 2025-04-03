@@ -3,7 +3,7 @@ const orderModel = require('../models/ordersModel/orders.model')
 module.exports = {
     addCart: async (body) => {
         try {
-            body.status = "pending",
+            body.paymentStatus = "pending",
             body.delhiveryStatus = "pending"
             let cartExist = await orderModel.getCart(body)
             if(cartExist.length == 0){
@@ -22,7 +22,7 @@ module.exports = {
     
     getCart: async (params) => {
         try {
-            params.status = "pending"
+            params.paymentStatus = "pending"
             let data = await orderModel.getCart(params)
             if(data.length>0){
                 return { status: 200, data: data, message:"Product created successful"}
