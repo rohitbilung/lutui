@@ -10,14 +10,14 @@ const {
  const {auth} = require('../middlewares/auth')
  const {isLoggedIn, isAdmin} = require('../middlewares/check')
 
-router.post('/add-to-cart',isLoggedIn, addCart);
+router.post('/add-to-cart', addCart);
 
-router.get('/get-cart-details/:userId',isLoggedIn, getCart);
+router.get('/get-cart-details/:userId', getCart);
 
-router.post('/remove-an-item-from-cart',isLoggedIn, removeAnItemFromCart);
+router.post('/remove-an-item-from-cart', removeAnItemFromCart);
 
-router.post('/remove-items-cart',isLoggedIn, removeProductCart);
+router.post('/remove-items-cart', removeProductCart);
 
-router.post('/checkout',isLoggedIn, checkout);
+router.post('/checkout', checkout);
 
 module.exports = router;

@@ -4,7 +4,7 @@ module.exports = {
     addCart: async (body, user) => {
         try {
             let insertData = {
-                "userId": user.id ? user.id : body.id,
+                "userId": body.userId ? body.userId :user.id,
                 "products": [
                     {
                         "productId": body.productId,
@@ -20,11 +20,33 @@ module.exports = {
                 "delhiveryStatus": 'pending'
             }
             let cartExist = await orderModel.getCart(insertData)
-            if (cartExist.length == 0) {
+            if (!cartExist) {
                 let cart = await orderModel.addCart(insertData)
                 return { status: 201, data: cart, message: "cart added successful" }
             } else {
-                let cart = await orderModel.updateCart(insertData)
+                let productExists = false, tp;
+                body.totalPrice = Number(cartExist.totalPrice)+Number((body.price*body.quantity))
+                for (let product of cartExist.products) {
+                    console.log(product.type)
+                    console.log(body.type)
+                  if (product.productId.equals(body.productId) && product.type === body.type && product.color === body.color && product.size === body.size) {
+                    let updateExistProduct = await orderModel.updateExistingCombinedProducts(body)
+                    productExists = true;
+                    break;
+                  }
+                }
+                if (!productExists) {
+                    let product = {
+                        "productId": body.productId,
+                        "color": body.color,
+                        "size": body.size,
+                        "type": body.type,
+                        "price": body.price,
+                        "quantity": body.quantity
+                    }
+                    body.product = product
+                    let cart = await orderModel.updateCart(body)
+                }
                 return { status: 200, data: "cart", message: "cart update successful" }
             }
         } catch (error) {
@@ -37,9 +59,9 @@ module.exports = {
     getCart: async (params, user) => {
         try {
             params.paymentStatus = "pending"
-            let data = await orderModel.getCart(params)
+            let data = await orderModel.getPopulateCart(params)
             if (data.length > 0) {
-                return { status: 200, data: data, message: "Product created successful" }
+                return { status: 200, data: data, message: "fetched cart successful" }
             } else {
                 return { status: 404, data: data, message: "No product available" }
             }
