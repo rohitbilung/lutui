@@ -46,11 +46,18 @@ const ProductDetails = () => {
 
   const cartData = useMemo(() => {
     if (product && size && shirtSize && colorData) {
-      return { productId: product._id, color: colorData.color, size: shirtSize, type: size, price: price || 0, product   };
+      return {
+        productId: product._id,
+        color: colorData.color,
+        size: shirtSize,
+        type: size,
+        price: price || 0,
+        product,
+      };
     } else {
       return null;
     }
-  },[product, price, size, shirtSize, colorData])
+  }, [product, price, size, shirtSize, colorData]);
 
   return (
     <PageWrapper>
@@ -130,7 +137,7 @@ const ProductDetails = () => {
                   </Tabs>
                 </div>
 
-                <AddToCartButton product={product} btnVariant="blue" />
+                <AddToCartButton product={{ ...cartData, productId: product }} btnVariant="blue" />
                 {/* {cartData && (
                   <AddToCartButton product={cartData} btnVariant="blue" />
                 )} */}

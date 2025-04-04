@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../../ui/button";
 import { useCart } from "../../../../context/CartContext";
 
-const AddToCartButton = ({ product, btnVariant = 'secondary', showViewButton = false }) => {
+const AddToCartButton = ({
+  product,
+  btnVariant = "secondary",
+  showViewButton = false,
+}) => {
   const navigate = useNavigate();
   const { addToCart, removeOneFromCart, isInCart, getItemQuantity } = useCart();
   const quantity = getItemQuantity(product._id);
@@ -11,6 +15,11 @@ const AddToCartButton = ({ product, btnVariant = 'secondary', showViewButton = f
   const visitProductDetails = () => {
     navigate(`/product/${product._id}`);
   };
+
+  const addItemToCart = (product) => {
+    const itemObject = { ...product, quantity: quantity + 1 };
+    addToCart(itemObject);
+  }
 
   return (
     <div className="w-full flex items-center gap-1">
@@ -25,13 +34,13 @@ const AddToCartButton = ({ product, btnVariant = 'secondary', showViewButton = f
           <div className="text-lg font-semibold bg-white border w-full flex items-center justify-center cursor-not-allowed">
             <span>{quantity}</span>
           </div>
-          <Button onClick={() => addToCart(product)} variant={btnVariant}>
+          <Button onClick={() => addItemToCart(product)} variant={btnVariant}>
             <PlusIcon />
           </Button>
         </div>
       ) : (
         <Button
-          onClick={() => addToCart(product)}
+          onClick={() => addItemToCart(product)}
           variant={btnVariant}
           className="flex-1"
         >

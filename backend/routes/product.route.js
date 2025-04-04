@@ -10,7 +10,7 @@ const {
 
 router.post('/create-product',isAdmin, createProduct);
 
-router.get('/get-product-by-id',isLoggedIn, getProductsById);
+router.get('/get-product-by-id', getProductsById);
 
 router.get('/get-products', getProducts);
 

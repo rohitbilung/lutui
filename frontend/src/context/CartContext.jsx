@@ -47,31 +47,17 @@ export const CartProvider = ({ children }) => {
   };
 
   const addToCart = async (item) => {
-    const productExists = cart.find(i => i.productId._id === item.productId._id)
-    let updatedCart = [];
-    if (productExists) {
-      // If product exists, increment quantity
-      updatedCart = cart.map(i =>
-        i.productId._id === item.productId._id ? { ...i, quantity: i.quantity + 1 } : i
-      );
+    const reqObject = { ...item, quantity: 1, productId: item.productId._id }
+    // calculate total from all products
+    const totalPrice = cart.reduce((acc, i) => acc + i.price * i.quantity, 0) + reqObject.price;
+    const cartObject = { userId, ...reqObject, totalPrice };
+    const response = await addItemToCart(cartObject)
+    if (response.success) {
+      toast.success(response.message);
+      refetch();
     } else {
-      // If product does not exist, add it with quantity = 1
-      updatedCart = [...cart, { ...item, quantity: 1 }];
+      toast.error(response.message);
     }
-    
-    // const reqObject = { ...item, quantity: 1, productId: item.productId._id }
-    // // calculate total from all products
-    // const totalPrice = cart.reduce((acc, i) => acc + i.price * i.quantity, 0);
-    // const cartObject = { userId, ...reqObject, totalPrice };
-    // const response = await addItemToCart(cartObject)
-    // if (response.success) {
-    //   toast.success(response.message);
-    //   refetch();
-    // } else {
-    //   toast.error(response.message);
-    // }
-
-    setCart([ ...updatedCart ])
   };
 
   const removeOneFromCart = async (_id) => {
@@ -85,33 +71,30 @@ export const CartProvider = ({ children }) => {
     .filter((item) => item.quantity > 0); // Remove item if quantity becomes 0
     console.log("updatedCart in removeonefromcart: ", updatedCart)
 
-    // const totalPrice = cart.reduce((acc, i) => acc + i.price * i.quantity, 0);
-    // const response = await removeAnItemFromCart({ userId, productId: _id, totalPrice })
-    // if (response.success) {
-    //   toast.success(response.message);
-    //   refetch();
-    // } else {
-    //   toast.error(response.message);
-    // }
-
-    setCart([ ...updatedCart ]);
+    const totalPrice = updatedCart.reduce((acc, i) => acc + i.price * i.quantity, 0);
+    const response = await removeAnItemFromCart({ userId, productId: _id, totalPrice })
+    if (response.success) {
+      toast.success(response.message);
+      refetch();
+    } else {
+      toast.error(response.message);
+    }
   };
   
   const removeFromCart = async (_id) => {
     const updatedCart = cart.filter((item) => item.productId._id !== _id);
+    // const updatedCart = cart.filter((item) => item.productId._id !== _id);
     // API call to remove
     console.log("updatedCart in removeFromCart: ", updatedCart)
 
-    // const totalPrice = cart.reduce((acc, i) => acc + i.price * i.quantity, 0);
-    // const response = await removeItemsFromCart({ userId, productId: _id, totalPrice })
-    // if (response.success) {
-    //   toast.success(response.message);
-    //   refetch();
-    // } else {
-    //   toast.error(response.message);
-    // }
-
-    setCart([ ...updatedCart ])
+    const totalPrice = cart.reduce((acc, i) => acc + i.price * i.quantity, 0);
+    const response = await removeItemsFromCart({ userId, productId: _id, totalPrice })
+    if (response.success) {
+      toast.success(response.message);
+      refetch();
+    } else {
+      toast.error(response.message);
+    }
   };
 
   const clearCart = () => {
