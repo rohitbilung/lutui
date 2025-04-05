@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom"
-import { About, Cart, Home, InDevelopment, Login, PageNotFound, ProductDetails, Register } from "./pages"
+import { About, Cart, Checkout, Home, InDevelopment, Login, PageNotFound, ProductDetails, Register } from "./pages"
 import ProtectedRoutes from "./components/shared/common/layouts/ProtectedRoutes"
 
 const App = () => {
@@ -13,6 +13,7 @@ const App = () => {
       <Route path="/product/:productId" element={<ProductDetails />} />
 
       <Route path="/cart" element={<Cart />} />
+      <Route path="/checkout" element={<Checkout />} />
       {/* <Route path="/" element={<ProtectedRoutes />}>
       </Route> */}
       
