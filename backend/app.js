@@ -22,6 +22,8 @@ app.use(express.json());
 
 const _dirname = path.resolve();
 
+require('./routes/zindex')(app);
+
 const userRoutes = require('./routes/user.route')
 const productRoutes = require('./routes/product.route')
 const uploadRoutes = require('./routes/uploadProduct.route')
@@ -35,9 +37,9 @@ app.use('/api/orders', ordersRoutes)
 app.use('/api', paymentRoutes)
 
 app.use(express.static(path.join(_dirname, '/frontend/dist')))
-app.get('*',(req, res)=>{
-    res.sendFile(path.resolve(_dirname, 'frontend', 'dist', 'index.html'));
-})
+// app.get('*',(req, res)=>{
+//     res.sendFile(path.resolve(_dirname, 'frontend', 'dist', 'index.html'));
+// })
 
 app.use(function (req, res, next) {
     res.status(404);
