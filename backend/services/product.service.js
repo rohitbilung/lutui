@@ -4,8 +4,37 @@ const ItemSku = require("../models/itemsku/itemskuModel");
 module.exports = {
   getProductsById: async (query) => {
     try {
-      let user = await productModel.getProductsById(query.productId);
-      return { status: 200, data: user, message: "Fetched product details successfully." };
+      let originalData = await productModel.getProductsById(query.productId);
+      let data = {
+        "_id": originalData._id.toString(),
+        "name": originalData.name,
+        "images": originalData.images,
+        "category": originalData.category,
+        "description": originalData.description,
+        "sizeType": {
+          "regular": {
+            "price": originalData.regular.price,
+            "sizes": originalData.regular.sizes.map(size => ({
+              "size": size.size,
+              "colors": size.colors.map(color => ({
+                "color": color.color,
+                "count": color.count
+              }))
+            }))
+          },
+          "oversized": {
+            "price": originalData.oversized.price,
+            "sizes": originalData.oversized.sizes.map(size => ({
+              "size": size.size,
+              "colors": size.colors.map(color => ({
+                "color": color.color,
+                "count": color.count
+              }))
+            }))
+          }
+        }
+      };
+      return { status: 200, data: data, message: "Fetched product details successfully." };
     } catch (error) {
       return {
         error: error,
