@@ -29,7 +29,7 @@ export const ourDetails = {
   ourBrand: `
     <div>
         <p>
-            <strong>LUTUI</strong> being a Textile brand was Established on 1st April 2025. The word ‘Lutui’ means cloth in Khadia. 
+            <strong>LUTUI</strong> being a Textile brand was Established on 10th April 2025. The word ‘Lutui’ means cloth in Khadia. 
             At <strong>LUTUI</strong>, we believe Adivasi communities hold immense potential to contribute meaningfully to both the national and global textile industries — not merely in terms of GDP, but through dismantling stigma, strengthening rural livelihoods, and championing sustainable practices. 
             Central to <strong>LUTUI</strong>'s mission is the commitment to reposition Adivasis at the heart of textile production, moving them from the periphery to the center. 
             Moreover, <strong>LUTUI</strong> aspires to challenge and redefine prevailing notions of aesthetics, fashion, and value, forging a path towards sustainable modernity informed by Adivasi perspectives and wisdom.

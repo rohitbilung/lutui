@@ -22,13 +22,12 @@ const BillingDetailsForm = () => {
       {field("lastName", "Last Name")}
       {field("email", "E-Mail", "email")}
       {field("phone", "Telephone")}
-      {field("company", "Company", "text", true)}
-      {field("address", "Address", "text", true)}
-      {field("apartment", "Apartment")}
+      {field("address", "Address1", "text", true)}
+      {field("address", "Address2", "text", true)}
+      {field("pincode", "Pincode")}
       {field("city", "City")}
-      {field("postCode", "Post Code")}
-      {field("country", "Country")}
       {field("state", "Region / State")}
+      {field("country", "Country")}
       <div className="col-span-2">
         <Label htmlFor="notes" className="mb-2">Order Notes</Label>
         <Textarea id="notes" {...register("notes")} />

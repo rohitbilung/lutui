@@ -7,6 +7,7 @@ const ProductCard = ({ product }) => {
   if (!product) return null;
 
   const visitProductDetails = () => {
+    window.scrollTo(0, 0),
     navigate(`/product/${product._id}`);
   };
 

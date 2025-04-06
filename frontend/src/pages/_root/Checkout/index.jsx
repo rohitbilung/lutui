@@ -42,7 +42,7 @@ const Checkout = () => {
             className="grid md:grid-cols-2 gap-6"
           >
             <div className="px-2">
-              <h2 className="text-xl font-semibold mb-4">Billing Details</h2>
+              <h2 className="text-xl font-semibold mb-4 underline">Billing & Shipping Details</h2>
               <BillingDetailsForm />
             </div>
             <div className="flex flex-col gap-4 px-2">
