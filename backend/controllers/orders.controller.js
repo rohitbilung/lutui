@@ -20,8 +20,8 @@ module.exports = {
         }
     },
     
-    removeAnItemFromCart : async (req,res)=> {
-        let result = await orderService.removeAnItemFromCart(req.body)
+    removeCountFromCart : async (req,res)=> {
+        let result = await orderService.removeCountFromCart(req.body, req.user)
         if(result){
             sendSuccessResponse(req, res, result)
         }else{
@@ -29,8 +29,8 @@ module.exports = {
         }
     },
 
-    removeProductCart : async (req,res)=> {
-        let result = await orderService.removeProductCart(req.body)
+    removeProductFromCart : async (req,res)=> {
+        let result = await orderService.removeProductFromCart(req.body, req.user)
         if(result){
             sendSuccessResponse(req, res, result)
         }else{

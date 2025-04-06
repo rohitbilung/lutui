@@ -72,9 +72,13 @@ module.exports = {
         }
     },
 
-    removeAnItemFromCart: async (body) => {
+    removeCountFromCart: async (body, user) => {
+        body.userId = user ? user.userid : "67ee17e251b612d68caf0bc7"
         try {
-            let data = await orderModel.removeAnProductCart(body)
+            let cartExist = await orderModel.getCart(body)
+            body.totalPrice = Number(cartExist.totalPrice)-Number((body.price))
+            console.log(body)
+            let data = await orderModel.removeCountFromCart(body)
             if (data.modifiedCount === 1) {
                 return { status: 200, data: "", message: "Product modified successful" }
             } else {
@@ -87,9 +91,13 @@ module.exports = {
         }
     },
 
-    removeProductCart: async (body) => {
+    removeProductFromCart: async (body, user) => {
+        body.userId = user ? user.userid: "67ee17e251b612d68caf0bc7"
         try {
-            let data = await orderModel.removeProductCart(body)
+            let cartExist = await orderModel.getCart(body)
+            body.totalPrice = Number(cartExist.totalPrice)-Number((body.price*body.quantity))
+            let data = await orderModel.removeProductFromCart(body)
+            console.log(data)
             if (data.modifiedCount === 1) {
                 return { status: 200, data: "", message: "Product modified successful" }
             } else {

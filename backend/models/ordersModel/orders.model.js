@@ -7,7 +7,7 @@ module.exports = {
         try {
             let params = {
                 userId: body.userId,
-                "paymentStatus": body.paymentStatus
+                "paymentStatus": body.paymentStatus?body.paymentStatus:"pending"
             }
             let res = await Order.findOne(params)
             return res
@@ -15,7 +15,7 @@ module.exports = {
             return error
         }
     },
-    
+
     getPopulateCart: async (body) => {
         try {
             let params = {
@@ -23,8 +23,8 @@ module.exports = {
                 "paymentStatus": body.paymentStatus
             }
             let res = await Order.findOne(params)
-            .populate('userId')
-            .populate('products.productId','name category _id')
+                .populate('userId')
+                .populate('products.productId', 'name category _id')
             return res
         } catch (error) {
             return error
@@ -66,6 +66,7 @@ module.exports = {
         try {
             let res = await Order.updateOne(
                 {
+                    userId: body.userId,
                     "products.productId": body.productId,
                     paymentStatus: "pending"
                 },
@@ -74,12 +75,13 @@ module.exports = {
                         totalPrice: body.totalPrice,
                     },
                     $inc: {
-                        "products.$[elem].quantity": body.quantity
+                        "products.$[elem].quantity": 1
                     },
                 },
                 {
                     arrayFilters: [
                         {
+                            "elem.productId": body.productId,
                             "elem.size": body.size,
                             "elem.type": body.type,
                             "elem.color": body.color
@@ -93,7 +95,7 @@ module.exports = {
         }
     },
 
-    removeAnProductCart: async (body) => {
+    removeCountFromCart: async (body) => {
         try {
             let res = await Order.updateOne(
                 {
@@ -103,8 +105,33 @@ module.exports = {
                 },
                 {
                     $set: {
-                        "products.$.quantity": body.quantity, // Update the qty for the matched product
-                        totalPrice: body.totalPrice, // Update the total price
+                        totalPrice: body.totalPrice,
+                    },
+                    $inc: {
+                        "products.$[elem].quantity": -1
+                    },
+                },
+                {
+                    arrayFilters: [
+                        {
+                            "elem.productId": body.productId,
+                            "elem.size": body.size,
+                            "elem.type": body.type,
+                            "elem.color": body.color
+                        }
+                    ]
+                }
+            );
+            await Order.updateOne(
+                {
+                    userId: body.userId,
+                    paymentStatus: "pending",
+                },
+                {
+                    $pull: {
+                        products: {
+                            quantity: 0, // Remove product if quantity is zero
+                        },
                     },
                 }
             );
@@ -114,22 +141,33 @@ module.exports = {
         }
     },
 
-    removeProductCart: async (body) => {
+    removeProductFromCart: async (body) => {
         try {
             let res = await Order.updateOne(
                 {
                     userId: body.userId,
+                    'products.productId': body.productId,
                     paymentStatus: "pending"
                 },
                 {
                     $pull: {
-                        "products": { "productId": body.productId }
+                        products: {
+                            productId: body.productId,
+                            color: body.color,
+                            size: body.size,
+                            type: body.type
+                        },
                     },
                     $set: {
                         "totalPrice": body.totalPrice
                     }
                 }
             )
+            await Order.deleteOne({
+                paymentStatus: "pending",
+                userId: body.userId,
+                products: { $size: 0 }
+              })
             return res
         } catch (error) {
             return error

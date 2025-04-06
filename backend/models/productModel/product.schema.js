@@ -19,7 +19,7 @@ const ColorDetailSchema = new Schema({
 const SizeDetailSchema = new Schema({
     size: {
         type: String,
-        enum: ['S', 'M', 'L', 'XL','XXL'],
+        enum: ['S', 'M', 'L', 'XL', 'XXL'],
         required: true
     },
     colors: [ColorDetailSchema]
@@ -67,10 +67,14 @@ const ProductsSchema = new Schema({
         type: Date,
         default: Date.now
     }
-});
+},
+    {
+        timestamps: true,
+    }
+);
 
 // Pre-save hook to update the updatedAt field
-ProductsSchema.pre('save', function(next) {
+ProductsSchema.pre('save', function (next) {
     this.updatedAt = Date.now();
     next();
 });

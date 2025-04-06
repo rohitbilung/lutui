@@ -3,8 +3,8 @@ const router = express.Router();
 const { 
     addCart,
     getCart,
-    removeAnItemFromCart,
-    removeProductCart,
+    removeCountFromCart,
+    removeProductFromCart,
     checkout
  } = require('../controllers/orders.controller');
  const {auth} = require('../middlewares/auth')
@@ -14,9 +14,9 @@ router.post('/add-to-cart', addCart);
 
 router.get('/get-cart-details/:userId', getCart);
 
-router.post('/remove-an-item-from-cart', removeAnItemFromCart);
+router.post('/remove-count-from-cart', removeCountFromCart); //this will remove the count of item
 
-router.post('/remove-items-cart', removeProductCart);
+router.post('/remove-item-from-cart', removeProductFromCart); //this will remove the items
 
 router.post('/checkout', checkout);
 
