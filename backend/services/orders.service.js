@@ -1,8 +1,16 @@
 const orderModel = require('../models/ordersModel/orders.model')
+const productModel = require('../models/productModel/product.model')
 
 module.exports = {
     addCart: async (body, user) => {
         try {
+            let product = await productModel.getProductsById(body.productId);
+            let productType = product[body.type];
+            let sizeDetails = productType.sizes.find(s => s.size === body.size);
+            let colorDetails = sizeDetails.colors.find(c => c.color === body.color);
+            if (colorDetails.count === 0) {
+                return { status: 404, data: {}, message: "Out Of Stock" }
+              }
             let insertData = {
                 "userId": body.userId ? body.userId :user.id,
                 "products": [
