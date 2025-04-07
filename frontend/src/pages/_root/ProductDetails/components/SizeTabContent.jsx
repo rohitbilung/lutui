@@ -63,10 +63,6 @@ const SizeTabContent = ({
           <strong>GSM:</strong> {tab === "regular" ? "180 GSM" : "220 GSM"}
         </div>
         <div>
-          <strong>Stocks:</strong> {colorData ? `${colorData.count} items` : "0 items"}
-        </div>
-
-        <div>
           <div className="flex gap-2 items-center">
             <strong>Size:</strong>
             <div>
@@ -96,7 +92,9 @@ const SizeTabContent = ({
               selected={colorData}
               setSelected={setColorData}
               size={shirtSize}
-              sizeTypeList={product.sizeType[tab].sizes}
+              sizeTypeList={
+                product.sizeType[tab].sizes.find((s) => s.size === shirtSize)?.colors || []
+              }
             />
           </div>
         </div>
