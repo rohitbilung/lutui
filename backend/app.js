@@ -37,9 +37,10 @@ app.use('/api/orders', ordersRoutes)
 app.use('/api', paymentRoutes)
 
 app.use(express.static(path.join(_dirname, '/frontend/dist')))
-// app.get('*',(req, res)=>{
-//     res.sendFile(path.resolve(_dirname, 'frontend', 'dist', 'index.html'));
-// })
+app.get('*',(req, res)=>{
+    res.sendFile(path.resolve(_dirname, 'frontend', 'dist', 'index.html'));
+})
+
 
 app.use(function (req, res, next) {
     res.status(404);
