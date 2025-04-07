@@ -10,9 +10,9 @@ module.exports = {
             let colorDetails = sizeDetails.colors.find(c => c.color === body.color);
             if (colorDetails.count === 0) {
                 return { status: 404, data: {}, message: "Out Of Stock" }
-              }
+            }
             let insertData = {
-                "userId": body.userId ? body.userId :user.id,
+                "userId": body.userId ? body.userId : user.id,
                 "products": [
                     {
                         "productId": body.productId,
@@ -33,15 +33,15 @@ module.exports = {
                 return { status: 201, data: cart, message: "cart added successful" }
             } else {
                 let productExists = false, tp;
-                body.totalPrice = Number(cartExist.totalPrice)+Number((body.price*body.quantity))
+                body.totalPrice = Number(cartExist.totalPrice) + Number((body.price * body.quantity))
                 for (let product of cartExist.products) {
                     console.log(product.type)
                     console.log(body.type)
-                  if (product.productId.equals(body.productId) && product.type === body.type && product.color === body.color && product.size === body.size) {
-                    let updateExistProduct = await orderModel.updateExistingCombinedProducts(body)
-                    productExists = true;
-                    break;
-                  }
+                    if (product.productId.equals(body.productId) && product.type === body.type && product.color === body.color && product.size === body.size) {
+                        let updateExistProduct = await orderModel.updateExistingCombinedProducts(body)
+                        productExists = true;
+                        break;
+                    }
                 }
                 if (!productExists) {
                     let product = {
@@ -65,6 +65,7 @@ module.exports = {
     },
 
     getCart: async (params, user) => {
+        params.userId = user ? user.id : params.userId
         try {
             params.paymentStatus = "pending"
             let data = await orderModel.getPopulateCart(params)
@@ -81,10 +82,10 @@ module.exports = {
     },
 
     removeCountFromCart: async (body, user) => {
-        body.userId = user ? user.userid : "67ee17e251b612d68caf0bc7"
+        body.userId = user ? user.id : body.userId
         try {
             let cartExist = await orderModel.getCart(body)
-            body.totalPrice = Number(cartExist.totalPrice)-Number((body.price))
+            body.totalPrice = Number(cartExist.totalPrice) - Number((body.price))
             console.log(body)
             let data = await orderModel.removeCountFromCart(body)
             if (data.modifiedCount === 1) {
@@ -100,10 +101,10 @@ module.exports = {
     },
 
     removeProductFromCart: async (body, user) => {
-        body.userId = user ? user.userid: "67ee17e251b612d68caf0bc7"
+        body.userId = user ? user.id : body.userId
         try {
             let cartExist = await orderModel.getCart(body)
-            body.totalPrice = Number(cartExist.totalPrice)-Number((body.price*body.quantity))
+            body.totalPrice = Number(cartExist.totalPrice) - Number((body.price * body.quantity))
             let data = await orderModel.removeProductFromCart(body)
             console.log(data)
             if (data.modifiedCount === 1) {
@@ -119,9 +120,18 @@ module.exports = {
     },
 
     checkout: async (body, user) => {
+        body.userId = user ? user.id : body.userId
         try {
-            if(user){}
-            
+            let cartOrder = await orderModel.getCart(body)
+
+            cartOrder.paymentMethod = body.paymentMethod;
+            cartOrder.shippingAddress = body.shippingAddress;
+            let totalPrice = 0;
+            cartOrder.products.forEach(item => {
+                totalPrice += Number(item.price * item.quantity);
+            });
+            cartOrder.totalPrice = totalPrice;
+
             let data = await orderModel.checkout(body)
             return { status: 200, data: "", message: "susscessfully" }
         } catch (error) {

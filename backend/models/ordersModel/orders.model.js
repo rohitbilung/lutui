@@ -174,4 +174,9 @@ module.exports = {
         }
     },
 
+    checkout: async (body) => {
+       let res = await Order.save(body);
+        return res
+    }
+
 }

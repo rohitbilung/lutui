@@ -7,13 +7,23 @@ const orderSchema = new mongoose.Schema({
         color: { type: String },
         size: { type: String },
         type: { type: String },
-        price: { type: String },
+        price: { type: Number },
         quantity: { type: Number },
     }],
     totalPrice: { type: Number },
-    paymentStatus: { type: String, default: 'pending' },
-    delhiveryStatus: { type: String, default: 'pending' }
-},
+    paymentStatus: { type: String, enum: ['pending', 'paid', 'failed'], default: 'pending' },
+    delhiveryStatus: { type: String, enum:['pending', 'shipped', 'delivered', 'canceled'], default: 'pending' },
+    paymentMethod: { type: String, enum: ['creditCard', 'upi', 'cod', 'razorpay'] },
+    shippingAddress: {
+      Address1: { type: String },
+      Address2: { type: String },
+      city: { type: String },
+      state: { type: String },
+      pincode: { type: String },
+      country: { type: String }
+    },
+    orderNotes: { type: String}
+},  
     {
         timestamps: true,
     }
