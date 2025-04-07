@@ -68,7 +68,7 @@ const ProductDetails = () => {
               {/* Left Section - Image Gallery */}
               <div className="flex flex-col-reverse md:flex-row gap-2 items-center w-full">
                 {/* Thumbnails */}
-                <div className="max-h-[400px] md:h-full flex md:flex-col md:mt-4 gap-2 overflow-x-auto overflow-y-hidden md:overflow-x-hidden md:overflow-y-auto">
+                <div className="max-h-[600px] md:h-full flex md:flex-col md:mt-4 gap-2 overflow-x-auto overflow-y-hidden md:overflow-x-hidden md:overflow-y-auto">
                   {product.images.map((img, index) => (
                     <img
                       key={index}
@@ -90,7 +90,7 @@ const ProductDetails = () => {
                   <img
                     src={selectedImage || product.images[0]}
                     alt={product.name}
-                    className="max-h-[400px] w-full object-contain"
+                    className="max-h-[500px] w-full object-contain"
                   />
                 </div>
               </div>
@@ -106,7 +106,7 @@ const ProductDetails = () => {
                     className="w-[400px]"
                     onValueChange={setSize}
                   >
-                    <TabsList className="grid w-full grid-cols-2">
+                    <TabsList className="grid w-full grid-cols-2 bg-red-100">
                       <TabsTrigger value="regular" className="cursor-pointer">
                         Regular Shirt
                       </TabsTrigger>

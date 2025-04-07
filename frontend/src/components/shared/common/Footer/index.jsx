@@ -25,7 +25,7 @@ const Footer = () => {
       {/* Footer Bottom */}
       <div className="bg-black py-3 text-center text-white">
         <p>
-          All rights reserved &#169; 2025 || <a href="#" className="hover:underline">lutui.com</a>
+          All rights reserved &#169; 2025 || <a href="#" className="hover:underline">lutui.in</a>
         </p>
       </div>
     </footer>
