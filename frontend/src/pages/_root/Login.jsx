@@ -17,7 +17,7 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { useLoginUser } from "../../lib/queries/Mutations";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ const Login = () => {
           <Form {...loginForm}>
             <form
               onSubmit={loginForm.handleSubmit(onSubmit)}
-              className="space-y-8 w-full"
+              className="space-y-4 mb-4 w-full"
             >
               <FormField
                 control={loginForm.control}
@@ -97,6 +97,13 @@ const Login = () => {
               </div>
             </form>
           </Form>
+
+          <div className="flex justify-center text-sm text-gray-600">
+            <span>Don’t have an account?</span>
+            <Link to="/register" className="ml-1 text-blue-600 hover:underline">
+              Create one
+            </Link>
+          </div>
         </div>
       </PageContent>
     </PageWrapper>
