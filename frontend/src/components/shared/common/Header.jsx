@@ -17,9 +17,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+// bg-[#440505]
 export default function Header({
-  className = "bg-[#440505] text-white",
+  className = "bg-[var(--lutui)] text-white",
   showShadow = false,
 }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
