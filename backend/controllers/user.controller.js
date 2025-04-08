@@ -42,7 +42,7 @@ module.exports = {
 
     getCurrentUsers: async (req, res) => {
 
-        let result = { status: 200 }
+        let result = { status: 200, data: req.user }
 
         if (result) {
             sendSuccessResponse(req, res, result)

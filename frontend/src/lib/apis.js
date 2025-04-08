@@ -54,6 +54,10 @@ export const loginUser = async (data) => {
   return await apiRequest({ method: "POST", url: '/user/login', data });
 }
 
+export const logoutUser = async (data) => {
+  return await apiRequest({ method: "GET", auth: true, url: '/user/logout' });
+}
+
 export const registerUser = async (data) => {
   return await apiRequest({ method: "POST", url: '/user/signup', data });
 }

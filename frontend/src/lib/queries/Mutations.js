@@ -4,7 +4,21 @@ import {
   // useQuery,
   // useQueryClient,
 } from "@tanstack/react-query";
-import { addToCart, createProduct, loginUser, registerUser, removeAnItemFromCart, removeItemsFromCart } from "../apis";
+import {
+  addToCart,
+  createProduct,
+  loginUser,
+  logoutUser,
+  registerUser,
+  removeAnItemFromCart,
+  removeItemsFromCart,
+} from "../apis";
+
+export const useLogoutUser = () => {
+  return useMutation({
+    mutationFn: () => logoutUser(),
+  });
+};
 
 export const useLoginUser = () => {
   return useMutation({
