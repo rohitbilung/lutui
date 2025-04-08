@@ -9,6 +9,7 @@ import OrderSummary from "./components/OrderSummary";
 import BillingDetailsForm from "./components/BillingDetailsForm";
 import { useAuth } from "../../../context/AuthContext";
 import { useEffect } from "react";
+import { CreditCard } from "lucide-react";
 
 const checkoutSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -61,6 +62,7 @@ const Checkout = () => {
               <OrderSummary />
               <PaymentMethodForm />
               <Button type="submit" className="w-full mt-4">
+                <CreditCard className="w-5 h-5" />
                 Place Order
               </Button>
             </div>

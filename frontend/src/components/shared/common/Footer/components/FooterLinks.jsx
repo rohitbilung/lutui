@@ -9,6 +9,9 @@ const FooterLinks = () => {
           <Link to="/about-us">About Us</Link>
         </li>
         <li>
+          <Link to="/pricing-policy">Pricing Policy</Link>
+        </li>
+        <li>
           <Link to="/privacy-policy">Privacy Policy</Link>
         </li>
         <li>
