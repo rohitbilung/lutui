@@ -12,7 +12,7 @@ const CartItem = ({ item }) => {
       <td className="border p-3 text-center">
         <div className="flex items-center justify-center gap-2">
           <Button
-            onClick={() => removeOneFromCart(item.productId._id)}
+            onClick={() => removeOneFromCart(item)}
             variant="outline"
             className="w-8"
           >
@@ -33,7 +33,7 @@ const CartItem = ({ item }) => {
           <span>₹{itemTotal}</span>
           <Button
             variant="ghost"
-            onClick={() => removeFromCart(item.productId._id)}
+            onClick={() => removeFromCart(item)}
             title="Remove Product"
           >
             ❌

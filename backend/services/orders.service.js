@@ -69,7 +69,7 @@ module.exports = {
         try {
             params.paymentStatus = "pending"
             let data = await orderModel.getPopulateCart(params)
-            if (data.length > 0) {
+            if (data) {
                 return { status: 200, data: data, message: "fetched cart successful" }
             } else {
                 return { status: 404, data: data, message: "No product available" }

@@ -1,7 +1,11 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useGetCart } from "../lib/queries/queries";
 import { useAuth } from "./AuthContext";
-import { useAddToCart, useRemoveAnItemFromCart, useRemoveItemsFromCart } from "../lib/queries/Mutations";
+import {
+  useAddToCart,
+  useRemoveAnItemFromCart,
+  useRemoveItemsFromCart,
+} from "../lib/queries/Mutations";
 import { toast } from "sonner";
 
 const CartContext = createContext(null);
@@ -11,23 +15,27 @@ export const CartProvider = ({ children }) => {
   const { user } = useAuth();
   const { mutateAsync: addItemToCart, isPending: isAddingToCart } =
     useAddToCart();
-  const { mutateAsync: removeItemsFromCart, isPending: isRemoving } = useRemoveItemsFromCart()
-  const { mutateAsync: removeAnItemFromCart, isPending: isRemovingAnItem } = useRemoveAnItemFromCart()
+  const { mutateAsync: removeItemsFromCart, isPending: isRemoving } =
+    useRemoveItemsFromCart();
+  const { mutateAsync: removeAnItemFromCart, isPending: isRemovingAnItem } =
+    useRemoveAnItemFromCart();
 
   const userId = useMemo(() => {
     if (user) return user._id;
     else return "";
   }, [user]);
 
-  const { data, isPending, refetch } = useGetCart({ userId })
+  const { data, isPending, refetch } = useGetCart({ userId });
 
   useEffect(() => {
     if (!isPending && data) {
       if (data.data) {
-        setCart([ ...data.data.products ]);
+        setCart([...data.data.products]);
+      } else {
+        setCart([]);
       }
     }
-  },[data, isPending])
+  }, [data, isPending]);
 
   const cartQuantity = useMemo(() => {
     if (cart.length > 0) {
@@ -37,21 +45,33 @@ export const CartProvider = ({ children }) => {
     }
   }, [cart]);
 
-  const isInCart = (_id) => {
-    return cart.some((item) => item.productId._id === _id && item.quantity > 0);
+  const isInCart = (product) => {
+    return cart.some((item) => 
+      item.productId._id === product.productId._id &&
+      item.color === product.color &&
+      item.size === product.size &&
+      item.type === product.type &&
+      item.quantity > 0
+    );
   };
 
-  const getItemQuantity = (_id) => {
-    const item = cart.find((item) => item.productId._id === _id);
+  const getItemQuantity = (product) => {
+    const item = cart.find((item) =>
+      item.productId._id === product.productId._id &&
+      item.color === product.color &&
+      item.size === product.size &&
+      item.type === product.type
+    );
     return item ? item.quantity : 0;
   };
 
   const addToCart = async (item) => {
-    const reqObject = { ...item, quantity: 1, productId: item.productId._id }
+    const reqObject = { ...item, quantity: 1, productId: item.productId._id };
     // calculate total from all products
-    const totalPrice = cart.reduce((acc, i) => acc + i.price * i.quantity, 0) + reqObject.price;
+    const totalPrice =
+      cart.reduce((acc, i) => acc + i.price * i.quantity, 0) + reqObject.price;
     const cartObject = { userId, ...reqObject, totalPrice };
-    const response = await addItemToCart(cartObject)
+    const response = await addItemToCart(cartObject);
     if (response.success) {
       toast.success(response.message);
       refetch();
@@ -60,19 +80,17 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const removeOneFromCart = async (_id) => {
-    // Create the updated cart array
-    const updatedCart = cart
-    .map((item) =>
-      item.productId._id === _id
-        ? { ...item, quantity: item.quantity - 1 }
-        : item
-    )
-    .filter((item) => item.quantity > 0); // Remove item if quantity becomes 0
-    console.log("updatedCart in removeonefromcart: ", updatedCart)
-
-    const totalPrice = updatedCart.reduce((acc, i) => acc + i.price * i.quantity, 0);
-    const response = await removeAnItemFromCart({ userId, productId: _id, totalPrice })
+  const removeOneFromCart = async (product) => {
+    const reqObject = {
+      userId,
+      productId: product.productId._id,
+      color: product.color,
+      size: product.size,
+      type: product.type,
+      price: product.price,
+      quantity: product.quantity,
+    };
+    const response = await removeAnItemFromCart({ ...reqObject })
     if (response.success) {
       toast.success(response.message);
       refetch();
@@ -80,15 +98,18 @@ export const CartProvider = ({ children }) => {
       toast.error(response.message);
     }
   };
-  
-  const removeFromCart = async (_id) => {
-    const updatedCart = cart.filter((item) => item.productId._id !== _id);
-    // const updatedCart = cart.filter((item) => item.productId._id !== _id);
-    // API call to remove
-    console.log("updatedCart in removeFromCart: ", updatedCart)
 
-    const totalPrice = cart.reduce((acc, i) => acc + i.price * i.quantity, 0);
-    const response = await removeItemsFromCart({ userId, productId: _id, totalPrice })
+  const removeFromCart = async (product) => {
+    const reqObject = {
+      userId,
+      productId: product.productId._id,
+      color: product.color,
+      size: product.size,
+      type: product.type,
+      price: product.price,
+      quantity: product.quantity,
+    };
+    const response = await removeItemsFromCart({ ...reqObject });
     if (response.success) {
       toast.success(response.message);
       refetch();

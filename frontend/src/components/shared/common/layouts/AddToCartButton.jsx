@@ -10,7 +10,7 @@ const AddToCartButton = ({
 }) => {
   const navigate = useNavigate();
   const { addToCart, removeOneFromCart, isInCart, getItemQuantity } = useCart();
-  const quantity = getItemQuantity(product._id);
+  const quantity = getItemQuantity(product);
 
   const visitProductDetails = () => {
     navigate(`/product/${product._id}`);
@@ -23,10 +23,10 @@ const AddToCartButton = ({
 
   return (
     <div className="w-full flex items-center gap-1">
-      {isInCart(product._id) ? (
+      {isInCart(product) ? (
         <div className="flex flex-1 justify-between gap-2">
           <Button
-            onClick={() => removeOneFromCart(product._id)}
+            onClick={() => removeOneFromCart(product)}
             variant={btnVariant}
           >
             <MinusIcon />
