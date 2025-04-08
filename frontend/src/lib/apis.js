@@ -83,9 +83,9 @@ export const addToCart = async (data) => {
 }
 
 export const removeItemsFromCart = async (data) => {
-  return await apiRequest({ method: "POST", auth: true, data, url: `/orders/remove-items-cart` });
+  return await apiRequest({ method: "POST", auth: true, data, url: `/orders/remove-item-from-cart` });
 }
 
 export const removeAnItemFromCart = async (data) => {
-  return await apiRequest({ method: "POST", auth: true, data, url: `/orders/remove-an-item-from-cart` });
+  return await apiRequest({ method: "POST", auth: true, data, url: `/orders/remove-count-from-cart` });
 }
