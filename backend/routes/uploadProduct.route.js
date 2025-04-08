@@ -6,7 +6,20 @@ const fs = require('fs')
 require('dotenv').config();
 const {isLoggedIn, isAdmin} = require('../middlewares/check')
 
-const upload = multer({ dest: "uploads/" }).array("image", 5);
+const upload = multer({
+    dest: "uploads/",
+    fileFilter: (req, file, cb) => {
+        const allowedTypes = /jpg|jpeg|png/;
+        const mimeType = allowedTypes.test(file.mimetype);
+        const extName = allowedTypes.test(file.originalname.split('.').pop().toLowerCase());
+
+        if (mimeType && extName) {
+            return cb(null, true);  // File is valid, continue uploading
+        } else {
+            return cb(new Error('Only jpg, jpeg, and png images are allowed'), false);  // Invalid file type
+        }
+    },
+}).array("image", 5); // Limits to 5 images
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_API_CLOUDNAME,
@@ -17,7 +30,11 @@ cloudinary.config({
 router.post('/product-upload',isAdmin, upload, async (req, res) => {
     const files = req.files;
     const urls = [];
-
+    if (files.length > 5) {
+        return res.status(400).send({
+            message: "Cannot upload more than 5 images."
+        });
+    }
     try {
         // Use Promise.all to handle multiple asynchronous uploads
         await Promise.all(
