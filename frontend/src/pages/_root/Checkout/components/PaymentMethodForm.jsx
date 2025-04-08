@@ -10,16 +10,13 @@ const PaymentMethodForm = () => {
     <div>
       <h2 className="text-xl font-semibold mb-4">Payment Method</h2>
       <RadioGroup
-        defaultValue="bank"
+        defaultValue="razorpay"
         value={selected}
         onValueChange={(val) => setValue("paymentMethod", val)}
         className="space-y-2"
       >
         {[
-          { id: "bank", label: "Direct Bank Transfer" },
-          { id: "cheque", label: "Cheque Payment" },
-          { id: "paypal", label: "PayPal" },
-          { id: "card", label: "Payment Information" },
+          { id: "razorpay", label: "Razorpay Payment" },
         ].map(({ id, label }) => (
           <div key={id} className="flex items-center space-x-2">
             <RadioGroupItem value={id} id={id} />

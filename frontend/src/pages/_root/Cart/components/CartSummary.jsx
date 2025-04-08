@@ -1,3 +1,4 @@
+import { ShoppingCart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../../components/ui/button";
 import { useCart } from "../../../../context/CartContext";
@@ -6,7 +7,10 @@ const CartSummary = () => {
   const { cart } = useCart();
   const navigate = useNavigate();
 
-  const totalAmount = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const totalAmount = cart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
   return (
     <div className="p-4 border rounded-lg shadow-sm">
@@ -16,7 +20,14 @@ const CartSummary = () => {
         <Button onClick={() => navigate("/shop")} variant="outline">
           ⬅️ Continue Shopping
         </Button>
-        <Button variant="primary">Proceed to Checkout</Button>
+        <Button
+          variant="default"
+          className="cursor-pointer"
+          onClick={() => navigate("/checkout")}
+        >
+          <ShoppingCart className="w-5 h-5" />
+          Proceed to Checkout
+        </Button>
       </div>
     </div>
   );

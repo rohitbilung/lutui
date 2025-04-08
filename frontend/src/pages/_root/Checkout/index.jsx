@@ -7,27 +7,39 @@ import PageContent from "@/components/shared/common/layouts/PageContent";
 import PaymentMethodForm from "./components/PaymentMethodForm";
 import OrderSummary from "./components/OrderSummary";
 import BillingDetailsForm from "./components/BillingDetailsForm";
+import { useAuth } from "../../../context/AuthContext";
+import { useEffect } from "react";
 
 const checkoutSchema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
-  email: z.string().email(),
-  phone: z.string(),
-  company: z.string().optional(),
-  address: z.string(),
-  apartment: z.string(),
-  city: z.string(),
-  postCode: z.string(),
-  country: z.string(),
-  state: z.string(),
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email address"),
+  phone: z.string().min(1, "Phone number is required"),
+  address1: z.string().min(1, "Address is required"),
+  address2: z.string().optional(),
+  district: z.string().min(1, "District is required"),
+  state: z.string().min(1, "State is required"),
+  pincode: z.string().min(1, "PIN Code is required"),
+  country: z.string().min(1, "Country is required"),
   notes: z.string().optional(),
-  paymentMethod: z.string(),
+  paymentMethod: z.string().min(1, "Payment method is required"),
 });
 
 const Checkout = () => {
+  const { user } = useAuth()
   const methods = useForm({
     resolver: zodResolver(checkoutSchema),
   });
+
+  useEffect(() => {
+    if (user) {
+      methods.reset({
+        ...methods.getValues(), // preserve other values if already filled
+        name: user.name || "",
+        email: user.email || "",
+        phone: user.mobile || "",
+      });
+    }
+  },[user])
 
   const onSubmit = (data) => {
     console.log("Checkout data:", data);
