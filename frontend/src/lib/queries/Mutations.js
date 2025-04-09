@@ -6,6 +6,8 @@ import {
 } from "@tanstack/react-query";
 import {
   addToCart,
+  checkoutCart,
+  createPayment,
   createProduct,
   loginUser,
   logoutUser,
@@ -53,5 +55,17 @@ export const useRemoveItemsFromCart = () => {
 export const useRemoveAnItemFromCart = () => {
   return useMutation({
     mutationFn: (data) => removeAnItemFromCart(data),
+  });
+};
+
+export const useCreatePayment = () => {
+  return useMutation({
+    mutationFn: (data) => createPayment(data),
+  });
+};
+
+export const useCheckoutCart = () => {
+  return useMutation({
+    mutationFn: (data) => checkoutCart(data),
   });
 };

@@ -45,22 +45,29 @@ export const CartProvider = ({ children }) => {
     }
   }, [cart]);
 
+  const totalPrice = useMemo(() => {
+    const sum = cart.reduce((acc, i) => acc + i.price * i.quantity, 0);
+    return sum;
+  }, [cart]);
+
   const isInCart = (product) => {
-    return cart.some((item) => 
-      item.productId._id === product.productId._id &&
-      item.color === product.color &&
-      item.size === product.size &&
-      item.type === product.type &&
-      item.quantity > 0
+    return cart.some(
+      (item) =>
+        item.productId._id === product.productId._id &&
+        item.color === product.color &&
+        item.size === product.size &&
+        item.type === product.type &&
+        item.quantity > 0
     );
   };
 
   const getItemQuantity = (product) => {
-    const item = cart.find((item) =>
-      item.productId._id === product.productId._id &&
-      item.color === product.color &&
-      item.size === product.size &&
-      item.type === product.type
+    const item = cart.find(
+      (item) =>
+        item.productId._id === product.productId._id &&
+        item.color === product.color &&
+        item.size === product.size &&
+        item.type === product.type
     );
     return item ? item.quantity : 0;
   };
@@ -90,7 +97,7 @@ export const CartProvider = ({ children }) => {
       price: product.price,
       quantity: product.quantity,
     };
-    const response = await removeAnItemFromCart({ ...reqObject })
+    const response = await removeAnItemFromCart({ ...reqObject });
     if (response.success) {
       toast.success(response.message);
       refetch();
@@ -127,6 +134,7 @@ export const CartProvider = ({ children }) => {
       value={{
         cart,
         isInCart,
+        totalPrice,
         getItemQuantity,
         addToCart,
         removeOneFromCart,

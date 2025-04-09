@@ -93,3 +93,11 @@ export const removeItemsFromCart = async (data) => {
 export const removeAnItemFromCart = async (data) => {
   return await apiRequest({ method: "POST", auth: true, data, url: `/orders/remove-count-from-cart` });
 }
+
+export const createPayment = async (data) => {
+  return await apiRequest({ method: "POST", auth: true, data, url: `/create-payment` });
+}
+
+export const checkoutCart = async (data) => {
+  return await apiRequest({ method: "POST", auth: true, data, url: `/orders/checkout` });
+}

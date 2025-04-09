@@ -27,7 +27,12 @@ const OrderSummary = () => {
               <td className="p-2">
                 {item.productId?.name || "Unnamed Product"}
               </td>
-              <td className="p-2 text-center">{item.color}</td>
+              <td className="p-2 text-center flex items-center justify-center">
+                <div
+                  className="h-5 w-5 rounded-full border-gray-400 "
+                  style={{ backgroundColor: item.color }}
+                ></div>
+              </td>
               <td className="p-2 text-center">{item.size}</td>
               <td className="p-2 text-center">{item.type}</td>
               <td className="p-2 text-center">₹{item.price}</td>

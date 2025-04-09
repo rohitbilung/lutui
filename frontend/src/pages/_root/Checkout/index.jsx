@@ -10,6 +10,15 @@ import BillingDetailsForm from "./components/BillingDetailsForm";
 import { useAuth } from "../../../context/AuthContext";
 import { useEffect } from "react";
 import { CreditCard } from "lucide-react";
+import {
+  useCheckoutCart,
+  useCreatePayment,
+} from "../../../lib/queries/Mutations";
+import { useCart } from "../../../context/CartContext";
+import { toast } from "sonner";
+import { API_URL, RAZORPAY_KEY_ID } from "../../../config";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const checkoutSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -26,10 +35,16 @@ const checkoutSchema = z.object({
 });
 
 const Checkout = () => {
-  const { user } = useAuth()
+  const navigate = useNavigate();
+  const { totalPrice } = useCart();
+  const { user } = useAuth();
   const methods = useForm({
     resolver: zodResolver(checkoutSchema),
   });
+  const { mutateAsync: checkoutCart, isPending: isCheckingOut } =
+    useCheckoutCart();
+  const { mutateAsync: createPayment, isPending: isCreatingPayment } =
+    useCreatePayment();
 
   useEffect(() => {
     if (user) {
@@ -38,12 +53,73 @@ const Checkout = () => {
         name: user.name || "",
         email: user.email || "",
         phone: user.mobile || "",
+        paymentMethod: "razorpay",
       });
     }
-  },[user])
+  }, [user]);
 
-  const onSubmit = (data) => {
-    console.log("Checkout data:", data);
+  const onSubmit = async (values) => {
+    if (isCheckingOut) return;
+    const response = await checkoutCart({
+      userId: user._id,
+      name: values.name,
+      email: values.email,
+      phone: values.phone,
+      shippingAddress: {
+        Address1: values.address1,
+        Address2: values.address2,
+        district: values.district,
+        state: values.state,
+        pincode: values.pincode,
+        country: values.country,
+      },
+      paymentMethod: values.paymentMethod,
+      orderNotes: values.notes,
+    });
+    if (response.success) {
+      confirmPayment();
+    } else {
+      toast.error(response.message);
+    }
+  };
+
+  const confirmPayment = async () => {
+    if (isCreatingPayment) return;
+    try {
+      const response = await createPayment({ amount: totalPrice });
+      if (response.success) {
+        const options = {
+          key: response.key_id, // Replace with your key
+          amount: response.amount,
+          currency: response.currency,
+          name: "Lutui.in",
+          description: "Product purchase payment",
+          order_id: response.order_id,
+          handler: async (response) => {
+            await axios({
+              method: "POST",
+              url: `${API_URL}/api/verify-payment`,
+              withCredentials: true,
+              data: response,
+            });
+            toast.success("Payment Successful");
+            methods.reset();
+            setTimeout(() => {
+              navigate("/");
+            }, 3000);
+          },
+          theme: { color: "#3399cc" },
+        };
+
+        const razor = new window.Razorpay(options);
+        razor.open();
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      console.log("Error while creating payment: ", error);
+      toast.error("Payment Error");
+    }
   };
 
   return (
@@ -55,13 +131,19 @@ const Checkout = () => {
             className="grid md:grid-cols-2 gap-6"
           >
             <div className="px-2">
-              <h2 className="text-xl font-semibold mb-4 underline">Billing & Shipping Details</h2>
+              <h2 className="text-xl font-semibold mb-4 underline">
+                Billing & Shipping Details
+              </h2>
               <BillingDetailsForm />
             </div>
             <div className="flex flex-col gap-4 px-2">
               <OrderSummary />
               <PaymentMethodForm />
-              <Button type="submit" className="w-full mt-4">
+              <Button
+                type="submit"
+                className="w-full mt-4 cursor-pointer"
+                disabled={isCheckingOut || isCreatingPayment}
+              >
                 <CreditCard className="w-5 h-5" />
                 Place Order
               </Button>
