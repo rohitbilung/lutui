@@ -175,7 +175,15 @@ module.exports = {
     },
 
     checkout: async (body) => {
-       let res = await Order.save(body);
+       let res = await Order.updateOne(
+        { 
+            userId: body.userId,
+            paymentStatus: "pending"
+        },
+        {
+            $set: body
+        }
+       );
         return res
     }
 

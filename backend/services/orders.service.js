@@ -122,15 +122,15 @@ module.exports = {
     checkout: async (body, user) => {
         body.userId = user ? user.id : body.userId
         try {
-            let cartOrder = await orderModel.getCart(body)
+            // let cartOrder = await orderModel.getCart(body)
 
-            cartOrder.paymentMethod = body.paymentMethod;
-            cartOrder.shippingAddress = body.shippingAddress;
-            let totalPrice = 0;
-            cartOrder.products.forEach(item => {
-                totalPrice += Number(item.price * item.quantity);
-            });
-            cartOrder.totalPrice = totalPrice;
+            // cartOrder.paymentMethod = body.paymentMethod;
+            // cartOrder.shippingAddress = body.shippingAddress;
+            // let totalPrice = 0;
+            // cartOrder.products.forEach(item => {
+            //     totalPrice += Number(item.price * item.quantity);
+            // });
+            // cartOrder.totalPrice = totalPrice;
 
             let data = await orderModel.checkout(body)
             return { status: 200, data: "", message: "susscessfully" }

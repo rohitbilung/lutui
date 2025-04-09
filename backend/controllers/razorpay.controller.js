@@ -1,5 +1,6 @@
 const Razorpay = require('razorpay');
 const crypto = require('crypto')
+const ordersModel = require('../models/ordersModel/orders.model')
 require('dotenv').config();
 
 module.exports = {
@@ -43,8 +44,9 @@ module.exports = {
                 .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
                 .update(`${razorpay_order_id}|${razorpay_payment_id}`)
                 .digest("hex");
-            console.log(generated_signature === razorpay_signature)
+            
             if (generated_signature === razorpay_signature) {
+                // await ordersModel.
                 res.json({ success: true, payment_id: razorpay_payment_id });
             } else {
                 res.status(400).json({ success: false, message: "Invalid signature" });
