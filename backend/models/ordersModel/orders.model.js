@@ -185,6 +185,21 @@ module.exports = {
         }
        );
         return res
+    },
+
+    updatePaymentInfoToCart: async (user, status) => {
+       let res = await Order.updateOne(
+        { 
+            userId: user.id,
+            paymentStatus: "pending"
+        },
+        {
+            $set: {
+                paymentStatus : status
+            }
+        }
+       );
+        return res
     }
 
 }

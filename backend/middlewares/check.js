@@ -14,7 +14,6 @@ const isLoggedIn = async (req, res, next) => {
       });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    console.log(decoded)
     const user = await UserModel.findById(decoded.id);
     if (!user) {
       return res

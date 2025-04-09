@@ -46,9 +46,10 @@ module.exports = {
                 .digest("hex");
             
             if (generated_signature === razorpay_signature) {
-                // await ordersModel.
+                await ordersModel.updatePaymentInfoToCart(req.user,"paid")
                 res.json({ success: true, payment_id: razorpay_payment_id });
             } else {
+                await ordersModel.updatePaymentInfoToCart(req.user,"failed")
                 res.status(400).json({ success: false, message: "Invalid signature" });
             }
         } catch (error) {
