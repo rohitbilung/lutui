@@ -23,10 +23,10 @@ export const useGetProductByID = ({ productId }) => {
   });
 };
 
-export const useGetProducts = ({ limit, page }) => {
+export const useGetProducts = ({ limit, page, category='' }) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_PRODUCT_LIST, limit, page],
-    queryFn: ({ signal }) => getProductList({ signal, limit, page }),
+    queryKey: [QUERY_KEYS.GET_PRODUCT_LIST, limit, page, category],
+    queryFn: ({ signal }) => getProductList({ signal, limit, page, category }),
     refetchOnWindowFocus: false,
   });
 };

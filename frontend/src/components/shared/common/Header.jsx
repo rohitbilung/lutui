@@ -57,28 +57,28 @@ export default function Header({
             hidden: !mobileNavOpen,
           })}
         >
-          <Link to="/" className="hover:text-gray-600">
+          <Link to="/" className="hover:text-gray-600 cursor-pointer">
             Home
           </Link>
           <span className="hover:text-gray-600 capitalize">
             <HoverCard>
-              <HoverCardTrigger>Products</HoverCardTrigger>
+              <HoverCardTrigger className="cursor-pointer">Products</HoverCardTrigger>
               <HoverCardContent className="bg-[#440505] border-0 z-[100]">
                 <div className="flex flex-col gap-2">
                   <Link
-                    to="/coming-soon"
+                    to={`/product-list/${encodeURIComponent('T-Shirts')}`}
                     className="text-white hover:text-white/75 capitalize rounded-xl text-center"
                   >
                     T-Shirts
                   </Link>
                   <Link
-                    to="/coming-soon"
+                    to={`/product-list/${encodeURIComponent('Tote Bags')}`}
                     className="text-white hover:text-white/75 capitalize rounded-xl text-center"
                   >
                     Tote Bags
                   </Link>
                   <Link
-                    to="/coming-soon"
+                    to={`/product-list/${encodeURIComponent('Pot Holders')}`}
                     className="text-white hover:text-white/75 capitalize rounded-xl text-center"
                   >
                     Pot Holders
@@ -89,7 +89,7 @@ export default function Header({
           </span>
           <span className="hover:text-gray-600 capitalize">
             <HoverCard>
-              <HoverCardTrigger>Collection</HoverCardTrigger>
+              <HoverCardTrigger className="cursor-pointer">Collection</HoverCardTrigger>
               <HoverCardContent className="bg-[#440505] border-0 z-[100]">
                 <div className="flex flex-col gap-2 text-center">
                   <Link
@@ -114,12 +114,6 @@ export default function Header({
               </HoverCardContent>
             </HoverCard>
           </span>
-          {/* <Link to="/about-us" className="hover:text-gray-600">
-            About Us
-          </Link>
-          <Link to="/blog" className="hover:text-gray-600">
-            Blog
-          </Link> */}
         </nav>
 
         <div>

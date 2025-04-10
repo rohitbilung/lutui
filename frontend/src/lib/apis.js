@@ -74,8 +74,8 @@ export const getProductByID = async ({ signal = null, productId = '' }) => {
   return await apiRequest({ method: "GET", signal, url: `/product/get-product-by-id?productId=${productId}` });
 }
 
-export const getProductList = async ({ signal = null, limit = 10, page = 1 }) => {
-  return await apiRequest({ method: "GET", paginate: true, signal, url: `/product/get-products?page=${page}&limit=${limit}` });
+export const getProductList = async ({ signal = null, limit = 10, page = 1, category="" }) => {
+  return await apiRequest({ method: "GET", paginate: true, signal, url: `/product/get-products?page=${page}&limit=${limit}&category=${category}` });
 }
 
 export const getCart = async ({ signal = null, userId }) => {

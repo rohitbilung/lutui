@@ -11,6 +11,7 @@ import {
   PricingPolicy,
   PrivacyPolicy,
   ProductDetails,
+  ProductList,
   Register,
   Terms,
 } from "./pages";
@@ -35,6 +36,8 @@ const App = () => {
           element={<CancellationPolicy />}
         />
         <Route path="/product/:productId" element={<ProductDetails />} />
+        <Route path="/product-list" element={<ProductList />} />
+        <Route path="/product-list/:product_type" element={<ProductList />} />
 
         <Route path="/" element={<ProtectedRoutes />}>
           <Route path="/cart" element={<Cart />} />
