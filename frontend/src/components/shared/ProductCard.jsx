@@ -18,7 +18,8 @@ const ProductCard = ({ product }) => {
         <img
           src={product.images[0]}
           alt={product.name}
-          className="w-full object-cover aspect-square cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+          // className="w-full object-cover aspect-square cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+          className="w-full aspect-[3/4] object-cover cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-lg"
           onClick={visitProductDetails}
         />
         {/* <div className="absolute inset-0 bg-black opacity-0 hover:opacity-20 transition-opacity duration-300"></div> */}
