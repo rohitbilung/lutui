@@ -137,7 +137,11 @@ const ProductDetails = () => {
                   </Tabs>
                 </div>
 
-                <AddToCartButton product={{ ...cartData, productId: product }} btnVariant="blue" />
+                <AddToCartButton
+                  product={{ ...cartData, productId: product }}
+                  disabled={colorData ? false : true}
+                  btnVariant="blue"
+                />
                 {/* {cartData && (
                   <AddToCartButton product={cartData} btnVariant="blue" />
                 )} */}

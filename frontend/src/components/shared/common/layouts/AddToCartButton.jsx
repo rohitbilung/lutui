@@ -9,6 +9,7 @@ const AddToCartButton = ({
   product,
   btnVariant = "secondary",
   showViewButton = false,
+  disabled = false,
 }) => {
   const navigate = useNavigate();
   const { addToCart, removeOneFromCart, isInCart, getItemQuantity } = useCart();
@@ -23,13 +24,14 @@ const AddToCartButton = ({
   const addItemToCart = (product) => {
     const itemObject = { ...product, quantity: quantity + 1 };
     addToCart(itemObject);
-  }
+  };
 
   return (
     <div className="w-full flex items-center gap-1">
       {isInCart(product) ? (
         <div className="flex flex-1 justify-between gap-2">
           <Button
+            disabled={disabled}
             onClick={() => removeOneFromCart(product)}
             variant={btnVariant}
           >
@@ -38,21 +40,26 @@ const AddToCartButton = ({
           <div className="text-lg font-semibold bg-white border w-full flex items-center justify-center cursor-not-allowed">
             <span>{quantity}</span>
           </div>
-          <Button onClick={() => addItemToCart(product)} variant={btnVariant}>
+          <Button
+            disabled={disabled}
+            onClick={() => addItemToCart(product)}
+            variant={btnVariant}
+          >
             <PlusIcon />
           </Button>
         </div>
       ) : (
         <Button
-        onClick={() =>{
-          if(!user){
-            toast.error("Please log in to proceed to checkout.");
-            navigate("/login")
-          }else{
-            addItemToCart(product)
-          }
-        } }
+          onClick={() => {
+            if (!user) {
+              toast.error("Please log in to proceed to checkout.");
+              navigate("/login");
+            } else {
+              addItemToCart(product);
+            }
+          }}
           variant={btnVariant}
+          disabled={disabled}
           className="flex-1"
         >
           ADD TO CART
