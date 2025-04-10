@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const slides = ["/banners/banner-1.png", "/banners/banner-2.png"];
+const slides = [
+  "/banners/banner-1.png",
+  "/banners/banner-2.png",
+  "/banners/banner-3.png",
+  "/banners/banner-4.jpeg",
+];
 
 export default function HomeSlider() {
   const [current, setCurrent] = useState(0);
@@ -15,6 +20,15 @@ export default function HomeSlider() {
   const prevSlide = () => {
     setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   };
+
+  // Auto-slide every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 4000);
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
 
   return (
     <div className="relative w-full h-64 md:h-[600px] overflow-hidden">
