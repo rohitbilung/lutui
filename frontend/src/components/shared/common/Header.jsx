@@ -62,23 +62,25 @@ export default function Header({
           </Link>
           <span className="hover:text-gray-600 capitalize">
             <HoverCard>
-              <HoverCardTrigger className="cursor-pointer">Products</HoverCardTrigger>
+              <HoverCardTrigger className="cursor-pointer">
+                Products
+              </HoverCardTrigger>
               <HoverCardContent className="bg-[#440505] border-0 z-[100]">
                 <div className="flex flex-col gap-2">
                   <Link
-                    to={`/product-list/${encodeURIComponent('T-Shirts')}`}
+                    to={`/product-list/${encodeURIComponent("T-Shirts")}`}
                     className="text-white hover:text-white/75 capitalize rounded-xl text-center"
                   >
                     T-Shirts
                   </Link>
                   <Link
-                    to={`/product-list/${encodeURIComponent('Tote Bags')}`}
+                    to={`/product-list/${encodeURIComponent("Tote Bags")}`}
                     className="text-white hover:text-white/75 capitalize rounded-xl text-center"
                   >
                     Tote Bags
                   </Link>
                   <Link
-                    to={`/product-list/${encodeURIComponent('Pot Holders')}`}
+                    to={`/product-list/${encodeURIComponent("Pot Holders")}`}
                     className="text-white hover:text-white/75 capitalize rounded-xl text-center"
                   >
                     Pot Holders
@@ -89,23 +91,25 @@ export default function Header({
           </span>
           <span className="hover:text-gray-600 capitalize">
             <HoverCard>
-              <HoverCardTrigger className="cursor-pointer">Collection</HoverCardTrigger>
+              <HoverCardTrigger className="cursor-pointer">
+                Collection
+              </HoverCardTrigger>
               <HoverCardContent className="bg-[#440505] border-0 z-[100]">
                 <div className="flex flex-col gap-2 text-center">
                   <Link
-                    to="/coming-soon"
+                    to={`/collection/${encodeURIComponent("Jethuari")}`}
                     className="text-white hover:text-white/75 capitalize rounded-xl text-center"
                   >
                     Jethuari
                   </Link>
                   <Link
-                    to="/coming-soon"
+                    to={`/collection/${encodeURIComponent("Khadia Tribe")}`}
                     className="text-white hover:text-white/75 capitalize rounded-xl text-center"
                   >
                     Khadia Tribe
                   </Link>
                   <Link
-                    to="/coming-soon"
+                    to={`/collection/${encodeURIComponent("Cuisines")}`}
                     className="text-white hover:text-white/75 capitalize rounded-xl text-center"
                   >
                     Cuisines

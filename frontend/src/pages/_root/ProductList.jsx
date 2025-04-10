@@ -7,14 +7,16 @@ import { Loader2 } from "lucide-react";
 import ProductCard from "../../components/shared/ProductCard";
 
 const ProductList = () => {
-  const { product_type } = useParams();
+  const { product_type, sub_category } = useParams();
   const category = decodeURIComponent(product_type);
+  const subCategory = decodeURIComponent(sub_category);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(30);
   const { data, isPending } = useGetProducts({
     page,
     limit,
     category: product_type ? category : "",
+    subCategory: sub_category ? subCategory : "",
   });
   const products = data?.data || [];
 
