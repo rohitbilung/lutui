@@ -2,6 +2,8 @@ import { EyeIcon, MinusIcon, PlusIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../ui/button";
 import { useCart } from "../../../../context/CartContext";
+import { useAuth } from "../../../../context/AuthContext";
+import { toast } from "sonner";
 
 const AddToCartButton = ({
   product,
@@ -11,6 +13,8 @@ const AddToCartButton = ({
   const navigate = useNavigate();
   const { addToCart, removeOneFromCart, isInCart, getItemQuantity } = useCart();
   const quantity = getItemQuantity(product);
+
+  const { user } = useAuth();
 
   const visitProductDetails = () => {
     navigate(`/product/${product._id}`);
@@ -40,7 +44,14 @@ const AddToCartButton = ({
         </div>
       ) : (
         <Button
-          onClick={() => addItemToCart(product)}
+        onClick={() =>{
+          if(!user){
+            toast.error("Please log in to proceed to checkout.");
+            navigate("/login")
+          }else{
+            addItemToCart(product)
+          }
+        } }
           variant={btnVariant}
           className="flex-1"
         >
