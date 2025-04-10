@@ -17,7 +17,7 @@ const ColorOptions = ({
   }, [selected, availableColors]);
 
   if (availableColors.length === 0) {
-    return <div className="text-sm text-gray-500">No colors available</div>;
+    return <div className="text-sm text-gray-500">Please select sizes</div>;
   }
 
   return availableColors.map((item, idx) => (
