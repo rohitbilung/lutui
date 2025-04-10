@@ -17,9 +17,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// bg-[#440505]
+// bg-[#440505] ,bg-[var(--lutui)]
 export default function Header({
-  className = "bg-[var(--lutui)] text-white",
+  className = "bg-[#440505] text-white",
   showShadow = false,
 }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -69,19 +69,19 @@ export default function Header({
                     to="/coming-soon"
                     className="text-white hover:text-white/75 capitalize rounded-xl text-center"
                   >
-                    T-Shirt
+                    T-Shirts
                   </Link>
                   <Link
                     to="/coming-soon"
                     className="text-white hover:text-white/75 capitalize rounded-xl text-center"
                   >
-                    Bag
+                    Tote Bags
                   </Link>
                   <Link
                     to="/coming-soon"
                     className="text-white hover:text-white/75 capitalize rounded-xl text-center"
                   >
-                    Apron
+                    Pot Holders
                   </Link>
                 </div>
               </HoverCardContent>
@@ -104,16 +104,22 @@ export default function Header({
                   >
                     Khadia Tribe
                   </Link>
+                  <Link
+                    to="/coming-soon"
+                    className="text-white hover:text-white/75 capitalize rounded-xl text-center"
+                  >
+                    Cuisines
+                  </Link>
                 </div>
               </HoverCardContent>
             </HoverCard>
           </span>
-          <Link to="/about-us" className="hover:text-gray-600">
+          {/* <Link to="/about-us" className="hover:text-gray-600">
             About Us
           </Link>
           <Link to="/blog" className="hover:text-gray-600">
             Blog
-          </Link>
+          </Link> */}
         </nav>
 
         {/* Cart Icon */}
