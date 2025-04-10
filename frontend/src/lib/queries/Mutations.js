@@ -1,9 +1,11 @@
 import {
   // keepPreviousData,
   useMutation,
+  useQueryClient,
   // useQuery,
   // useQueryClient,
 } from "@tanstack/react-query";
+import QUERY_KEYS from "./queryKeys";
 import {
   addToCart,
   checkoutCart,
@@ -14,6 +16,7 @@ import {
   registerUser,
   removeAnItemFromCart,
   removeItemsFromCart,
+  verifyPayment,
 } from "../apis";
 
 export const useLogoutUser = () => {
@@ -61,6 +64,16 @@ export const useRemoveAnItemFromCart = () => {
 export const useCreatePayment = () => {
   return useMutation({
     mutationFn: (data) => createPayment(data),
+  });
+};
+
+export const useVerifyPayment = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (data) => verifyPayment(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_CART_DETAILS] })
+    }
   });
 };
 

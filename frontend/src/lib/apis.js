@@ -98,6 +98,10 @@ export const createPayment = async (data) => {
   return await apiRequest({ method: "POST", auth: true, data, url: `/create-payment` });
 }
 
+export const verifyPayment = async (data) => {
+  return await apiRequest({ method: "POST", auth: true, data, url: `/verify-payment` });
+}
+
 export const checkoutCart = async (data) => {
   return await apiRequest({ method: "POST", auth: true, data, url: `/orders/checkout` });
 }

@@ -8,10 +8,18 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+import { useCart } from "../../../context/CartContext";
 
 const UserAvatar = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { clearCart } = useCart();
+
+  const handleLogout = () => {
+    clearCart();
+    logout();
+  }
+
   return user ? (
     <DropdownMenu>
       <DropdownMenuTrigger className="focus:outline-none">
@@ -24,7 +32,7 @@ const UserAvatar = () => {
         <DropdownMenuItem onClick={() => navigate("/profile")}>
           Profile
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={logout} className="text-red-500">
+        <DropdownMenuItem onClick={handleLogout} className="text-red-500">
           Logout
         </DropdownMenuItem>
       </DropdownMenuContent>

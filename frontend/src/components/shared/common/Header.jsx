@@ -122,8 +122,10 @@ export default function Header({
           </Link> */}
         </nav>
 
-        {/* Cart Icon */}
-        <CartIcon />
+        <div>
+          {/* Cart Icon */}
+          <CartIcon />
+        </div>
       </div>
     </header>
   );

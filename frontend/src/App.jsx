@@ -1,6 +1,4 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import {
   About,
   CancellationPolicy,
@@ -16,20 +14,10 @@ import {
   Register,
   Terms,
 } from "./pages";
+import ScrollToTop from "./components/shared/common/ScrollToTop";
 import ProtectedRoutes from "./components/shared/common/layouts/ProtectedRoutes";
 
 const App = () => {
-
-  const ScrollToTop = () => {
-    const { pathname } = useLocation();
-
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, [pathname]);
-
-    return null;
-  };
-
   return (
     <>
       <ScrollToTop />
@@ -48,10 +36,10 @@ const App = () => {
         />
         <Route path="/product/:productId" element={<ProductDetails />} />
 
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
-        {/* <Route path="/" element={<ProtectedRoutes />}>
-      </Route> */}
+        <Route path="/" element={<ProtectedRoutes />}>
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+        </Route>
 
         <Route path="/page-not-found" element={<PageNotFound />} />
 
