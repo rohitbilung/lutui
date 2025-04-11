@@ -13,13 +13,16 @@ module.exports = {
     if(query.subCategory!== ''){
       match['subCategory'] = query.subCategory
     }
+    if (query.search && query.search.trim() !== '') {
+      match['name'] = { $regex: query.search.trim(), $options: 'i' }; // case-insensitive regex
+    }
     try {
       let data = await Product.aggregate([
         { $match: match },
         {
           $project: {
             name: 1,
-            images: 1,
+            images: 1,  
             category: 1,
             createdAt: 1,
           },
