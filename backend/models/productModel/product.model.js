@@ -7,13 +7,11 @@ module.exports = {
     let page = Number(query.page),
       limit = Number(query.limit);
     let match = {}
-    for (let key in query) {
-      if (key === 'category') {
-        match['category'] = query[key];
-      }
-      if (key === 'subCategory') {
-        match['subCategory'] = query[key]
-      }
+    if(query.category!== ''){
+      match['category'] = query.category
+    }
+    if(query.subCategory!== ''){
+      match['subCategory'] = query.subCategory
     }
     try {
       let data = await Product.aggregate([
@@ -31,7 +29,7 @@ module.exports = {
         { $limit: limit },
       ]);
 
-      const total_records = await Product.countDocuments();
+      const total_records = await Product.countDocuments(match);
       const total_pages = Math.ceil(total_records / limit);
       let next_page = null;
       const viewed_records = (page - 1) * limit;
