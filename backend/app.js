@@ -3,9 +3,17 @@ const app = express();
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const path = require('path')
+require('dotenv').config();
+
+let url = []
+if(process.env.NODE_ENV === 'production'){
+    url.push(process.env.UI_PRODUCTION_URL)
+}else{
+    url.push(process.env.UI_LOCAL_URL)
+}
 
 let corsOptions = {
-    origin: ['http://localhost:5173'],
+    origin: url,
     methods: ["GET", "PUT", "POST", "OPTIONS"],
     allowedHeaders: [
         "Content-Type",
