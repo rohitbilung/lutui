@@ -1,6 +1,8 @@
 const Razorpay = require('razorpay');
 const crypto = require('crypto')
-const ordersModel = require('../models/ordersModel/orders.model')
+const ordersModel = require('../models/ordersModel/orders.model');
+const productModel = require('../models/productModel/product.model');
+
 require('dotenv').config();
 
 module.exports = {
@@ -46,6 +48,10 @@ module.exports = {
                 .digest("hex");
             
             if (generated_signature === razorpay_signature) {
+                let orders = await ordersModel.getCart(req.user)
+                for (const item of orders.products) {
+                    await productModel.updateQuantityOfProduct(item)
+                }
                 await ordersModel.updatePaymentInfoToCart(req.user,"paid")
                 res.json({ success: true, payment_id: razorpay_payment_id });
             } else {

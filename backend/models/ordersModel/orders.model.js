@@ -6,7 +6,7 @@ module.exports = {
     getCart: async (body) => {
         try {
             let params = {
-                userId: body.userId,
+                userId: body.userId ? body.userId: body._id,
                 "paymentStatus": body.paymentStatus?body.paymentStatus:"pending"
             }
             let res = await Order.findOne(params)
