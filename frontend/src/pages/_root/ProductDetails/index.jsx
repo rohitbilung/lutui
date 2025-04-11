@@ -106,7 +106,7 @@ const ProductDetails = () => {
                     className="w-[400px]"
                     onValueChange={setSize}
                   >
-                    <TabsList className="grid w-full grid-cols-2 bg-red-100">
+                    <TabsList className="grid w-full grid-cols-2 bg-[#00BF63]">
                       <TabsTrigger value="regular" className="cursor-pointer">
                         Regular Shirt
                       </TabsTrigger>
