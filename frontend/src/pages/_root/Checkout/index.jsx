@@ -13,6 +13,7 @@ import { CreditCard } from "lucide-react";
 import {
   useCheckoutCart,
   useCreatePayment,
+  useVerifyPayment,
 } from "../../../lib/queries/Mutations";
 import { useCart } from "../../../context/CartContext";
 import { toast } from "sonner";
@@ -45,6 +46,8 @@ const Checkout = () => {
     useCheckoutCart();
   const { mutateAsync: createPayment, isPending: isCreatingPayment } =
     useCreatePayment();
+  const { mutateAsync: verifyPayment, isPending: isVerifyingPayment } =
+    useVerifyPayment();
 
   useEffect(() => {
     if (user) {
@@ -77,14 +80,15 @@ const Checkout = () => {
       orderNotes: values.notes,
     });
     if (response.success) {
-      confirmPayment();
+      confirmPayment(values);
     } else {
       toast.error(response.message);
     }
   };
 
-  const confirmPayment = async () => {
+  const confirmPayment = async (values) => {
     if (isCreatingPayment) return;
+    const { name, email, phone } = values;
     try {
       const response = await createPayment({ amount: totalPrice });
       if (response.success) {
@@ -95,13 +99,13 @@ const Checkout = () => {
           name: "Lutui.in",
           description: "Product purchase payment",
           order_id: response.order_id,
+          prefill: {
+            name: name,
+            email: email,
+            contact: phone,
+          },
           handler: async (response) => {
-            await axios({
-              method: "POST",
-              url: `${API_URL}/api/verify-payment`,
-              withCredentials: true,
-              data: response,
-            });
+            await verifyPayment(response);
             toast.success("Payment Successful");
             methods.reset();
             setTimeout(() => {

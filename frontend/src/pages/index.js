@@ -6,6 +6,7 @@ export { default as Register } from "./_root/Register";
 export { default as Cart } from "./_root/Cart";
 export { default as Checkout } from "./_root/Checkout";
 export { default as ProductDetails } from "./_root/ProductDetails";
+export { default as ProductList } from "./_root/ProductList";
 export { default as InDevelopment } from "./_root/InDevelopment";
 export { default as CancellationPolicy } from "./_root/policies/CancellationPolicy";
 export { default as Terms } from "./_root/policies/Terms";

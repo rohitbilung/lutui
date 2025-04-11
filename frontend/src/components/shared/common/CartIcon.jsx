@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import { ShoppingBag } from "lucide-react";
 import { useCart } from "../../../context/CartContext";
+import { useAuth } from "../../../context/AuthContext";
 
 const CartIcon = () => {
+  const { isAuthenticated } = useAuth();
   const { cartQuantity } = useCart();
-  return (
+  
+  return isAuthenticated ? (
     <div className="relative">
       <Link to="/cart" className="relative" title="Go to Cart">
         <ShoppingBag className="w-6 h-6" />
@@ -13,7 +16,7 @@ const CartIcon = () => {
         </span>
       </Link>
     </div>
-  );
+  ) : null;
 };
 
 export default CartIcon;
