@@ -39,6 +39,10 @@ const ProductsSchema = new Schema({
         type: String,
         required: false,
     },
+    subCategory:{
+        type: String,
+        required: false
+    },
     description: {
         type: String,
         required: false,

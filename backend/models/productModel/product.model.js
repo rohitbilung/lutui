@@ -6,9 +6,18 @@ module.exports = {
   getProducts: async (query, pagination) => {
     let page = Number(query.page),
       limit = Number(query.limit);
+    let match = {}
+    for (let key in query) {
+      if (key === 'category') {
+        match['category'] = query[key];
+      }
+      if (key === 'subCategory') {
+        match['subCategory'] = query[key]
+      }
+    }
     try {
       let data = await Product.aggregate([
-        { $match: {} },
+        { $match: match },
         {
           $project: {
             name: 1,
@@ -172,4 +181,30 @@ module.exports = {
       return error;
     }
   },
+
+  updateQuantityOfProduct: async (data) => {
+
+    const update = {
+      $inc: {
+        [`${data.type}.sizes.$[sizeElem].colors.$[colorElem].count`]: -data.quantity
+      }
+    };
+
+    const arrayFilters = [
+      { 'sizeElem.size': data.size },
+      { 'colorElem.color': data.color }
+    ];
+
+    try {
+      let res = await Product.updateOne(
+        { _id: data.productId },
+        update,
+        { arrayFilters }
+      );
+      return res;
+    } catch (error) {
+      return error;
+    }
+  },
+
 };
