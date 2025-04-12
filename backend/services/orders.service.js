@@ -83,7 +83,7 @@ module.exports = {
     getCart: async (params, user) => {
         params.userId = user ? user.id : params.userId
         try {
-            params.paymentStatus = "pending"
+            params.paymentStatus = params.paymentStatus ? params.paymentStatus : "pending"
             let data = await orderModel.getPopulateCart(params)
             if (data) {
                 return { status: 200, data: data, message: "fetched cart successful" }
@@ -145,4 +145,28 @@ module.exports = {
             }
         }
     },
+
+    getOrders: async (query, pagination) => {
+        try {
+          let {
+            data,
+            pagination: paginationData,
+            error,
+          } = await orderModel.getOrders(query, pagination);
+          if (error) {
+            throw new Error(error.message);
+          }
+          return {
+            status: 200,
+            pagination: paginationData,
+            data: data,
+            message: "Orders have been fetched.",
+          };
+        } catch (error) {
+          return {
+            error: error,
+            pagination,
+          };
+        }
+      },
 }
