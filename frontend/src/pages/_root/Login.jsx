@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../lib/zodSchema";
@@ -18,9 +18,11 @@ import { useAuth } from "../../context/AuthContext";
 import { useLoginUser } from "../../lib/queries/Mutations";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
+import Spinner from "../../components/shared/common/Loader/Spinner";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const { mutateAsync: loginUser, isPending: isLoggingIn } = useLoginUser();
   const loginForm = useForm({
@@ -32,6 +34,8 @@ const Login = () => {
   });
 
   const onSubmit = async (values) => {
+    if (isLoading || isLoggingIn) return;
+    setIsLoading(true);
     const response = await loginUser(values);
     if (response.success) {
       const { token, data: userData } = response;
@@ -40,9 +44,11 @@ const Login = () => {
       await login({ token, userData });
       // Delay navigation by 2 seconds (2000ms)
       setTimeout(() => {
+        setIsLoading(false);
         navigate("/");
       }, 2000);
     } else {
+      setIsLoading(false);
       toast.error(response?.message || "Something went wrong!!!");
     }
   };
@@ -90,11 +96,21 @@ const Login = () => {
                   </FormItem>
                 )}
               />
-              <div className="flex justify-center items-center">
-                <Button type="submit" className="w-full" disabled={isLoggingIn}>
-                  Sign In
-                </Button>
-              </div>
+
+              <Button
+                type="submit"
+                className="w-full flex justify-center items-center cursor-pointer"
+                disabled={isLoading || isLoggingIn}
+              >
+                {isLoading || isLoggingIn ? (
+                  <>
+                    <Spinner text="" wrapperClassName="max-w-full" />
+                    <span>Loading...</span>
+                  </>
+                ) : (
+                  "Sign In"
+                )}
+              </Button>
             </form>
           </Form>
 
