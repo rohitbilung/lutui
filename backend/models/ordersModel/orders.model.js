@@ -135,6 +135,11 @@ module.exports = {
                     },
                 }
             );
+            await Order.deleteOne({
+                paymentStatus: "pending",
+                userId: body.userId,
+                products: { $size: 0 }
+              })
             return res;
         } catch (error) {
             return error;
