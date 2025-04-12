@@ -1,76 +1,90 @@
-import { useEffect } from "react";
-import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
+import { useState } from "react";
+import { Facebook, Twitter, Instagram, Youtube } from "lucide-react"; // adjust imports as needed
+import { motion } from "framer-motion"; // Import framer-motion
 
 const SocialIcons = () => {
-  useEffect(() => {
-    const buttons = document.querySelectorAll(".ripple-btn");
+  const [ripples, setRipples] = useState({});
 
-    buttons.forEach((btn) => {
-      btn.addEventListener("click", function (e) {
-        const circle = document.createElement("span");
-        const diameter = Math.max(btn.clientWidth, btn.clientHeight);
-        const radius = diameter / 2;
+  const createRipple = (e, index) => {
+    const button = e.currentTarget;
+    const diameter = Math.max(button.clientWidth, button.clientHeight);
+    const radius = diameter / 2;
 
-        circle.style.width = circle.style.height = `${diameter}px`;
-        circle.style.left = `${e.clientX - btn.getBoundingClientRect().left - radius}px`;
-        circle.style.top = `${e.clientY - btn.getBoundingClientRect().top - radius}px`;
-        circle.classList.add("ripple");
+    const left = e.clientX - button.getBoundingClientRect().left - radius;
+    const top = e.clientY - button.getBoundingClientRect().top - radius;
 
-        const ripple = btn.getElementsByClassName("ripple")[0];
+    const newRipple = {
+      left,
+      top,
+      diameter,
+      key: Date.now(),
+    };
 
-        if (ripple) {
-          ripple.remove();
-        }
+    setRipples((prev) => ({ ...prev, [index]: newRipple }));
 
-        btn.appendChild(circle);
-      });
-    });
-  }, []);
+    // Remove ripple after animation duration
+    setTimeout(() => {
+      setRipples((prev) => ({ ...prev, [index]: null }));
+    }, 600);
+  };
+
+  const socialItems = [
+    { icon: <Facebook />, color: "from-blue-500 to-blue-700", url: "" },
+    { icon: <Twitter />, color: "from-sky-400 to-sky-600", url: "" },
+    {
+      icon: <Instagram />,
+      color: "from-yellow-400 via-pink-500 to-purple-600",
+      url: "https://www.instagram.com/eugene_ke_cuisine/?hl=en",
+    },
+    { icon: <Youtube />, color: "from-red-500 to-red-700", url: "" },
+  ];
 
   return (
     <>
-      <style>{`
-        .ripple-btn {
-          position: relative;
-          overflow: hidden;
-          cursor: pointer;
-        }
-
-        .ripple-btn.disabled {
-          cursor: not-allowed;
-          opacity: 0.6;
-        }
-
-        .ripple {
-          position: absolute;
-          border-radius: 50%;
-          transform: scale(0);
-          animation: ripple 600ms linear;
-          background-color: rgba(255, 255, 255, 0.5);
-        }
-
-        @keyframes ripple {
-          to {
-            transform: scale(4);
-            opacity: 0;
-          }
-        }
-      `}</style>
-
       <div className="flex space-x-6 justify-center items-center mr-12">
-        {[
-          { icon: <Facebook />, color: "from-blue-500 to-blue-700", url: "" },
-          { icon: <Twitter />, color: "from-sky-400 to-sky-600", url: "" },
-          { icon: <Instagram />, color: "from-yellow-400 via-pink-500 to-purple-600", url: "https://www.instagram.com/eugene_ke_cuisine/?hl=en" },
-          { icon: <Youtube />, color: "from-red-500 to-red-700", url: "" },
-        ].map((item, index) => (
-          <a key={index} href={item.url || "#"} target={item.url ? "_blank" : ""} rel={item.url ? "noopener noreferrer" : ""}>
+        {socialItems.map((item, index) => (
+          <a
+            key={index}
+            href={item.url || "#"}
+            target={item.url ? "_blank" : ""}
+            rel={item.url ? "noopener noreferrer" : ""}
+          >
             <button
-              className={`ripple-btn p-3 rounded-full bg-gradient-to-br ${item.color} shadow-lg
-                          hover:scale-110 active:scale-90 transform transition duration-200 ${!item.url ? "disabled" : ""}`}
-              disabled={!item.url} // Disable the button if no URL
+              className={`relative overflow-hidden ripple-btn p-3 rounded-full bg-gradient-to-br ${
+                item.color
+              } shadow-lg 
+                          hover:scale-110 active:scale-90 transform transition duration-200 ${
+                            !item.url ? "cursor-not-allowed opacity-60" : "cursor-pointer"
+                          }`}
+              disabled={!item.url}
+              onClick={(e) => item.url && createRipple(e, index)}
             >
               <div className="text-white w-6 h-6">{item.icon}</div>
+
+              {/* Framer Motion for ripple animation */}
+              {ripples[index] && (
+                <motion.span
+                  className="absolute rounded-full bg-white opacity-50"
+                  style={{
+                    width: ripples[index].diameter,
+                    height: ripples[index].diameter,
+                    left: ripples[index].left,
+                    top: ripples[index].top,
+                  }}
+                  initial={{
+                    scale: 0,
+                    opacity: 1,
+                  }}
+                  animate={{
+                    scale: 4,
+                    opacity: 0,
+                  }}
+                  transition={{
+                    duration: 0.6,
+                    ease: "ease-out",
+                  }}
+                />
+              )}
             </button>
           </a>
         ))}

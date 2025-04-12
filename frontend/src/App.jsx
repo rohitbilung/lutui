@@ -40,9 +40,12 @@ const App = () => {
         <Route path="/product-list/:product_type" element={<ProductList />} />
         <Route path="/collection/:sub_category" element={<ProductList />} />
 
-        <Route path="/" element={<ProtectedRoutes />}>
+        <Route path="/" element={<ProtectedRoutes allowedRoles={['admin','user']} />}>
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+        </Route>
+
+        <Route path="/" element={<ProtectedRoutes allowedRoles={['admin']} />}>
         </Route>
 
         <Route path="/page-not-found" element={<PageNotFound />} />
