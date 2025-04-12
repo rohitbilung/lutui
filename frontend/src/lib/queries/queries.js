@@ -3,6 +3,7 @@ import QUERY_KEYS from "./queryKeys";
 import {
   getCart,
   getCurrentUser,
+  getOrders,
   getProductByID,
   getProductList,
 } from "../apis";
@@ -43,5 +44,19 @@ export const useGetCart = ({ userId }) => {
     queryFn: ({ signal }) => getCart({ signal, userId }),
     refetchOnWindowFocus: false,
     enabled: !!userId, // Prevent query from running if userId is missing
+  });
+};
+
+export const useGetOrders = ({
+  limit,
+  page,
+  userId = "",
+  paymentStatus = "",
+}) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_ORDER_LIST, limit, page, userId, paymentStatus],
+    queryFn: ({ signal }) =>
+      getOrders({ signal, limit, page, userId, paymentStatus }),
+    refetchOnWindowFocus: false,
   });
 };

@@ -132,6 +132,21 @@ export const getCart = async ({ signal = null, userId }) => {
   });
 };
 
+export const getOrders = async ({
+  signal = null,
+  limit = 10,
+  page = 1,
+  userId = "",
+  paymentStatus = "",
+}) => {
+  return await apiRequest({
+    method: "GET",
+    signal,
+    paginate: true,
+    url: `/product/get-orders?page=${page}&limit=${limit}&userId=${userId}&paymentStatus=${paymentStatus}`,
+  });
+};
+
 export const addToCart = async (data) => {
   return await apiRequest({
     method: "POST",

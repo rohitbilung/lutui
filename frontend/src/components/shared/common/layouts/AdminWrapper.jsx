@@ -1,12 +1,33 @@
+import { useRef, useState, useEffect } from "react";
 import NavBar from "../NavBar";
 
 const AdminWrapper = ({ children }) => {
+  const navRef = useRef();
+  const [sidebarWidth, setSidebarWidth] = useState(0);
+
+  useEffect(() => {
+    const updateSidebarWidth = () => {
+      if (navRef.current) {
+        setSidebarWidth(navRef.current.offsetWidth);
+      }
+    };
+
+    updateSidebarWidth();
+
+    // Optional: update on window resize
+    window.addEventListener("resize", updateSidebarWidth);
+    return () => window.removeEventListener("resize", updateSidebarWidth);
+  }, []);
+
   return (
     <div className="flex h-screen">
-      <NavBar />
+      <NavBar ref={navRef} userRole="admin" />
 
       {/* Main content */}
-      <main className="flex-1 bg-gray-100 overflow-y-auto">
+      <main
+        className="flex-1 bg-gray-100 overflow-y-auto transition-all duration-300"
+        style={{ marginLeft: sidebarWidth }}
+      >
         {children || <div>Welcome to Admin Panel</div>}
       </main>
     </div>
