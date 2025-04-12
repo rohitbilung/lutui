@@ -5,9 +5,12 @@ const Schema = mongoose.Schema;
 const ColorDetailSchema = new Schema({
     color: {
         type: String,
-        enum: ['red', 'black', 'white'],
+        enum: ['black', 'white'],
         required: true
     },
+    images : [{
+        type: String, required: false
+    }],
     count: {
         type: Number,
         required: true,

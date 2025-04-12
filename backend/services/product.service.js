@@ -18,7 +18,8 @@ module.exports = {
               "size": size.size,
               "colors": size.colors.map(color => ({
                 "color": color.color,
-                "count": color.count
+                "count": color.count,
+                "images" : color.images
               }))
             }))
           },
@@ -28,7 +29,8 @@ module.exports = {
               "size": size.size,
               "colors": size.colors.map(color => ({
                 "color": color.color,
-                "count": color.count
+                "count": color.count,
+                "images" : color.images
               }))
             }))
           }
