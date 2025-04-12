@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import {
   About,
+  AdminDashboard,
   CancellationPolicy,
   Cart,
   Checkout,
@@ -46,6 +47,7 @@ const App = () => {
         </Route>
 
         <Route path="/" element={<ProtectedRoutes allowedRoles={['admin']} />}>
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
         </Route>
 
         <Route path="/page-not-found" element={<PageNotFound />} />
