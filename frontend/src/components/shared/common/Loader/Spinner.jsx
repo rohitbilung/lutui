@@ -7,7 +7,7 @@ const Spinner = ({
   spinnerClassName,
   wrapperClassName,
   borderWidth = "border-4",
-  spinnerColors = "border-t-transparent border-r-pink-500 border-b-purple-500 border-l-indigo-500",
+  spinnerColors = "border-t-transparent border-r-pink-500 border-b-transparent border-l-indigo-500",
   sizeClass = "w-6 h-6", // Default small size for button usage
   overlayClassName = "bg-black/40 backdrop-blur-sm",
 }) => {
@@ -26,7 +26,7 @@ const Spinner = ({
         {/* Spinner Ring */}
         <div
           className={clsx(
-            "absolute inset-0 animate-spin rounded-full",
+            "absolute inset-0 animate-spin rounded-full border-2",
             borderWidth,
             spinnerColors,
             spinnerClassName

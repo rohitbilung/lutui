@@ -6,7 +6,7 @@ import Spinner from "../Loader/Spinner";
 const ProtectedRoutes = ({ allowedRoles = [] }) => {
   const { user, isLoading } = useAuth();
 
-  if (isLoading) return <Spinner text="Just a moment..." variant="overlay" sizeClass="w-36" />;
+  if (isLoading) return <Spinner text="Just a moment..." variant="overlay" sizeClass="w-40" borderWidth="border-8" />;
 
   if (!user) return <Navigate to={{ pathname: "/login", search: "?authorized=false" }} replace />;
 
