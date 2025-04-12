@@ -46,13 +46,17 @@ module.exports = {
                 .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
                 .update(`${razorpay_order_id}|${razorpay_payment_id}`)
                 .digest("hex");
-            
             if (generated_signature === razorpay_signature) {
+                let data = {
+                    status : "paid",
+                    orderId : razorpay_order_id,
+                    paymentId : razorpay_payment_id
+                }
                 let orders = await ordersModel.getCart(req.user)
                 for (const item of orders.products) {
                     await productModel.updateQuantityOfProduct(item)
                 }
-                await ordersModel.updatePaymentInfoToCart(req.user,"paid")
+                await ordersModel.updatePaymentInfoToCart(req.user, data)
                 res.json({ success: true, payment_id: razorpay_payment_id });
             } else {
                 await ordersModel.updatePaymentInfoToCart(req.user,"failed")

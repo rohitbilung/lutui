@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    paymentId: { type: String },
+    orderId: { type: String },
     products: [{
         productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Products' },
         color: { type: String },
@@ -12,18 +14,18 @@ const orderSchema = new mongoose.Schema({
     }],
     totalPrice: { type: Number },
     paymentStatus: { type: String, enum: ['pending', 'paid', 'failed'], default: 'pending' },
-    delhiveryStatus: { type: String, enum:['pending', 'shipped', 'delivered', 'canceled'], default: 'pending' },
+    delhiveryStatus: { type: String, enum: ['pending', 'shipped', 'delivered', 'canceled'], default: 'pending' },
     paymentMethod: { type: String, enum: ['creditCard', 'upi', 'cod', 'razorpay'] },
     shippingAddress: {
-      Address1: { type: String },
-      Address2: { type: String },
-      district: { type: String },
-      state: { type: String },
-      pincode: { type: String },
-      country: { type: String }
+        Address1: { type: String },
+        Address2: { type: String },
+        district: { type: String },
+        state: { type: String },
+        pincode: { type: String },
+        country: { type: String }
     },
-    orderNotes: { type: String}
-},  
+    orderNotes: { type: String }
+},
     {
         timestamps: true,
     }
