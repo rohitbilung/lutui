@@ -15,7 +15,7 @@ const FeaturedProducts = () => {
         With heartfelt joy, we share the first chapter of our journey with you.
         </p>
         <p className="text-[#440505]">
-        Our very first collection, designed with love, care, and  compassion.
+        Our very first collection, designed with love, care, compassion and pride.
         </p>
       </div>
       <hr className="border-t border-gray-300" />

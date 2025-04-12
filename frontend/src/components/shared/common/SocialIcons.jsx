@@ -34,7 +34,7 @@ const SocialIcons = () => {
     {
       icon: <Instagram />,
       color: "from-yellow-400 via-pink-500 to-purple-600",
-      url: "https://www.instagram.com/eugene_ke_cuisine/?hl=en",
+      url: "https://www.instagram.com/lutui.in/?hl=en",
     },
     { icon: <Youtube />, color: "from-red-500 to-red-700", url: "" },
   ];

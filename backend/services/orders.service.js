@@ -32,17 +32,32 @@ module.exports = {
                 let cart = await orderModel.addCart(insertData)
                 return { status: 201, data: cart, message: "cart added successful" }
             } else {
+                const findProduct = cartExist.products.find(product => 
+                    product.productId.toString() === body.productId &&
+                    product.type === body.type &&
+                    product.color === body.color &&
+                    product.size === body.size
+                );
+                
+                if (findProduct) {
+                    if (colorDetails.count < (findProduct.quantity + body.quantity)) {
+                        return { status: 404, data: {}, message: "Out Of Stock" };
+                    }
+                } else {
+                    if (colorDetails.count < body.quantity) {
+                        return { status: 404, data: {}, message: "Out Of Stock" };
+                    }
+                }
                 let productExists = false, tp;
                 body.totalPrice = Number(cartExist.totalPrice) + Number((body.price * body.quantity))
                 for (let product of cartExist.products) {
-                    console.log(product.type)
-                    console.log(body.type)
                     if (product.productId.equals(body.productId) && product.type === body.type && product.color === body.color && product.size === body.size) {
                         let updateExistProduct = await orderModel.updateExistingCombinedProducts(body)
                         productExists = true;
                         break;
                     }
                 }
+                console.log(productExists,"============")
                 if (!productExists) {
                     let product = {
                         "productId": body.productId,
@@ -53,6 +68,7 @@ module.exports = {
                         "quantity": body.quantity
                     }
                     body.product = product
+                    console.log(body)
                     let cart = await orderModel.updateCart(body)
                 }
                 return { status: 200, data: "cart", message: "cart update successful" }
@@ -86,7 +102,6 @@ module.exports = {
         try {
             let cartExist = await orderModel.getCart(body)
             body.totalPrice = Number(cartExist.totalPrice) - Number((body.price))
-            console.log(body)
             let data = await orderModel.removeCountFromCart(body)
             if (data.modifiedCount === 1) {
                 return { status: 200, data: "", message: "Product modified successful" }
