@@ -5,7 +5,8 @@ const {
     getCart,
     removeCountFromCart,
     removeProductFromCart,
-    checkout
+    checkout,
+    getOrders
  } = require('../controllers/orders.controller');
  const {auth} = require('../middlewares/auth')
  const {isLoggedIn, isAdmin} = require('../middlewares/check')
@@ -19,5 +20,7 @@ router.post('/remove-count-from-cart', removeCountFromCart); //this will remove 
 router.post('/remove-item-from-cart', removeProductFromCart); //this will remove the items
 
 router.post('/checkout', checkout);
+
+router.post('/get-orders', getOrders);
 
 module.exports = router;
