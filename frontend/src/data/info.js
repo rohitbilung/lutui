@@ -155,7 +155,7 @@ export const privacyPolicy = `
     </ul>
 
     <p class="mt-6">
-      For any privacy-related concerns, contact us at <a href="mailto:your@email.com" class="text-blue-600 hover:underline">your@email.com</a>.
+      For any privacy-related concerns, contact us at <a href="mailto:kayom@lutui.in" class="text-blue-600 hover:underline">kayom@lutui.in</a>.
     </p>
   </div>
 `;
@@ -169,7 +169,7 @@ export const terms = `
     <h2 class="text-xl font-semibold mt-6 mb-2">General Use</h2>
     <ul class="list-disc list-inside space-y-1 mb-4">
       <li>LUTUI provides textile products that reflect Adivasi traditions and promote sustainable fashion.</li>
-      <li>All prices are listed in <strong>[Currency]</strong> and are subject to change without prior notice.</li>
+      <li>All prices are listed in <strong>Rupees</strong> and are subject to change without prior notice.</li>
     </ul>
 
     <h2 class="text-xl font-semibold mt-6 mb-2">Orders & Payments</h2>
@@ -239,7 +239,7 @@ export const cancellationAndRefundPolicy = `
     </ul>
 
     <p class="mt-4">
-      For any issues related to cancellations or refunds, contact us at <strong>[Your Contact Email]</strong>.
+      For any issues related to cancellations or refunds, contact us at <strong>kayom@lutui.in</strong>.
     </p>
   </div>
 `;
