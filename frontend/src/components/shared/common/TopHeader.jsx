@@ -18,7 +18,7 @@ const TopHeader = () => {
         {/* Left Section: Currency, Language, and Phone */}
         <div className="flex items-center space-x-4">
           {/* Currency Dropdown */}
-          <DropdownMenu>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
@@ -32,10 +32,10 @@ const TopHeader = () => {
               <DropdownMenuItem>USD</DropdownMenuItem>
               <DropdownMenuItem>EUR</DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
 
           {/* Language Dropdown */}
-          <DropdownMenu>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
@@ -49,12 +49,12 @@ const TopHeader = () => {
               <DropdownMenuItem>Hindi</DropdownMenuItem>
               <DropdownMenuItem>French</DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
 
           {/* Phone Contact */}
           <p className="text-sm flex items-center gap-2">
-            <Phone className="w-4 h-4 -scale-x-100 text-white" /> +91 9938 452
-            439
+            {/* <span className="w-4 h-4 -scale-x-100 text-white" />  */}
+            Wearing Adivasi Narratives and Identity.
           </p>
         </div>
 
