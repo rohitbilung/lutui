@@ -30,9 +30,9 @@ export default function ScrollToTop() {
         variant="outline"
         size="icon"
         onClick={handleScrollToTop}
-        className={`transition-opacity duration-300 rounded-full border border-slate-600 bg-background text-foreground hover:bg-muted 
+        className={`cursor-pointer transition-opacity duration-300 rounded-full border border-slate-600 bg-background text-foreground hover:bg-muted 
       shadow-lg shadow-slate-700/70 backdrop-blur-sm ring-1 ring-slate-500/10 ${
-        isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+        isVisible ? "opacity-100" : "opacity-0"
       }`}
       >
         <ArrowUp className="h-5 w-5" />
