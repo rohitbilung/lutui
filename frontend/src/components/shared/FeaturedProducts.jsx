@@ -7,13 +7,18 @@ const FeaturedProducts = () => {
   const products = data?.data || [];
 
   return (
+    
     <div className="container mx-auto py-10">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold">Featured Collection</h2>
-        <p className="text-gray-500">
-          Our most popular products based on sales
+        <h1 className="text-5xl font-bold text-[#440505]">JOHAR</h1>
+        <p className="text-[#440505]">
+        With heartfelt joy, we share the first chapter of our journey with you.
+        </p>
+        <p className="text-[#440505]">
+        Our very first collection, designed with love, care, and  compassion.
         </p>
       </div>
+      <hr className="border-t border-gray-300" />
       <div>
         {isPending ? (
           <div className="flex justify-center col-span-full">

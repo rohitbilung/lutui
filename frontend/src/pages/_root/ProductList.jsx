@@ -29,8 +29,9 @@ const ProductList = () => {
               <Loader2 className="h-10 w-10 animate-spin text-gray-500" />
             </div>
           ) : products.length === 0 ? (
-            <div className="flex justify-center">
-              <p>No products available.</p>
+            <div className="flex flex-col justify-center items-center">
+              <p>Launching soon... </p>
+              <p className="font-semibold">May 2025</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 px-4 mx-0 lg:px-8 lg:mx-8">
