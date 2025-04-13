@@ -14,5 +14,9 @@ export { default as PricingPolicy } from "./_root/policies/PricingPolicy";
 export { default as PrivacyPolicy } from "./_root/policies/PrivacyPolicy";
 
 export { default as AdminDashboard } from "./_auth/admin/Dashboard";
+export { default as Orders } from "./_auth/admin/Orders";
+export { default as AdminProfile } from "./_auth/admin/Profile";
+export { default as AdminSettings } from "./_auth/admin/Settings";
+export { default as Users } from "./_auth/admin/Users";
 
 export { default as PageNotFound } from "./_root/PageNotFound";

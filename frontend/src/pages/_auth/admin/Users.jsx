@@ -1,11 +1,11 @@
 import AdminWrapper from "@/components/shared/common/layouts/AdminWrapper"
 
-const Dashboard = () => {
+const Users = () => {
   return (
-    <AdminWrapper title="Dashboard">
-      <div>Dashboard</div>
+    <AdminWrapper title="Users">
+        <div>Users</div>
     </AdminWrapper>
   )
 }
 
-export default Dashboard
+export default Users

@@ -156,7 +156,7 @@ export const getOrders = async ({
     method: "GET",
     signal,
     paginate: true,
-    url: `/product/get-orders?page=${page}&limit=${limit}&userId=${userId}&paymentStatus=${paymentStatus}`,
+    url: `/orders/get-orders?page=${page}&limit=${limit}&userId=${userId}&paymentStatus=${paymentStatus}`,
   });
 };
 

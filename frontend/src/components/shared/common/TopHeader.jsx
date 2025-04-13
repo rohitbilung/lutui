@@ -7,7 +7,7 @@ import UserAvatar from "./UserAvatar";
 const TopHeader = () => {
   const { isAuthenticated } = useAuth();
   return (
-    <div className="bg-black text-white py-2 px-2 w-full">
+    <div className="bg-black text-white py-3 px-2 w-full">
       <div className="w-full flex justify-center items-center text-center relative">
         <p className="text-sm flex-1 flex items-center justify-center text-center gap-2">
           Wearing Adivasi Narratives and Identity.
