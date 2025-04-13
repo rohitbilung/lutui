@@ -22,8 +22,8 @@ router.post('/remove-item-from-cart',isLoggedIn, removeProductFromCart); //this 
 
 router.post('/checkout',isLoggedIn, checkout);
 
-router.get('/get-orders',isAdmin, getOrders);
+router.get('/get-orders',isLoggedIn, isAdmin, getOrders);
 
-router.get('/update-orders',isAdmin, updateOrders);
+router.get('/update-orders',isLoggedIn, isAdmin, updateOrders);
 
 module.exports = router;
