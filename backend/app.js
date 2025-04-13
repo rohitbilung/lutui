@@ -18,6 +18,7 @@ let corsOptions = {
     allowedHeaders: [
         "Content-Type",
         "Authorization",
+        "Lutui-Auth-Token",
     ],
     credentials: true,
     preflightContinue: false,
