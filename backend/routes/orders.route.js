@@ -6,21 +6,24 @@ const {
     removeCountFromCart,
     removeProductFromCart,
     checkout,
-    getOrders
+    getOrders,
+    updateOrders
  } = require('../controllers/orders.controller');
  const {auth} = require('../middlewares/auth')
  const {isLoggedIn, isAdmin} = require('../middlewares/check')
 
-router.post('/add-to-cart', addCart);
+router.post('/add-to-cart',isLoggedIn, addCart);
 
-router.get('/get-cart-details/:userId', getCart);
+router.get('/get-cart-details/:userId',isLoggedIn, getCart);
 
-router.post('/remove-count-from-cart', removeCountFromCart); //this will remove the count of item
+router.post('/remove-count-from-cart',isLoggedIn, removeCountFromCart); //this will remove the count of item
 
-router.post('/remove-item-from-cart', removeProductFromCart); //this will remove the items
+router.post('/remove-item-from-cart',isLoggedIn, removeProductFromCart); //this will remove the items
 
-router.post('/checkout', checkout);
+router.post('/checkout',isLoggedIn, checkout);
 
-router.get('/get-orders', getOrders);
+router.get('/get-orders',isAdmin, getOrders);
+
+router.get('/update-orders',isAdmin, updateOrders);
 
 module.exports = router;

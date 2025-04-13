@@ -32,13 +32,13 @@ module.exports = {
                 let cart = await orderModel.addCart(insertData)
                 return { status: 201, data: cart, message: "cart added successful" }
             } else {
-                const findProduct = cartExist.products.find(product => 
+                const findProduct = cartExist.products.find(product =>
                     product.productId.toString() === body.productId &&
                     product.type === body.type &&
                     product.color === body.color &&
                     product.size === body.size
                 );
-                
+
                 if (findProduct) {
                     if (colorDetails.count < (findProduct.quantity + body.quantity)) {
                         return { status: 404, data: {}, message: "Out Of Stock" };
@@ -57,7 +57,7 @@ module.exports = {
                         break;
                     }
                 }
-                console.log(productExists,"============")
+                console.log(productExists, "============")
                 if (!productExists) {
                     let product = {
                         "productId": body.productId,
@@ -148,25 +148,37 @@ module.exports = {
 
     getOrders: async (query, pagination) => {
         try {
-          let {
-            data,
-            pagination: paginationData,
-            error,
-          } = await orderModel.getOrders(query, pagination);
-          if (error) {
-            throw new Error(error.message);
-          }
-          return {
-            status: 200,
-            pagination: paginationData,
-            data: data,
-            message: "Orders have been fetched.",
-          };
+            let {
+                data,
+                pagination: paginationData,
+                error,
+            } = await orderModel.getOrders(query, pagination);
+            if (error) {
+                throw new Error(error.message);
+            }
+            return {
+                status: 200,
+                pagination: paginationData,
+                data: data,
+                message: "Orders have been fetched.",
+            };
         } catch (error) {
-          return {
-            error: error,
-            pagination,
-          };
+            return {
+                error: error,
+                pagination,
+            };
         }
-      },
+    },
+
+    updateOrders: async (query, user) => {
+        query.userId = user ? user.id : query.userId
+        try {
+            let data = await orderModel.updateOrders(body)
+            return { status: 200, data: "", message: "susscessfully" }
+        } catch (error) {
+            return {
+                error: error
+            }
+        }
+    },
 }

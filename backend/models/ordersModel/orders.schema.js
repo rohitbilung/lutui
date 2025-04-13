@@ -16,6 +16,7 @@ const orderSchema = new mongoose.Schema({
     paymentStatus: { type: String, enum: ['pending', 'paid', 'failed'], default: 'pending' },
     delhiveryStatus: { type: String, enum: ['pending', 'shipped', 'delivered', 'canceled'], default: 'pending' },
     paymentMethod: { type: String, enum: ['creditCard', 'upi', 'cod', 'razorpay'] },
+    isPacked: { type: Boolean, default: false },
     shippingAddress: {
         Address1: { type: String },
         Address2: { type: String },

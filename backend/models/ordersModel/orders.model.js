@@ -6,8 +6,8 @@ module.exports = {
     getCart: async (body) => {
         try {
             let params = {
-                userId: body.userId ? body.userId: body._id,
-                "paymentStatus": body.paymentStatus?body.paymentStatus:"pending"
+                userId: body.userId ? body.userId : body._id,
+                "paymentStatus": body.paymentStatus ? body.paymentStatus : "pending"
             }
             let res = await Order.findOne(params)
             return res
@@ -139,7 +139,7 @@ module.exports = {
                 paymentStatus: "pending",
                 userId: body.userId,
                 products: { $size: 0 }
-              })
+            })
             return res;
         } catch (error) {
             return error;
@@ -172,7 +172,7 @@ module.exports = {
                 paymentStatus: "pending",
                 userId: body.userId,
                 products: { $size: 0 }
-              })
+            })
             return res
         } catch (error) {
             return error
@@ -180,80 +180,97 @@ module.exports = {
     },
 
     checkout: async (body) => {
-       let res = await Order.updateOne(
-        { 
-            userId: body.userId,
-            paymentStatus: "pending"
-        },
-        {
-            $set: body
-        }
-       );
+        let res = await Order.updateOne(
+            {
+                userId: body.userId,
+                paymentStatus: "pending"
+            },
+            {
+                $set: body
+            }
+        );
         return res
     },
 
     updatePaymentInfoToCart: async (user, data) => {
-       let res = await Order.updateOne(
-        { 
-            userId: user.id,
-            paymentStatus: "pending"
-        },
-        {
-            $set: {
-                paymentStatus : data.status,
-                paymentId : data.paymentId,
-                orderId: data.orderId
+        let res = await Order.updateOne(
+            {
+                userId: user.id,
+                paymentStatus: "pending"
+            },
+            {
+                $set: {
+                    paymentStatus: data.status,
+                    paymentId: data.paymentId,
+                    orderId: data.orderId
+                }
             }
-        }
-       );
+        );
         return res
     },
 
     getOrders: async (query, pagination) => {
         let page = Number(query.page),
-          limit = Number(query.limit);
+            limit = Number(query.limit);
         let match = {}
-        if(query.paymentStatus!== ''){
-          match['paymentStatus'] = query.paymentStatus
+        if (query.paymentStatus !== '') {
+            match['paymentStatus'] = query.paymentStatus
         }
         if (query.search && query.search.trim() !== '') {
-          match['name'] = { $regex: query.search.trim(), $options: 'i' }; // case-insensitive regex
+            match['name'] = { $regex: query.search.trim(), $options: 'i' }; // case-insensitive regex
         }
         try {
-          let data = await Order.aggregate([
-            { $match: match },
-            { $sort: { createdAt: -1 } },
-            { $skip: limit * (page - 1) },
-            { $limit: limit },
-          ]);
-    
-          const total_records = await Order.countDocuments(match);
-          const total_pages = Math.ceil(total_records / limit);
-          let next_page = null;
-          const viewed_records = (page - 1) * limit;
-          if (viewed_records + limit < total_records) {
-            next_page = page + 1;
-          }
-          const page_records = data.length;
-    
-          pagination.total = total_records;
-          pagination.page_records = page_records;
-          pagination.page_no = page;
-          pagination.total_pages = total_pages;
-          pagination.next_page = next_page;
-    
-          if (page > 1) {
-            let prev_page = page - 1;
-            if (total_records < page) {
-              prev_page = total_records;
+            let data = await Order.aggregate([
+                { $match: match },
+                { $sort: { createdAt: -1 } },
+                { $skip: limit * (page - 1) },
+                { $limit: limit },
+            ]);
+
+            const total_records = await Order.countDocuments(match);
+            const total_pages = Math.ceil(total_records / limit);
+            let next_page = null;
+            const viewed_records = (page - 1) * limit;
+            if (viewed_records + limit < total_records) {
+                next_page = page + 1;
             }
-            pagination.prev_page = prev_page;
-          }
-    
-          return { data, pagination };
+            const page_records = data.length;
+
+            pagination.total = total_records;
+            pagination.page_records = page_records;
+            pagination.page_no = page;
+            pagination.total_pages = total_pages;
+            pagination.next_page = next_page;
+
+            if (page > 1) {
+                let prev_page = page - 1;
+                if (total_records < page) {
+                    prev_page = total_records;
+                }
+                pagination.prev_page = prev_page;
+            }
+
+            return { data, pagination };
         } catch (error) {
-          return { error };
+            return { error };
         }
-      },
+    },
+
+    updateOrders : async (query) => {
+        let set = {}
+        if(query.delhiveryStatus){
+            set = {
+                delhiveryStatus : "shipped"
+            }
+        }
+        let res = await Order.updateOne(
+            {
+                _id: query._id
+            },
+            {
+                $set: set
+            }
+        )
+    }
 
 }

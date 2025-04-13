@@ -74,4 +74,13 @@ module.exports = {
         }
     },
 
+    updateOrders: async (req,res) => {
+        let result = await orderService.updateOrders(req.query, req.user)
+        if (result) {
+            sendSuccessResponse(req, res, result)
+        } else {
+            sendFailedResponse(req, res, result)
+        }
+    }
+
 }
