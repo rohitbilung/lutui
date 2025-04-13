@@ -181,4 +181,16 @@ module.exports = {
             }
         }
     },
+    
+    downloadOrders: async (query, user) => {
+        query.userId = user ? user.id : query.userId
+        try {
+            let data = await orderModel.downloadOrders(body)
+            return { status: 200, data: data, message: "susscessfully" }
+        } catch (error) {
+            return {
+                error: error
+            }
+        }
+    },
 }

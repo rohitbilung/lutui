@@ -57,14 +57,14 @@ module.exports = {
             prev_page: null,
         };
         let result = await orderService.getOrders(req.query, pagination)
-        if(result){
+        if (result) {
             res.status(result.status).send({
                 success: true,
                 data: result.data || req.user,
                 message: result.message || "",
                 pagination: result.pagination || pagination
             });
-        }else{
+        } else {
             res.status(500).send({
                 success: false,
                 message: 'Something went wrong in the server.',
@@ -74,10 +74,21 @@ module.exports = {
         }
     },
 
-    updateOrders: async (req,res) => {
+    updateOrders: async (req, res) => {
         let result = await orderService.updateOrders(req.query, req.user)
         if (result) {
             sendSuccessResponse(req, res, result)
+        } else {
+            sendFailedResponse(req, res, result)
+        }
+    },
+
+    downloadOrders: async (req, res) => {
+        let result = await orderService.downloadOrders(req.query, req.user)
+        if (result) {
+            res.setHeader("Content-Disposition", "attachment; filename=order.json");
+            res.setHeader("Content-Type", "application/json");
+            res.send(JSON.stringify(result.data, null, 2));
         } else {
             sendFailedResponse(req, res, result)
         }

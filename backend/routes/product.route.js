@@ -8,7 +8,7 @@ const {
  } = require('../controllers/product.controller');
  const {isLoggedIn, isAdmin} = require('../middlewares/check')
 
-router.post('/create-product',isAdmin, createProduct);
+router.post('/create-product',isLoggedIn, isAdmin, createProduct);
 
 router.get('/get-product-by-id', getProductsById);
 

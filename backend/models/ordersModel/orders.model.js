@@ -212,9 +212,9 @@ module.exports = {
     getOrders: async (query, pagination) => {
         let page = Number(query.page),
             limit = Number(query.limit);
-        let match = {paymentStatus:'paid'}
+        let match = { paymentStatus: 'paid' }
         if (query.paymentStatus !== '') {
-            match['paymentStatus'] = query.paymentStatus?query.paymentStatus:'paid'
+            match['paymentStatus'] = query.paymentStatus ? query.paymentStatus : 'paid'
         }
         try {
             let data = await Order.aggregate([
@@ -253,21 +253,55 @@ module.exports = {
         }
     },
 
-    updateOrders : async (query) => {
+    updateOrders: async (query) => {
         let set = {}
-        if(query.delhiveryStatus){
-            set = {
-                delhiveryStatus : "shipped"
+        try {
+            if (query.delhiveryStatus) {
+                set = {
+                    delhiveryStatus: "shipped"
+                }
             }
+            let res = await Order.updateOne(
+                {
+                    _id: query._id
+                },
+                {
+                    $set: set
+                }
+            )
+
+            return res
+        } catch (error) {
+            return { error };
         }
-        let res = await Order.updateOne(
-            {
-                _id: query._id
-            },
-            {
-                $set: set
-            }
-        )
+
+    },
+
+    downloadOrders: async (query) => {
+        try {
+            const order = await Order.findOne(query.orderId);
+            if (!order) return res.status(404).json({ message: "Order not found" });
+            // Fetch user details
+            const user = await User.findById(query.userId);
+            const response = {
+                orderId: order.orderId,
+                name: user?.name || "",
+                email: user?.email || "",
+                phone: user?.phone || "",
+                address: {
+                    address1: order.shippingAddress.Address1,
+                    address2: order.shippingAddress.Address2,
+                    district: order.shippingAddress.district,
+                    state: order.shippingAddress.state,
+                    country: order.shippingAddress.country,
+                    pincode: order.shippingAddress.pincode
+                }
+            };
+
+            return response
+        } catch (error) {
+            return {error}
+        }
     }
 
 }

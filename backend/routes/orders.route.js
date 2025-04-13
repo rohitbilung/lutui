@@ -7,7 +7,8 @@ const {
     removeProductFromCart,
     checkout,
     getOrders,
-    updateOrders
+    updateOrders,
+    downloadOrders
  } = require('../controllers/orders.controller');
  const {auth} = require('../middlewares/auth')
  const {isLoggedIn, isAdmin} = require('../middlewares/check')
@@ -25,5 +26,7 @@ router.post('/checkout',isLoggedIn, checkout);
 router.get('/get-orders',isLoggedIn, isAdmin, getOrders);
 
 router.get('/update-orders',isLoggedIn, isAdmin, updateOrders);
+
+router.get('/download-order',isLoggedIn, isAdmin, downloadOrders);
 
 module.exports = router;
