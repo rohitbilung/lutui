@@ -29,6 +29,9 @@ const UserAvatar = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
+        <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+          Dashboard
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => navigate("/profile")}>
           Profile
         </DropdownMenuItem>

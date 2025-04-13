@@ -1,7 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import NavBar from "../NavBar";
+import PageContent from "./PageContent";
 
-const AdminWrapper = ({ children }) => {
+const AdminWrapper = ({ children, title="" }) => {
   const navRef = useRef();
   const [sidebarWidth, setSidebarWidth] = useState(0);
 
@@ -28,7 +29,10 @@ const AdminWrapper = ({ children }) => {
         className="flex-1 bg-gray-100 overflow-y-auto transition-all duration-300"
         style={{ marginLeft: sidebarWidth }}
       >
-        {children || <div>Welcome to Admin Panel</div>}
+        
+        <PageContent title={title} wrapperClass="py-2 px-3">
+          {children || <div>Welcome to Admin Panel</div>}
+        </PageContent>
       </main>
     </div>
   );

@@ -1,8 +1,9 @@
 import { useState, forwardRef } from "react";
 import { clsx } from "clsx";
-import { Menu, LayoutDashboard, Users, Settings, User, X } from "lucide-react";
+import { Menu, LayoutDashboard, Users, Settings, User, X, ShoppingCart } from "lucide-react";
 import { Sheet, SheetContent, SheetDescription } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const navigation = [
   {
@@ -15,6 +16,12 @@ const navigation = [
     label: "Users",
     icon: Users,
     path: "/users",
+    roles: ["admin"],
+  },
+  {
+    label: "Orders",
+    icon: ShoppingCart,
+    path: "/orders",
     roles: ["admin"],
   },
   {
@@ -42,7 +49,9 @@ const NavBar = forwardRef(({ userRole = "admin" }, ref) => {
     return (
       <>
         <div className="p-4 text-xl font-bold border-b flex justify-between items-center">
-          <img src="/logo.png" className="object-cover h-10" />
+          <Link to="/">
+            <img src="/logo.png" className="object-cover h-10" />
+          </Link>
           <span
             className="text-white text-right text-xl p-2 inline md:hidden cursor-pointer"
             title="Close Menu"
