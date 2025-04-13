@@ -212,12 +212,9 @@ module.exports = {
     getOrders: async (query, pagination) => {
         let page = Number(query.page),
             limit = Number(query.limit);
-        let match = {}
+        let match = {paymentStatus:'paid'}
         if (query.paymentStatus !== '') {
-            match['paymentStatus'] = query.paymentStatus
-        }
-        if (query.search && query.search.trim() !== '') {
-            match['name'] = { $regex: query.search.trim(), $options: 'i' }; // case-insensitive regex
+            match['paymentStatus'] = query.paymentStatus?query.paymentStatus:'paid'
         }
         try {
             let data = await Order.aggregate([

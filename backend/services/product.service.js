@@ -11,6 +11,8 @@ module.exports = {
         "images": originalData.images,
         "category": originalData.category,
         "description": originalData.description,
+        "subCategory": originalData.subCategory,
+        "credits": originalData.credits,
         "sizeType": {
           "regular": {
             "price": originalData.regular.price,

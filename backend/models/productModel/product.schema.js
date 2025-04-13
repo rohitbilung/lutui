@@ -8,7 +8,7 @@ const ColorDetailSchema = new Schema({
         enum: ['black', 'white'],
         required: true
     },
-    images : [{
+    images: [{
         type: String, required: false
     }],
     count: {
@@ -42,13 +42,17 @@ const ProductsSchema = new Schema({
         type: String,
         required: false,
     },
-    subCategory:{
+    subCategory: {
         type: String,
         required: false
     },
     description: {
         type: String,
         required: false,
+    },
+    credits: {
+        Concept: { type: String },
+        Designer: { type: String },
     },
     regular: {
         price: {

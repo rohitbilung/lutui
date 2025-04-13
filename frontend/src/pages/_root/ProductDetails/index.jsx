@@ -74,12 +74,11 @@ const ProductDetails = () => {
                       key={index}
                       src={img}
                       alt={`Thumbnail ${index}`}
-                      className={`w-16 h-16 object-cover border cursor-pointer transition-transform duration-200 ${
-                        (selectedImage === "" && index == 0) ||
+                      className={`w-16 h-16 object-cover border cursor-pointer transition-transform duration-200 ${(selectedImage === "" && index == 0) ||
                         selectedImage === img
-                          ? "border-blue-500 scale-110 shadow-md"
-                          : "border-gray-300 hover:scale-105"
-                      }`}
+                        ? "border-blue-500 scale-110 shadow-md"
+                        : "border-gray-300 hover:scale-105"
+                        }`}
                       onClick={() => setSelectedImage(img)}
                     />
                   ))}
@@ -155,6 +154,18 @@ const ProductDetails = () => {
               <p className="text-base md:text-lg indent-8 md:indent-24">
                 {product.description}
               </p>
+              {product.credits && (
+                <div className="mt-6">
+                  <h3 className="text-xl font-semibold underline mb-2">Design Credits</h3>
+                  <div className="text-m ">
+                    {Object.entries(product.credits).map(([role, name]) => (
+                      <p key={role}>
+                        <span className="font-semibold">{role}:</span> {name}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         ) : (
