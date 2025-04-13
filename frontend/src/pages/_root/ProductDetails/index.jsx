@@ -89,6 +89,9 @@ const ProductDetails = () => {
                   <img
                     src={selectedImage || product.images[0]}
                     alt={product.name}
+                    onContextMenu={(e) => e.preventDefault()}
+                    draggable="false"
+                    onDragStart={(e) => e.preventDefault()}
                     className="max-h-[500px] w-full object-contain"
                   />
                 </div>
