@@ -36,6 +36,9 @@ export default function HomeSlider() {
         <motion.img
           key={slides[current]}
           src={slides[current]}
+          onContextMenu={(e) => e.preventDefault()}
+          draggable="false"
+          onDragStart={(e) => e.preventDefault()}
           alt={`Slide ${current + 1}`}
           className="absolute inset-0 w-full h-full object-cover"
           initial={{ opacity: 0, x: 50 }}
