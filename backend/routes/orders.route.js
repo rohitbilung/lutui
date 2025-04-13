@@ -21,6 +21,6 @@ router.post('/remove-item-from-cart', removeProductFromCart); //this will remove
 
 router.post('/checkout', checkout);
 
-router.post('/get-orders', getOrders);
+router.get('/get-orders', getOrders);
 
 module.exports = router;

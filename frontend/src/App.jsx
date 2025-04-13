@@ -8,6 +8,7 @@ import {
   Home,
   InDevelopment,
   Login,
+  Orders,
   PageNotFound,
   PricingPolicy,
   PrivacyPolicy,
@@ -15,9 +16,12 @@ import {
   ProductList,
   Register,
   Terms,
+  Users,
 } from "./pages";
 import ScrollToTop from "./components/shared/common/ScrollToTop";
 import ProtectedRoutes from "./components/shared/common/layouts/ProtectedRoutes";
+import Profile from "./pages/_auth/admin/Profile";
+import Settings from "./pages/_auth/admin/Settings";
 
 const App = () => {
   return (
@@ -48,6 +52,10 @@ const App = () => {
 
         <Route path="/" element={<ProtectedRoutes allowedRoles={['admin']} />}>
           <Route path="/dashboard" element={<AdminDashboard />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
 
         <Route path="/page-not-found" element={<PageNotFound />} />

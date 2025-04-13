@@ -30,7 +30,7 @@ const AdminWrapper = ({ children, title="" }) => {
         style={{ marginLeft: sidebarWidth }}
       >
         
-        <PageContent title={title} wrapperClass="py-2 px-3">
+        <PageContent title={title} wrapperClass="py-3 px-4" contentClass="py-4 px-3 mb-12">
           {children || <div>Welcome to Admin Panel</div>}
         </PageContent>
       </main>
