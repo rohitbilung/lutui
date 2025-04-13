@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const Orders = () => {
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(2);
+  const [limit, setLimit] = useState(10);
   const { data, isPending } = useGetOrders({
     limit: limit,
     page: page,
