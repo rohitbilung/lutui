@@ -6,7 +6,7 @@ const path = require('path')
 require('dotenv').config();
 
 let url = []
-if(process.env.NODE_ENV === 'production'){
+if(process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'Production'){
     url.push(process.env.UI_PRODUCTION_URL)
 }else{
     url.push(process.env.UI_LOCAL_URL)
@@ -18,6 +18,7 @@ let corsOptions = {
     allowedHeaders: [
         "Content-Type",
         "Authorization",
+        "Lutui-Auth-Token",
     ],
     credentials: true,
     preflightContinue: false,

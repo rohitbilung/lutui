@@ -15,6 +15,12 @@ const apiRequest = async ({
   signal,
 }) => {
   try {
+    const token = auth
+      ? document.cookie
+          ?.split("; ")
+          ?.find((row) => row.startsWith("lutui-auth-token="))
+          ?.split("=")[1]
+      : null;
     let reqObj = {
       url,
       method,
@@ -33,12 +39,19 @@ const apiRequest = async ({
         };
       }
     }
+    if (auth && token) {
+      reqObj.headers = {
+        ...(reqObj.headers || {}),
+        'lutui-auth-token': token,
+      };
+    }
 
     const response = await api({ ...reqObj });
     return response.data
       ? { ...response.data, statusCode: response.status }
       : null;
   } catch (e) {
+    console.log("Error in apiRequest method: ", e)
     let response = null;
     if (e.response) {
       response = e.response.data

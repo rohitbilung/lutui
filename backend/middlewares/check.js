@@ -3,9 +3,9 @@ const UserModel = require("../models/userModel/user.schema");
 
 const isLoggedIn = async (req, res, next) => {
   try {
-    let token = req.cookies && req.cookies['lutui-auth-token'];
+    let token = req.cookies?.['lutui-auth-token'];
     if (token === undefined) {
-      token = req.headers.token || req.body.headers.Cookie;
+      token = req.headers["lutui-auth-token"];
     }
     if (!token) {
       return res.status(403).json({
