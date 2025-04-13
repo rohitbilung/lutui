@@ -155,6 +155,7 @@ export const getOrders = async ({
   return await apiRequest({
     method: "GET",
     signal,
+    auth: true,
     paginate: true,
     url: `/orders/get-orders?page=${page}&limit=${limit}&userId=${userId}&paymentStatus=${paymentStatus}`,
   });
