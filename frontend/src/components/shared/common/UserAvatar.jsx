@@ -18,7 +18,7 @@ const UserAvatar = () => {
   const handleLogout = () => {
     clearCart();
     logout();
-  }
+  };
 
   return user ? (
     <DropdownMenu>
@@ -29,12 +29,23 @@ const UserAvatar = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
-        <DropdownMenuItem onClick={() => navigate("/dashboard")}>
-          Dashboard
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => navigate("/profile")}>
-          Profile
-        </DropdownMenuItem>
+        {user.role === "user" && (
+          <>
+            <DropdownMenuItem onClick={() => {}}>My Account</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => {}}>My Orders</DropdownMenuItem>
+          </>
+        )}
+
+        {user.role === "admin" && (
+          <>
+            <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+              Dashboard
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/profile")}>
+              Profile
+            </DropdownMenuItem>
+          </>
+        )}
         <DropdownMenuItem onClick={handleLogout} className="text-red-500">
           Logout
         </DropdownMenuItem>
