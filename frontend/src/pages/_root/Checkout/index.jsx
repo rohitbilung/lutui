@@ -132,20 +132,23 @@ const Checkout = () => {
         <FormProvider {...methods}>
           <form
             onSubmit={methods.handleSubmit(onSubmit)}
-            className="grid md:grid-cols-2 gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
-            <div className="px-2">
+            {/* Left Column: Billing & Shipping */}
+            <div className="px-4 sm:px-6 md:px-2">
               <h2 className="text-xl font-semibold mb-4 underline">
                 Billing & Shipping Details
               </h2>
               <BillingDetailsForm />
             </div>
-            <div className="flex flex-col gap-4 px-2">
+
+            {/* Right Column: Summary, Payment & Submit */}
+            <div className="flex flex-col gap-4 px-4 sm:px-6 md:px-2">
               <OrderSummary />
               <PaymentMethodForm />
               <Button
                 type="submit"
-                className="w-full mt-4 cursor-pointer"
+                className="w-full mt-4 flex items-center justify-center gap-2"
                 disabled={isCheckingOut || isCreatingPayment}
               >
                 <CreditCard className="w-5 h-5" />
@@ -156,6 +159,7 @@ const Checkout = () => {
         </FormProvider>
       </PageContent>
     </PageWrapper>
+
   );
 };
 
