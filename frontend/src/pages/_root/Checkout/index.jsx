@@ -128,34 +128,38 @@ const Checkout = () => {
 
   return (
     <PageWrapper>
-      <PageContent title="Checkout">
-        <FormProvider {...methods}>
-          <form
-            onSubmit={methods.handleSubmit(onSubmit)}
-            className="grid md:grid-cols-2 gap-6"
-          >
-            <div className="px-2">
-              <h2 className="text-xl font-semibold mb-4 underline">
-                Billing & Shipping Details
-              </h2>
-              <BillingDetailsForm />
-            </div>
-            <div className="flex flex-col gap-4 px-2">
-              <OrderSummary />
-              <PaymentMethodForm />
-              <Button
-                type="submit"
-                className="w-full mt-4 cursor-pointer"
-                disabled={isCheckingOut || isCreatingPayment}
-              >
-                <CreditCard className="w-5 h-5" />
-                Place Order
-              </Button>
-            </div>
-          </form>
-        </FormProvider>
-      </PageContent>
-    </PageWrapper>
+    <PageContent title="Checkout">
+      <FormProvider {...methods}>
+        <form
+          onSubmit={methods.handleSubmit(onSubmit)}
+          className="flex flex-col gap-8 md:grid md:grid-cols-2 md:gap-6 md:px-4"
+        >
+          {/* Left Column: Billing & Shipping */}
+          <div className="px-4 md:px-2">
+            <h2 className="text-xl font-semibold mb-4 underline">
+              Billing & Shipping Details
+            </h2>
+            <BillingDetailsForm />
+          </div>
+  
+          {/* Right Column: Order Summary & Payment */}
+          <div className="flex flex-col gap-4 px-4 md:px-2">
+            <OrderSummary />
+            <PaymentMethodForm />
+            <Button
+              type="submit"
+              className="w-full mt-4"
+              disabled={isCheckingOut || isCreatingPayment}
+            >
+              <CreditCard className="w-5 h-5 mr-2" />
+              Place Order
+            </Button>
+          </div>
+        </form>
+      </FormProvider>
+    </PageContent>
+  </PageWrapper>
+  
   );
 };
 
