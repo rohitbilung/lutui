@@ -219,6 +219,71 @@ module.exports = {
         try {
             let data = await Order.aggregate([
                 { $match: match },
+                {
+                    $lookup: {
+                      from: "users",
+                      localField: "userId",
+                      foreignField: "_id",
+                      as: "user"
+                    }
+                  },
+                  {
+                    $unwind: {
+                      path: "$user",
+                      preserveNullAndEmptyArrays: true
+                    }
+                  },
+                  {
+                    $addFields: {
+                      username: "$user.name"
+                    }
+                  },
+                  {
+                    $project: {
+                      user: 0 // remove embedded user doc
+                    }
+                  },
+                  {
+                    $unwind: "$products"
+                  },
+                  {
+                    $lookup: {
+                      from: "products",
+                      localField: "products.productId",
+                      foreignField: "_id",
+                      as: "productDetails"
+                    }
+                  },
+                  {
+                    $unwind: {
+                      path: "$productDetails",
+                      preserveNullAndEmptyArrays: true
+                    }
+                  },
+                  {
+                    $addFields: {
+                      "products.productName": "$productDetails.name"
+                    }
+                  },
+                  {
+                    $group: {
+                      _id: "$_id",
+                      userId: { $first: "$userId" },
+                      username: { $first: "$username" },
+                      products: { $push: "$products" },
+                      totalPrice: { $first: "$totalPrice" },
+                      paymentStatus: { $first: "$paymentStatus" },
+                      delhiveryStatus: { $first: "$delhiveryStatus" },
+                      createdAt: { $first: "$createdAt" },
+                      updatedAt: { $first: "$updatedAt" },
+                      __v: { $first: "$__v" },
+                      orderNotes: { $first: "$orderNotes" },
+                      paymentMethod: { $first: "$paymentMethod" },
+                      shippingAddress: { $first: "$shippingAddress" },
+                      orderId: { $first: "$orderId" },
+                      paymentId: { $first: "$paymentId" }
+                    }
+                  },
                 { $sort: { createdAt: -1 } },
                 { $skip: limit * (page - 1) },
                 { $limit: limit },
