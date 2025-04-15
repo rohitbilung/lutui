@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Product = require("../productModel/product.schema");
-const ItemSku = require("../itemsku/itemskuSchema");
 
 module.exports = {
   getProducts: async (query, pagination) => {

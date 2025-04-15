@@ -170,10 +170,10 @@ module.exports = {
         }
     },
 
-    updateOrders: async (query, user) => {
+    updateOrders: async (body, query, user) => {
         query.userId = user ? user.id : query.userId
         try {
-            let data = await orderModel.updateOrders(body)
+            let data = await orderModel.updateOrders(body, query)
             return { status: 200, data: "", message: "susscessfully" }
         } catch (error) {
             return {
@@ -185,7 +185,7 @@ module.exports = {
     downloadOrders: async (query, user) => {
         query.userId = user ? user.id : query.userId
         try {
-            let data = await orderModel.downloadOrders(body)
+            let data = await orderModel.downloadOrders(query)
             return { status: 200, data: data, message: "susscessfully" }
         } catch (error) {
             return {

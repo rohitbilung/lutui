@@ -12,6 +12,7 @@ const {
  } = require('../controllers/orders.controller');
  const {auth} = require('../middlewares/auth')
  const {isLoggedIn, isAdmin} = require('../middlewares/check')
+const { outOfStock } = require('../middlewares/outOfStock')
 
 router.post('/add-to-cart',isLoggedIn, addCart);
 
@@ -21,12 +22,12 @@ router.post('/remove-count-from-cart',isLoggedIn, removeCountFromCart); //this w
 
 router.post('/remove-item-from-cart',isLoggedIn, removeProductFromCart); //this will remove the items
 
-router.post('/checkout',isLoggedIn, checkout);
+router.post('/checkout',isLoggedIn, outOfStock, checkout);
 
-router.get('/get-orders',isLoggedIn, isAdmin, getOrders);
+router.get('/get-orders', getOrders);
 
-router.get('/update-orders',isLoggedIn, isAdmin, updateOrders);
+router.post('/update-orders',isLoggedIn, isAdmin, updateOrders);
 
-router.get('/download-order',isLoggedIn, isAdmin, downloadOrders);
+router.get('/download-order', downloadOrders);
 
 module.exports = router;

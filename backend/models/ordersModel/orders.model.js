@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Order = require('../ordersModel/orders.schema')
-const { addCart } = require('../../services/orders.service')
+const User = require('../userModel/user.schema')
 
 module.exports = {
     getCart: async (body) => {
@@ -201,8 +201,8 @@ module.exports = {
             {
                 $set: {
                     paymentStatus: data.status,
-                    paymentId: data.paymentId,
-                    orderId: data.orderId
+                    transactionPaymentId: data.paymentId,
+                    transactionOrderId: data.orderId
                 }
             }
         );
@@ -221,69 +221,69 @@ module.exports = {
                 { $match: match },
                 {
                     $lookup: {
-                      from: "users",
-                      localField: "userId",
-                      foreignField: "_id",
-                      as: "user"
+                        from: "users",
+                        localField: "userId",
+                        foreignField: "_id",
+                        as: "user"
                     }
-                  },
-                  {
+                },
+                {
                     $unwind: {
-                      path: "$user",
-                      preserveNullAndEmptyArrays: true
+                        path: "$user",
+                        preserveNullAndEmptyArrays: true
                     }
-                  },
-                  {
+                },
+                {
                     $addFields: {
-                      username: "$user.name"
+                        username: "$user.name"
                     }
-                  },
-                  {
+                },
+                {
                     $project: {
-                      user: 0 // remove embedded user doc
+                        user: 0 // remove embedded user doc
                     }
-                  },
-                  {
+                },
+                {
                     $unwind: "$products"
-                  },
-                  {
+                },
+                {
                     $lookup: {
-                      from: "products",
-                      localField: "products.productId",
-                      foreignField: "_id",
-                      as: "productDetails"
+                        from: "products",
+                        localField: "products.productId",
+                        foreignField: "_id",
+                        as: "productDetails"
                     }
-                  },
-                  {
+                },
+                {
                     $unwind: {
-                      path: "$productDetails",
-                      preserveNullAndEmptyArrays: true
+                        path: "$productDetails",
+                        preserveNullAndEmptyArrays: true
                     }
-                  },
-                  {
+                },
+                {
                     $addFields: {
-                      "products.productName": "$productDetails.name"
+                        "products.productName": "$productDetails.name"
                     }
-                  },
-                  {
+                },
+                {
                     $group: {
-                      _id: "$_id",
-                      userId: { $first: "$userId" },
-                      username: { $first: "$username" },
-                      products: { $push: "$products" },
-                      totalPrice: { $first: "$totalPrice" },
-                      paymentStatus: { $first: "$paymentStatus" },
-                      delhiveryStatus: { $first: "$delhiveryStatus" },
-                      createdAt: { $first: "$createdAt" },
-                      updatedAt: { $first: "$updatedAt" },
-                      __v: { $first: "$__v" },
-                      orderNotes: { $first: "$orderNotes" },
-                      paymentMethod: { $first: "$paymentMethod" },
-                      shippingAddress: { $first: "$shippingAddress" },
-                      orderId: { $first: "$orderId" },
-                      paymentId: { $first: "$paymentId" }
+                        _id: "$_id",
+                        userId: { $first: "$userId" },
+                        username: { $first: "$username" },
+                        products: { $push: "$products" },
+                        totalPrice: { $first: "$totalPrice" },
+                        paymentStatus: { $first: "$paymentStatus" },
+                        delhiveryStatus: { $first: "$delhiveryStatus" },
+                        createdAt: { $first: "$createdAt" },
+                        updatedAt: { $first: "$updatedAt" },
+                        __v: { $first: "$__v" },
+                        orderNotes: { $first: "$orderNotes" },
+                        paymentMethod: { $first: "$paymentMethod" },
+                        shippingAddress: { $first: "$shippingAddress" },
+                        transactionOrderId: { $first: "$transactionOrderId" },
+                        transactionPaymentId: { $first: "$transactionPaymentId" }
                     }
-                  },
+                },
                 { $sort: { createdAt: -1 } },
                 { $skip: limit * (page - 1) },
                 { $limit: limit },
@@ -318,12 +318,13 @@ module.exports = {
         }
     },
 
-    updateOrders: async (query) => {
+    updateOrders: async (body, query) => {
         let set = {}
         try {
             if (query.delhiveryStatus) {
                 set = {
-                    delhiveryStatus: "shipped"
+                    delhiveryStatus: "shipped",
+                    trackingId: body.trackingId
                 }
             }
             let res = await Order.updateOne(
@@ -344,28 +345,26 @@ module.exports = {
 
     downloadOrders: async (query) => {
         try {
-            const order = await Order.findOne(query.orderId);
+            const order = await Order.findOne({ _id: query.orderId });
             if (!order) return res.status(404).json({ message: "Order not found" });
             // Fetch user details
-            const user = await User.findById(query.userId);
+            const user = await User.findById(order.userId);
+            console.log(user)
             const response = {
-                orderId: order.orderId,
+                transactionOrderId: order.transactionOrderId || "",
                 name: user?.name || "",
                 email: user?.email || "",
-                phone: user?.phone || "",
-                address: {
-                    address1: order.shippingAddress.Address1,
-                    address2: order.shippingAddress.Address2,
-                    district: order.shippingAddress.district,
-                    state: order.shippingAddress.state,
-                    country: order.shippingAddress.country,
-                    pincode: order.shippingAddress.pincode
-                }
+                phone: user?.mobile || "",
+                address1: order.shippingAddress.Address1,
+                address2: order.shippingAddress.Address2,
+                district: order.shippingAddress.district,
+                state: order.shippingAddress.state,
+                country: order.shippingAddress.country,
+                pincode: order.shippingAddress.pincode
             };
-
             return response
         } catch (error) {
-            return {error}
+            return { error }
         }
     }
 

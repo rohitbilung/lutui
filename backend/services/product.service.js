@@ -1,5 +1,4 @@
 const productModel = require("../models/productModel/product.model");
-const ItemSku = require("../models/itemsku/itemskuModel");
 
 module.exports = {
   getProductsById: async (query) => {
