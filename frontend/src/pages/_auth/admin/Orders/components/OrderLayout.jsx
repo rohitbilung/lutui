@@ -27,7 +27,7 @@ const OrdersLayout = ({ orders = [], isLoading = false }) => {
           <div className="flex justify-between items-center">
             <div>
               <p className="text-sm text-muted-foreground">Order ID</p>
-              <p className="font-medium">{order._id}</p>
+              <p className="font-medium">{order.transactionOrderId}</p>
             </div>
             <div className="text-right">
               <p className="text-sm text-muted-foreground">Amount</p>
@@ -37,12 +37,18 @@ const OrdersLayout = ({ orders = [], isLoading = false }) => {
           <div className="mt-3 flex justify-between items-center">
             <div>
               <p className="text-sm text-muted-foreground">User</p>
-              <p>{order.user?.name || "N/A"}</p>
+              <p>{order.username || "N/A"}</p>
             </div>
             <div>
+            <p className="text-sm text-muted-foreground">Payment Status</p>
+              <Badge variant="outline">{order.paymentStatus} with {order.paymentMethod}</Badge>
+            </div>
+            <div>
+            <p className="text-sm text-muted-foreground">Delhivery Status</p>
               <Badge variant="outline">{order.delhiveryStatus}</Badge>
             </div>
-            <div className="text-right text-sm text-muted-foreground">
+            <div>
+            <p className="text-sm text-muted-foreground">Ordered date & time</p>
               {format(new Date(order.createdAt), "dd MMM yyyy, hh:mm a")}
             </div>
           </div>
@@ -57,10 +63,10 @@ const OrdersLayout = ({ orders = [], isLoading = false }) => {
         <Card key={order._id} className="p-4 space-y-2">
           <div className="flex justify-between items-center">
             <span className="text-sm text-muted-foreground">Order</span>
-            <Badge>{order.delhiveryStatus}</Badge>
+            <Badge>{order.paymentStatus} with {order.paymentMethod}</Badge>
           </div>
-          <p className="text-lg font-semibold">{order._id}</p>
-          <p className="text-sm">User: {order.user?.name || "N/A"}</p>
+          <p className="text-sm font-semibold">{order.transactionOrderId}</p>
+          <p className="text-sm">User: {order.username || "N/A"}</p>
           <p className="text-sm">Amount: ₹{order.totalPrice}</p>
           <p className="text-xs text-muted-foreground">
             {format(new Date(order.createdAt), "dd MMM yyyy, hh:mm a")}

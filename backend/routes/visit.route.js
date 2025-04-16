@@ -5,6 +5,6 @@ const {
     visitCount
 } = require('../models/visits/visitModel');
 
-router.get('/', visitCount);
+router.get('/visit', visitCount);
 
 module.exports = router;
