@@ -38,12 +38,14 @@ const productRoutes = require('./routes/product.route')
 const uploadRoutes = require('./routes/uploadProduct.route')
 const ordersRoutes = require('./routes/orders.route')
 const paymentRoutes = require('./routes/razorpay.route')
+const visitors = require('./routes/visit.route')
 
 app.use('/api/user', userRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/upload', uploadRoutes)
 app.use('/api/orders', ordersRoutes)
 app.use('/api', paymentRoutes)
+app.use('/api', visitors)
 
 app.use(express.static(path.join(_dirname, '/frontend/dist')))
 // app.get('*',(req, res)=>{
