@@ -13,7 +13,14 @@ if(process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'Production
 }
 
 let corsOptions = {
-    origin: url,
+    origin: [
+        'https://www.lutui.in',
+        'http://www.lutui.in',
+        'https://lutui.in',
+        'http://lutui.in',
+        'www.lutui.in',
+        'lutui.in',
+    ],
     methods: ["GET", "PUT", "POST", "OPTIONS"],
     allowedHeaders: [
         "Content-Type",
