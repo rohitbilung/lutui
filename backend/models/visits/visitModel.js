@@ -5,7 +5,8 @@ module.exports = {
     visitCount: async (req, res) => {
         const ip =
             req.headers['x-forwarded-for']?.split(',').shift() ||
-            req.socket?.remoteAddress;
+            req.socket?.remoteAddress ||
+            req.ip;
 
         try {
             let visit = await Visit.findOne();
