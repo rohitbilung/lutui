@@ -83,6 +83,10 @@ const apiRequest = async ({
   }
 };
 
+export const logUserVisit = async ({ signal = null }) => {
+  return await apiRequest({ method: "GET", signal, url: "/visit" });
+};
+
 export const loginUser = async (data) => {
   return await apiRequest({ method: "POST", url: "/user/login", data });
 };

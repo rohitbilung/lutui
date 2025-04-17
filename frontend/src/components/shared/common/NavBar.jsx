@@ -66,7 +66,7 @@ const NavBar = forwardRef(({ userRole = "admin" }, ref) => {
             <Link
               key={index}
               to={path}
-              className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-700 text-white transition"
+              className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-700 text-white transition cursor-pointer"
             >
               <Icon className="w-5 h-5" />
               <span>{label}</span>

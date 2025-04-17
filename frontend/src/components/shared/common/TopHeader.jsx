@@ -67,7 +67,7 @@ const TopHeader = () => {
                           </>
                         )}
                         <DropdownMenuItem asChild>
-                          <button className="w-full text-left cursor-pointer" onClick={handleLogout}>
+                          <button className="w-full text-left text-red-500 cursor-pointer" onClick={handleLogout}>
                             Logout
                           </button>
                         </DropdownMenuItem>
