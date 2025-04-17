@@ -8,6 +8,7 @@ const {
     checkout,
     getOrders,
     updateOrders,
+    trackOrders,
     downloadOrders
  } = require('../controllers/orders.controller');
  const {auth} = require('../middlewares/auth')
@@ -27,6 +28,8 @@ router.post('/checkout',isLoggedIn, outOfStock, checkout);
 router.get('/get-orders', getOrders);
 
 router.post('/update-orders',isLoggedIn, isAdmin, updateOrders);
+
+router.get('/track-order', trackOrders);
 
 router.get('/download-order', downloadOrders);
 

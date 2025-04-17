@@ -82,6 +82,15 @@ module.exports = {
             sendFailedResponse(req, res, result)
         }
     },
+    
+    trackOrders: async (req, res) => {
+        let result = await orderService.trackOrders(req.query, req.user)
+        if (result) {
+            sendSuccessResponse(req, res, result)
+        } else {
+            sendFailedResponse(req, res, result)
+        }
+    },
 
     downloadOrders: async (req, res) => {
         let result = await orderService.downloadOrders(req.query, req.user)

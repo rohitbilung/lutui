@@ -1,5 +1,6 @@
 const orderModel = require('../models/ordersModel/orders.model')
 const productModel = require('../models/productModel/product.model')
+const { trackingApi } = require('../utils/thirdPartyApis')
 
 module.exports = {
     addCart: async (body, user) => {
@@ -175,6 +176,18 @@ module.exports = {
         try {
             let data = await orderModel.updateOrders(body, query)
             return { status: 200, data: "", message: "susscessfully" }
+        } catch (error) {
+            return {
+                error: error
+            }
+        }
+    },
+   
+    trackOrders: async (query, user) => {
+        query.userId = user ? user.id : query.userId
+        try {
+            let data = await trackingApi(query)
+            return { status: 200, data: data, message: "susscessfully" }
         } catch (error) {
             return {
                 error: error

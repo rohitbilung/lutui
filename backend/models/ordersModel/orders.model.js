@@ -321,7 +321,7 @@ module.exports = {
     updateOrders: async (body, query) => {
         let set = {}
         try {
-            if (query.delhiveryStatus) {
+            if (query.trackingId !== null) {
                 set = {
                     delhiveryStatus: "shipped",
                     trackingId: body.trackingId
