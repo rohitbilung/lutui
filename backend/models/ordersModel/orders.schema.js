@@ -13,7 +13,7 @@ const orderSchema = new mongoose.Schema({
         quantity: { type: Number },
     }],
     totalPrice: { type: Number },
-    paymentStatus: { type: String, enum: ['pending', 'paid', 'failed'], default: 'pending' },
+    paymentStatus: { type: String, enum: ['pending', 'paid', 'failed', 'refund'], default: 'pending' },
     delhiveryStatus: { type: String, enum: ['pending', 'shipped', 'delivered', 'canceled'], default: 'pending' },
     trackingId: { type: String },
     paymentMethod: { type: String, enum: ['creditCard', 'upi', 'cod', 'razorpay'] },

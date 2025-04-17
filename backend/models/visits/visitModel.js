@@ -29,7 +29,7 @@ module.exports = {
             console.log('Visit count:', visit.count);
 
             // Serve your page (HTML, EJS, static file, etc.)
-            // res.send(`<h1>Welcome!</h1><p>This site has been visited ${visit.count} times.</p>`);
+            res.send(`<h1>Welcome!</h1><p>This site has been visited by ${visit.count} people.</p>`);
             // or: res.render('home', { count: visit.count });
             // or: res.sendFile(path.join(__dirname, 'public/index.html'));
         } catch (err) {
