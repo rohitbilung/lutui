@@ -6,7 +6,16 @@ import {
   getOrders,
   getProductByID,
   getProductList,
+  logUserVisit,
 } from "../apis";
+
+export const useLogUserVisit = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.LOG_USER_VISIT],
+    queryFn: ({ signal }) => logUserVisit({ signal }),
+    refetchOnWindowFocus: false,
+  });
+};
 
 export const useGetCurrentUser = () => {
   return useQuery({

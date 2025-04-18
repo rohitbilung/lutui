@@ -1,12 +1,12 @@
-const mongoose = require('mongoose')
-const Visit = require('./visitSchema')
+const mongoose = require("mongoose");
+const Visit = require("./visitSchema");
 
 module.exports = {
-    visitCount: async (req, res) => {
-        const ip =
-            req.headers['x-forwarded-for']?.split(',').shift() ||
-            req.socket?.remoteAddress ||
-            req.ip;
+  visitCount: async (req, res) => {
+    const ip =
+      req.headers["x-forwarded-for"]?.split(",").shift() ||
+      req.socket?.remoteAddress ||
+      req.ip;
 
         const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
 
@@ -41,5 +41,25 @@ module.exports = {
             console.error(err);
             res.status(500).send('Something went wrong');
         }
+      }
+
+      await visit.save();
+
+      // Optional: log the current count
+      console.log("Visit count:", visit.count);
+
+      // Serve your page (HTML, EJS, static file, etc.)
+      return res
+        .status(200)
+        .json({
+          success: true,
+          message: `This site has been visited by ${visit.count} people.`,
+        });
+      // or: res.render('home', { count: visit.count });
+      // or: res.sendFile(path.join(__dirname, 'public/index.html'));
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ success: false, message: "Something went wrong in the server." });
     }
-}
+  },
+};

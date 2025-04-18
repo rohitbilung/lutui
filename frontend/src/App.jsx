@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import axios from 'axios';
 import { Navigate, Route, Routes } from "react-router-dom";
 import {
   About,
@@ -24,17 +22,12 @@ import ScrollToTop from "./components/shared/common/ScrollToTop";
 import ProtectedRoutes from "./components/shared/common/layouts/ProtectedRoutes";
 import Profile from "./pages/_auth/admin/Profile";
 import Settings from "./pages/_auth/admin/Settings";
+import { useLogUserVisit } from './lib/queries/queries';
 
 const App = () => {
-  useEffect(() => {
-    axios.get('https://api.lutui.in/api/visit') // <-- your deployed API
-      .then(res => {
-        console.log('Visit tracked');
-      })
-      .catch(err => {
-        console.error('Error tracking visit:', err);
-      });
-  }, []);
+  const { data: logData } = useLogUserVisit()
+  console.log("logData: ", logData)
+
   return (
     <>
       <ScrollToTop />

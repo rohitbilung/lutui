@@ -70,7 +70,7 @@ export default function Header({
     <div className="flex w-full items-center justify-between lg:hidden relative">
       {/* Menu Icon - Left */}
       <DropdownMenu>
-        <DropdownMenuTrigger className="focus:outline-none">
+        <DropdownMenuTrigger className="focus:outline-none cursor-pointer">
           <Menu size={24} />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-56">
@@ -78,7 +78,7 @@ export default function Header({
             <div key={index}>
               {!item.dropdown ? (
                 <DropdownMenuItem asChild>
-                  <Link to={item.to} className="w-full text-left">
+                  <Link to={item.to} className="w-full text-left cursor-pointer">
                     {item.label}
                   </Link>
                 </DropdownMenuItem>
@@ -89,7 +89,7 @@ export default function Header({
                   </div>
                   {item.dropdown.map((subItem, subIndex) => (
                     <DropdownMenuItem asChild key={subIndex}>
-                      <Link to={subItem.to} className="pl-4 w-full text-left">
+                      <Link to={subItem.to} className="pl-4 w-full text-left cursor-pointer">
                         {subItem.label}
                       </Link>
                     </DropdownMenuItem>

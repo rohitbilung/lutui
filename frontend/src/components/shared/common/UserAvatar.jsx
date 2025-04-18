@@ -31,22 +31,22 @@ const UserAvatar = () => {
       <DropdownMenuContent align="end" className="w-48">
         {user.role === "user" && (
           <>
-            <DropdownMenuItem onClick={() => {}}>My Account</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => {}}>My Orders</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => {}} className="cursor-pointer">My Account</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => {}} className="cursor-pointer">My Orders</DropdownMenuItem>
           </>
         )}
 
         {user.role === "admin" && (
           <>
-            <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+            <DropdownMenuItem onClick={() => navigate("/dashboard")} className="cursor-pointer">
               Dashboard
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate("/profile")}>
+            <DropdownMenuItem onClick={() => navigate("/profile")} className="cursor-pointer">
               Profile
             </DropdownMenuItem>
           </>
         )}
-        <DropdownMenuItem onClick={handleLogout} className="text-red-500">
+        <DropdownMenuItem onClick={handleLogout} className="text-red-500 cursor-pointer">
           Logout
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -13,6 +13,7 @@ const Orders = () => {
     userId: "",
     paymentStatus: "",
   });
+  console.log("data?.data: ", data?.data)
 
   const totalPages = data?.pagination.total_pages || 1;
 

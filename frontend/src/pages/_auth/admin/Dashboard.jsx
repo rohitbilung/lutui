@@ -3,6 +3,13 @@ import AdminWrapper from "@/components/shared/common/layouts/AdminWrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Eye, Pencil } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export default function Dashboard() {
   const [stats, setStats] = useState([]);
@@ -16,7 +23,6 @@ export default function Dashboard() {
     setTrackingNumber(order.deliveryNumber || "");
     setShowTrackingModal(true);
   };
-
 
   const handleSubmitTracking = async () => {
     try {
@@ -37,7 +43,6 @@ export default function Dashboard() {
       // Close modal & optionally refresh state/UI
       setShowTrackingModal(false);
       console.log("Tracking updated!");
-
     } catch (err) {
       console.error(err);
     }
@@ -59,7 +64,6 @@ export default function Dashboard() {
     ];
     setStats(stats);
 
-
     // Fetch orders data from API
     // fetch("/api/orders")
     //   .then((res) => res.json())
@@ -75,19 +79,26 @@ export default function Dashboard() {
         paymentStatus: "paid",
         itemsCount: "3",
         deliveryNumber: "HHJEJ4J5J5HJ",
-        deliveryStatus: "spipped"
-      }
-    ]
-    setOrders(orders)
+        deliveryStatus: "spipped",
+      },
+    ];
+    setOrders(orders);
   }, []);
 
   return (
-    <>
-    {
-      showTrackingModal && (
-        <div className="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-xl w-[90%] max-w-md space-y-4 shadow-lg">
-            <h2 className="text-lg font-semibold">Update Tracking Number</h2>
+    <AdminWrapper title="Dashboard">
+      <Dialog open={showTrackingModal} onOpenChange={setShowTrackingModal}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-semibold">
+              Update Tracking Number
+            </DialogTitle>
+            <DialogDescription>
+              Enter the new tracking number for the shipment. Click submit to
+              save your changes.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
             <div>
               <label className="text-sm text-gray-600">Tracking Number</label>
               <input
@@ -98,16 +109,18 @@ export default function Dashboard() {
               />
             </div>
             <div className="flex justify-end space-x-2">
-              <Button variant="outline" onClick={() => setShowTrackingModal(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setShowTrackingModal(false)}
+              >
                 Cancel
               </Button>
               <Button onClick={handleSubmitTracking}>Submit</Button>
             </div>
           </div>
-        </div>
-      )
-    }
-    <AdminWrapper title="Dashboard">
+        </DialogContent>
+      </Dialog>
+
       <div className="p-6 space-y-6">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {stats.map((stat, i) => (
@@ -146,16 +159,21 @@ export default function Dashboard() {
               <tbody>
                 {orders.map((order, i) => (
                   <tr key={i} className="border-b">
-                    <td className="p-2 font-medium text-blue-600">{order.id}</td>
+                    <td className="p-2 font-medium text-blue-600">
+                      {order.id}
+                    </td>
                     <td className="p-2">{order.date}</td>
-                    <td className="p-2 text-orange-600 font-medium">{order.customer}</td>
+                    <td className="p-2 text-orange-600 font-medium">
+                      {order.customer}
+                    </td>
                     <td className="p-2">{order.total}</td>
                     <td className="p-2">
                       <span
-                        className={`px-2 py-1 rounded text-white text-xs font-semibold ${order.paymentStatus === "paid"
+                        className={`px-2 py-1 rounded text-white text-xs font-semibold ${
+                          order.paymentStatus === "paid"
                             ? "bg-green-500"
                             : "bg-gray-400"
-                          }`}
+                        }`}
                       >
                         {order.paymentStatus}
                       </span>
@@ -164,12 +182,13 @@ export default function Dashboard() {
                     <td className="p-2">{order.deliveryNumber}</td>
                     <td className="p-2">
                       <span
-                        className={`px-2 py-1 rounded text-xs font-semibold ${order.deliveryStatus === "delivered"
+                        className={`px-2 py-1 rounded text-xs font-semibold ${
+                          order.deliveryStatus === "delivered"
                             ? "bg-green-500"
-                            : order.deliveryStatus === 'canceled'
-                              ? "bg-red-500"
-                              : "bg-yellow-500"
-                          }`}
+                            : order.deliveryStatus === "canceled"
+                            ? "bg-red-500"
+                            : "bg-yellow-500"
+                        }`}
                       >
                         {order.deliveryStatus}
                       </span>
@@ -178,7 +197,11 @@ export default function Dashboard() {
                       <Button size="sm" variant="outline">
                         <Eye size={16} />
                       </Button>
-                      <Button size="sm" variant="outline" onClick={() => handleEditClick(order)}>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleEditClick(order)}
+                      >
                         <Pencil size={16} />
                       </Button>
                     </td>
@@ -190,7 +213,5 @@ export default function Dashboard() {
         </div>
       </div>
     </AdminWrapper>
-    </>
   );
 }
-
