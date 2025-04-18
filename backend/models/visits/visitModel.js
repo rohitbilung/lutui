@@ -8,30 +8,35 @@ module.exports = {
             req.socket?.remoteAddress ||
             req.ip;
 
+        const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+
         try {
             let visit = await Visit.findOne();
 
             if (!visit) {
                 visit = new Visit({
                     count: 1,
-                    visitors: [ip],
+                    visitorsByDate: [{ date: today, ips: [ip] }],
                 });
             } else {
-                if (!visit.visitors.includes(ip)) {
+                let entry = visit.visitorsByDate.find(e => e.date === today);
+
+                if (!entry) {
+                    // No entry for today yet
                     visit.count += 1;
-                    visit.visitors.push(ip);
+                    visit.visitorsByDate.push({ date: today, ips: [ip] });
+                } else if (!entry.ips.includes(ip)) {
+                    // New IP for today
+                    entry.ips.push(ip);
+                    visit.count += 1;
                 }
             }
 
             await visit.save();
 
-            // Optional: log the current count
             console.log('Visit count:', visit.count);
 
-            // Serve your page (HTML, EJS, static file, etc.)
-            res.send(`<h1>Welcome!</h1><p>This site has been visited by ${visit.count} people.</p>`);
-            // or: res.render('home', { count: visit.count });
-            // or: res.sendFile(path.join(__dirname, 'public/index.html'));
+            res.send(`<h1>Welcome!</h1><p>This site has been visited by ${visit.count} unique IPs.</p>`);
         } catch (err) {
             console.error(err);
             res.status(500).send('Something went wrong');
