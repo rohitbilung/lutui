@@ -19,11 +19,13 @@ import { useLoginUser } from "../../lib/queries/Mutations";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../../components/shared/common/Loader/Spinner";
+import { useCart } from "../../context/CartContext";
 
 const Login = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
+  const { clearCart } = useCart()
   const { mutateAsync: loginUser, isPending: isLoggingIn } = useLoginUser();
   const loginForm = useForm({
     resolver: zodResolver(loginSchema),
@@ -38,6 +40,7 @@ const Login = () => {
     setIsLoading(true);
     const response = await loginUser(values);
     if (response.success) {
+      clearCart();
       const { token, data: userData } = response;
       toast.success(response.message);
       loginForm.reset();
