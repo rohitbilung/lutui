@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { 
+const {
     addCart,
     getCart,
     removeCountFromCart,
@@ -10,24 +10,25 @@ const {
     updateOrders,
     trackOrders,
     downloadOrders
- } = require('../controllers/orders.controller');
- const {auth} = require('../middlewares/auth')
- const {isLoggedIn, isAdmin} = require('../middlewares/check')
-const { outOfStock } = require('../middlewares/outOfStock')
+} = require('../controllers/orders.controller');
+const { auth } = require('../middlewares/auth')
+const { isLoggedIn, isAdmin } = require('../middlewares/check')
+const { outOfStock, checkStocks } = require('../middlewares/outOfStock')
+const { isAuth } = require('../middlewares/isAuthenticated')
 
-router.post('/add-to-cart',isLoggedIn, addCart);
+router.post('/add-to-cart', isLoggedIn, addCart);
 
-router.get('/get-cart-details/:userId',isLoggedIn, getCart);
+router.get('/get-cart-details/:userId', isLoggedIn, getCart);
 
-router.post('/remove-count-from-cart',isLoggedIn, removeCountFromCart); //this will remove the count of item
+router.post('/remove-count-from-cart', isLoggedIn, removeCountFromCart); //this will remove the count of item
 
-router.post('/remove-item-from-cart',isLoggedIn, removeProductFromCart); //this will remove the items
+router.post('/remove-item-from-cart', isLoggedIn, removeProductFromCart); //this will remove the items
 
-router.post('/checkout',isLoggedIn, outOfStock, checkout);
+router.post('/checkout',isAuth, checkStocks, checkout);
 
 router.get('/get-orders', getOrders);
 
-router.post('/update-orders',isLoggedIn, isAdmin, updateOrders);
+router.post('/update-orders', isLoggedIn, isAdmin, updateOrders);
 
 router.get('/track-order', trackOrders);
 

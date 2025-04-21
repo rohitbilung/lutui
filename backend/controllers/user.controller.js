@@ -1,5 +1,5 @@
 const userService = require('../services/user.service')
-const { generateToken } = require('../utils/generateToken')
+const { generateToken } = require('../utils/generate')
 const { sendSuccessResponse, sendFailedResponse } = require('../utils/responseUtil')
 
 module.exports = {

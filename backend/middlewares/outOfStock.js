@@ -9,11 +9,35 @@ module.exports = {
         if (colorDetails.count === 0) {
             return res.status(404).send({
                 success: true,
-                data: {} ,
+                data: {},
                 message: "Out Of Stock",
-              });
-        }else{
+            });
+        } else {
             next();
         }
+    },
+
+    checkStocks: async (req, res, next) => {
+        let products = req.body.products
+        try {
+            for (let i = 0; i < products.length; i++) {
+                const productId = products[i].productId;
+                let product = await productModel.getProductsById(productId);
+                let productType = product[req.body.type];
+                let sizeDetails = productType.sizes.find(s => s.size === req.body.size);
+                let colorDetails = sizeDetails.colors.find(c => c.color === req.body.color);
+                if (colorDetails.count === 0) {
+                    return res.status(404).send({
+                        success: true,
+                        data: {},
+                        message: `${product.name} is Out Of Stock`,
+                    });
+                }
+            }
+            next()
+        } catch (error) {
+            return error
+        }
+
     }
 }
