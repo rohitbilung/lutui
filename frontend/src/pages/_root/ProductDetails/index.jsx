@@ -1,22 +1,10 @@
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import PageWrapper from "../../../components/shared/common/layouts/PageWrapper";
 import PageContent from "../../../components/shared/common/layouts/PageContent";
 import AddToCartButton from "../../../components/shared/common/layouts/AddToCartButton";
-import { ShirtIcon } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
 import { useGetProductByID } from "../../../lib/queries/queries";
-import SizeBadges from "./components/SizeBadges";
-import ColorOptions from "./components/ColorOptions";
 import SizeTabContent from "./components/SizeTabContent";
 import { useAuth } from "../../../context/AuthContext";
 
