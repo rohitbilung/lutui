@@ -41,6 +41,7 @@ const Checkout = () => {
   const { user } = useAuth();
   const methods = useForm({
     resolver: zodResolver(checkoutSchema),
+    defaultValues:{paymentMethod:"razorpay"}
   });
   const { mutateAsync: checkoutCart, isPending: isCheckingOut } =
     useCheckoutCart();
@@ -64,7 +65,7 @@ const Checkout = () => {
   const onSubmit = async (values) => {
     if (isCheckingOut) return;
     const response = await checkoutCart({
-      userId: user._id,
+      userId: user?user._id:"",
       name: values.name,
       email: values.email,
       phone: values.phone,
@@ -125,7 +126,6 @@ const Checkout = () => {
       toast.error("Payment Error");
     }
   };
-
   return (
     <PageWrapper>
       <PageContent title="Checkout">

@@ -130,7 +130,7 @@ export const CartProvider = ({ children }) => {
         updatedCart[existingIndex].quantity += 1;
       } else {
         // Item does not exist, add it
-        updatedCart = [...prevCart, { ...item, quantity: 1 }];
+        updatedCart = [...cart, { ...item, quantity: 1 }];
       }
       saveCartToLocalStorage(updatedCart); // ✅ Save to localStorage
       setCart([...updatedCart]);
