@@ -14,7 +14,6 @@ module.exports = {
                 let user = await userModel.createUser(req.body)
                 req.body.userId = user.id
             }
-            //create cart here
             next()
         } else {
             isLoggedIn()

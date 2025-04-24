@@ -15,6 +15,7 @@ const { auth } = require('../middlewares/auth')
 const { isLoggedIn, isAdmin } = require('../middlewares/check')
 const { outOfStock, checkStocks } = require('../middlewares/outOfStock')
 const { isAuth } = require('../middlewares/isAuthenticated')
+const { createCart } = require('../middlewares/createCart')
 
 router.post('/add-to-cart', isLoggedIn, addCart);
 
@@ -24,7 +25,7 @@ router.post('/remove-count-from-cart', isLoggedIn, removeCountFromCart); //this 
 
 router.post('/remove-item-from-cart', isLoggedIn, removeProductFromCart); //this will remove the items
 
-router.post('/checkout',isAuth, checkStocks, checkout);
+router.post('/checkout',isAuth, checkStocks, createCart, checkout);
 
 router.get('/get-orders', getOrders);
 
