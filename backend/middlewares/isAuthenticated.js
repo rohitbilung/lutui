@@ -16,7 +16,7 @@ module.exports = {
             }
             next()
         } else {
-            isLoggedIn()
+            isLoggedIn(req, res, next)
             next()
         }
     }

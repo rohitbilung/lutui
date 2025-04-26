@@ -37,11 +37,11 @@ const checkoutSchema = z.object({
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { totalPrice } = useCart();
+  const { totalPrice, cart } = useCart();
   const { user } = useAuth();
   const methods = useForm({
     resolver: zodResolver(checkoutSchema),
-    defaultValues:{paymentMethod:"razorpay"}
+    defaultValues: { paymentMethod: "razorpay" },
   });
   const { mutateAsync: checkoutCart, isPending: isCheckingOut } =
     useCheckoutCart();
@@ -64,8 +64,18 @@ const Checkout = () => {
 
   const onSubmit = async (values) => {
     if (isCheckingOut) return;
+    const products = cart.map((item) => {
+      return {
+        productId: item.productId._id,
+        color: item.color,
+        size: item.size,
+        type: item.type,
+        price: item.price,
+        quantity: item.quantity,
+      };
+    });
     const response = await checkoutCart({
-      userId: user?user._id:"",
+      userId: user ? user._id : "",
       name: values.name,
       email: values.email,
       phone: values.phone,
@@ -79,6 +89,7 @@ const Checkout = () => {
       },
       paymentMethod: values.paymentMethod,
       orderNotes: values.notes,
+      products: products,
     });
     if (response.success) {
       confirmPayment(values);
@@ -159,7 +170,6 @@ const Checkout = () => {
         </FormProvider>
       </PageContent>
     </PageWrapper>
-
   );
 };
 
