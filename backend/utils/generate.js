@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
     generateInvoice: (params) => {
@@ -34,5 +35,18 @@ module.exports = {
         }
         let password = name + randomPart;
         return password;
+    },
+
+    generateGuestId: (req, res) => {
+        const guestId = uuidv4(); // generate unique guest ID
+        // Set cookie with options (adjust expiration as needed)
+        res.cookie('guestId', guestId, {
+            httpOnly: true,     // prevents client-side JS from accessing the cookie
+            maxAge: 1 * 24 * 60 * 60 * 1000, // 30 days
+            sameSite: 'Lax',
+            secure: process.env.NODE_ENV === 'production', // only over HTTPS in production
+        });
+
+        return guestId;
     }
 }

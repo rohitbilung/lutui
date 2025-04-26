@@ -1,10 +1,12 @@
 const { isLoggedIn } = require('./check')
 const userModel = require('../models/userModel/user.model')
-const {generatePassword} = require('../utils/generate')
+const {generatePassword, generateGuestId} = require('../utils/generate')
 
 module.exports = {
     isAuth: async (req, res, next) => {
         if (req.body.userId === '') {
+            let guestId = generateGuestId(req,res)
+            req.body.guestId = guestId
             let isExist = await userModel.getUser({ email: req.body.email })
             if (isExist) {
                 req.body.userId = isExist.id
@@ -17,7 +19,6 @@ module.exports = {
             next()
         } else {
             isLoggedIn(req, res, next)
-            next()
         }
     }
 }

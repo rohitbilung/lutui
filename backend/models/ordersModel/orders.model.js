@@ -5,9 +5,17 @@ const User = require('../userModel/user.schema')
 module.exports = {
     getCart: async (body) => {
         try {
-            let params = {
-                userId: body.userId ? body.userId : body._id,
-                "paymentStatus": body.paymentStatus ? body.paymentStatus : "pending"
+            let params = {}
+            if(body.guestId){
+                params = {
+                    guestId: body.guestId ? body.guestId : guestId,
+                    "paymentStatus": body.paymentStatus ? body.paymentStatus : "pending"
+                }
+            }else{
+                params = {
+                    userId: body.userId ? body.userId : body._id,
+                    "paymentStatus": body.paymentStatus ? body.paymentStatus : "pending"
+                }
             }
             let res = await Order.findOne(params)
             return res
@@ -192,12 +200,22 @@ module.exports = {
         return res
     },
 
-    updatePaymentInfoToCart: async (user, data) => {
-        let res = await Order.updateOne(
-            {
-                userId: user.id,
+    updatePaymentInfoToCart: async (body, data) => {
+        let match = {}
+        if(body.guestId){
+            match = {
+                guestId: body.guestId,
                 paymentStatus: "pending"
-            },
+            }
+        }else{
+            match = {
+                userId: body.userId,
+                paymentStatus: "pending"
+            }
+        }
+
+        let res = await Order.updateOne(
+            match,
             {
                 $set: {
                     paymentStatus: data.status,

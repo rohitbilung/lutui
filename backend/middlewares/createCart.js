@@ -12,6 +12,7 @@ module.exports = {
             })
             let insertData = {
                 "userId": req.body.userId ? req.body.userId : req.user.id,
+                "guestId":req.body.guestId,
                 "products": req.body.products,
                 "totalPrice": totalPrice,
                 "paymentStatus": "pending",
