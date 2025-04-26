@@ -6,8 +6,8 @@ const {
  } = require('../controllers/razorpay.controller');
 const {isLoggedIn, isAdmin} = require('../middlewares/check')
 
-router.post('/create-payment',isLoggedIn, createPayments);
+router.post('/create-payment', createPayments);
 
-router.post('/verify-payment',isLoggedIn, verifyPayments);
+router.post('/verify-payment', verifyPayments);
 
 module.exports = router;
