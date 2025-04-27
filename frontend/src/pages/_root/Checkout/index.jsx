@@ -37,7 +37,7 @@ const checkoutSchema = z.object({
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { totalPrice, cart } = useCart();
+  const { totalPrice, cart, clearCart } = useCart();
   const { user } = useAuth();
   const methods = useForm({
     resolver: zodResolver(checkoutSchema),
@@ -118,6 +118,7 @@ const Checkout = () => {
           },
           handler: async (response) => {
             await verifyPayment(response);
+            clearCart();
             toast.success("Payment Successful");
             methods.reset();
             setTimeout(() => {

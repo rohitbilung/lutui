@@ -204,7 +204,6 @@ export const createPayment = async (data) => {
 export const verifyPayment = async (data) => {
   return await apiRequest({
     method: "POST",
-    auth: true,
     data,
     url: `/verify-payment`,
   });
