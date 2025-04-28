@@ -37,6 +37,15 @@ module.exports = {
             sendFailedResponse(req, res, result)
         }
     },
+    
+    stocks: async (req, res) => {
+        let result = {status:200, data:"", message:"" }
+        if (result) {
+            sendSuccessResponse(req, res, result)
+        } else {
+            sendFailedResponse(req, res, result)
+        }
+    },
 
     checkout: async (req, res) => {
         let result = await orderService.checkout(req.body, req.user)

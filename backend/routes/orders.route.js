@@ -5,6 +5,7 @@ const {
     getCart,
     removeCountFromCart,
     removeProductFromCart,
+    stocks,
     checkout,
     getOrders,
     updateOrders,
@@ -25,7 +26,9 @@ router.post('/remove-count-from-cart', isLoggedIn, removeCountFromCart); //this 
 
 router.post('/remove-item-from-cart', isLoggedIn, removeProductFromCart); //this will remove the items
 
-router.post('/checkout',isAuth, checkStocks, createCart, checkout);
+router.get('/check-stocks', checkStocks, stocks);
+
+router.post('/checkout',checkStocks, isAuth , createCart, checkout);
 
 router.get('/get-orders', getOrders);
 
