@@ -52,19 +52,21 @@ module.exports = {
                     orderId : razorpay_order_id,
                     paymentId : razorpay_payment_id
                 }
-                console.log(req.user)
                 if(req.user){
                     req.body.userId = req.user._id
                 }else{
                     req.body.guestId = req.cookies.guestId
                 }
-                console.log(req.body)
                 let orders = await ordersModel.getCart(req.body)
-                console.log(orders,'======================')
                 for (const item of orders.products) {
                     await productModel.updateQuantityOfProduct(item)
                 }
                 await ordersModel.updatePaymentInfoToCart(req.body, data)
+                res.clearCookie('guestId', {
+                    httpOnly: true,
+                    sameSite: 'Lax',
+                    secure: process.env.NODE_ENV === 'production',
+                });
                 res.json({ success: true, payment_id: razorpay_payment_id });
             } else {
                 await ordersModel.updatePaymentInfoToCart(req.user,"failed")

@@ -5,10 +5,10 @@ const {
     verifyPayments
  } = require('../controllers/razorpay.controller');
 const {isLoggedIn, isAdmin} = require('../middlewares/check')
-const { isAuth } = require('../middlewares/isAuthenticated')
+const { isVerifyAuth } = require('../middlewares/isAuthenticated')
 
 router.post('/create-payment', createPayments);
 
-router.post('/verify-payment',isAuth, verifyPayments);
+router.post('/verify-payment',isVerifyAuth, verifyPayments);
 
 module.exports = router;

@@ -20,5 +20,13 @@ module.exports = {
         } else {
             isLoggedIn(req, res, next)
         }
+    },
+
+    isVerifyAuth: async (req, res, next) => {
+        if (req.cookies.guestId) {
+            next()
+        } else {
+            isLoggedIn(req, res, next)
+        }
     }
 }
