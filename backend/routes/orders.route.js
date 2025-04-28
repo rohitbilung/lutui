@@ -26,7 +26,7 @@ router.post('/remove-count-from-cart', isLoggedIn, removeCountFromCart); //this 
 
 router.post('/remove-item-from-cart', isLoggedIn, removeProductFromCart); //this will remove the items
 
-router.get('/check-stocks', checkStocks, stocks);
+router.post('/check-stocks', checkStocks, stocks);
 
 router.post('/checkout',checkStocks, isAuth , createCart, checkout);
 
