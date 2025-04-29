@@ -218,3 +218,12 @@ export const checkoutCart = async (data) => {
     url: `/orders/checkout`,
   });
 };
+
+export const checkStocks = async (data) => {
+  return await apiRequest({
+    method: "POST",
+    auth: true,
+    data,
+    url: `/orders/check-stocks`,
+  });
+};

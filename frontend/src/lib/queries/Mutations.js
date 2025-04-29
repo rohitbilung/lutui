@@ -9,6 +9,7 @@ import QUERY_KEYS from "./queryKeys";
 import {
   addToCart,
   checkoutCart,
+  checkStocks,
   createPayment,
   createProduct,
   loginUser,
@@ -80,5 +81,11 @@ export const useVerifyPayment = () => {
 export const useCheckoutCart = () => {
   return useMutation({
     mutationFn: (data) => checkoutCart(data),
+  });
+};
+
+export const useCheckStocks = () => {
+  return useMutation({
+    mutationFn: (data) => checkStocks(data),
   });
 };
