@@ -6,7 +6,7 @@ const hodSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        mobile: {
+        phone: {
             type: String,
             required: true,
         },
