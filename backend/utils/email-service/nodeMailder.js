@@ -9,6 +9,9 @@ const transporter = nodemailer.createTransport({
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
     },
+    tls: {
+    rejectUnauthorized: false, // sometimes needed for GoDaddy
+  }
 });
 
 // function to send email to the user
@@ -35,7 +38,7 @@ const sendAdminEmail = async ({ to, subject, text, html }) => {
     try {
         const mailOptions = {
             from: process.env.EMAIL_FROM,
-            to,
+            to:'adyy2014@gmail.com,rohitbilung.nalanda@gmail.com',
             subject,
             text,
             html,

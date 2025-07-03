@@ -11,7 +11,7 @@ Best regards,
 const userHtml = `
     <p>Dear Customer,</p>
     <p>Thank you for registering with <strong>[Your Company Name]</strong>, your trusted real estate property dealer. Our team will contact you soon to assist with your property needs.</p>
-    <p>If you wish to reach us directly, please call us at <a href="tel:[Your Contact Number]">[Your Contact Number]</a>.</p>
+    <p>If you wish to reach us directly, please call us at <strong>[Your Contact Number]</strong></a>.</p>
     <p>Best regards,<br/>[Your Company Name] Team</p>
 `;
 

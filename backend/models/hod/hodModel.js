@@ -19,7 +19,8 @@ module.exports = {
 
             let hodExist = await Hod.findOne({ email });
             if (hodExist) {
-                return res.status(200).send("You have already registered with us. We will contact you soon.");
+
+                return res.status(409).send("You have already registered with us. We will contact you soon.");
             }
 
             await Hod.create({ name: fullName, email, phone });
@@ -46,14 +47,16 @@ module.exports = {
                 subject: userSubject.replace('[Your Company Name]', companyName),
                 text: userText
                     .replace('[Your Company Name]', companyName)
-                    .replace('[Your Contact Number]', contactNumber),
+                    .replace('[Your Contact Number]', contactNumber)
+                    .replace('[Your Company Name]', companyName),
                 html: userHtml
                     .replace('[Your Company Name]', companyName)
                     .replace('[Your Contact Number]', contactNumber)
+                    .replace('[Your Company Name]', companyName)
             };
 
             // Send both emails in parallel
-            await Promise.all([
+            await Promise.allSettled([
                 sendAdminEmail(adminMail),
                 sendEmailUser(userMail)
             ]);
