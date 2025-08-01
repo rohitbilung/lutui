@@ -1,7 +1,7 @@
-const express = require('express')
 const app = require('./app')
 const http = require('http')
 require('dotenv').config();
+const logger = require('./logger')
 
 const port  = process.env.PORT
 
