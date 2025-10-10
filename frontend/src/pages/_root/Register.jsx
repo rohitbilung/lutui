@@ -16,10 +16,10 @@ import {
 } from "../../components/ui/form";
 import { useRegisterUser } from "../../lib/queries/Mutations";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { mutateAsync: registerUser, isPending: isRegistering } =
     useRegisterUser();
   const registerForm = useForm({
@@ -43,7 +43,7 @@ const Register = () => {
         navigate("/login");
       }, 2000);
     } else {
-      toast.error(response?.message || 'Something went wrong!')
+      toast.error(response?.message || "Something went wrong!");
     }
   };
 
@@ -54,7 +54,7 @@ const Register = () => {
           <Form {...registerForm}>
             <form
               onSubmit={registerForm.handleSubmit(onSubmit)}
-              className="space-y-6 w-full"
+              className="space-y-4 mb-4 w-full"
             >
               <FormField
                 control={registerForm.control}
@@ -145,12 +145,23 @@ const Register = () => {
               />
 
               <div className="flex justify-center items-center">
-                <Button type="submit" className="w-full" disabled={isRegistering}>
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isRegistering}
+                >
                   Register
                 </Button>
               </div>
             </form>
           </Form>
+
+          <div className="flex justify-center text-sm text-gray-600">
+            <span>Already have an account?</span>
+            <Link to="/login" className="ml-1 text-blue-600 hover:underline">
+              Log in
+            </Link>
+          </div>
         </div>
       </PageContent>
     </PageWrapper>

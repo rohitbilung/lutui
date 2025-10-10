@@ -1,10 +1,30 @@
 import {
   // keepPreviousData,
   useMutation,
+  useQueryClient,
   // useQuery,
   // useQueryClient,
 } from "@tanstack/react-query";
-import { addToCart, createProduct, loginUser, registerUser, removeAnItemFromCart, removeItemsFromCart } from "../apis";
+import QUERY_KEYS from "./queryKeys";
+import {
+  addToCart,
+  checkoutCart,
+  checkStocks,
+  createPayment,
+  createProduct,
+  loginUser,
+  logoutUser,
+  registerUser,
+  removeAnItemFromCart,
+  removeItemsFromCart,
+  verifyPayment,
+} from "../apis";
+
+export const useLogoutUser = () => {
+  return useMutation({
+    mutationFn: () => logoutUser(),
+  });
+};
 
 export const useLoginUser = () => {
   return useMutation({
@@ -39,5 +59,33 @@ export const useRemoveItemsFromCart = () => {
 export const useRemoveAnItemFromCart = () => {
   return useMutation({
     mutationFn: (data) => removeAnItemFromCart(data),
+  });
+};
+
+export const useCreatePayment = () => {
+  return useMutation({
+    mutationFn: (data) => createPayment(data),
+  });
+};
+
+export const useVerifyPayment = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (data) => verifyPayment(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_CART_DETAILS] })
+    }
+  });
+};
+
+export const useCheckoutCart = () => {
+  return useMutation({
+    mutationFn: (data) => checkoutCart(data),
+  });
+};
+
+export const useCheckStocks = () => {
+  return useMutation({
+    mutationFn: (data) => checkStocks(data),
   });
 };

@@ -1,5 +1,6 @@
 const orderModel = require('../models/ordersModel/orders.model')
 const productModel = require('../models/productModel/product.model')
+const { trackingApi } = require('../utils/thirdPartyApis')
 
 module.exports = {
     addCart: async (body, user) => {
@@ -32,17 +33,32 @@ module.exports = {
                 let cart = await orderModel.addCart(insertData)
                 return { status: 201, data: cart, message: "cart added successful" }
             } else {
+                const findProduct = cartExist.products.find(product =>
+                    product.productId.toString() === body.productId &&
+                    product.type === body.type &&
+                    product.color === body.color &&
+                    product.size === body.size
+                );
+
+                if (findProduct) {
+                    if (colorDetails.count < (findProduct.quantity + body.quantity)) {
+                        return { status: 404, data: {}, message: "Out Of Stock" };
+                    }
+                } else {
+                    if (colorDetails.count < body.quantity) {
+                        return { status: 404, data: {}, message: "Out Of Stock" };
+                    }
+                }
                 let productExists = false, tp;
                 body.totalPrice = Number(cartExist.totalPrice) + Number((body.price * body.quantity))
                 for (let product of cartExist.products) {
-                    console.log(product.type)
-                    console.log(body.type)
                     if (product.productId.equals(body.productId) && product.type === body.type && product.color === body.color && product.size === body.size) {
                         let updateExistProduct = await orderModel.updateExistingCombinedProducts(body)
                         productExists = true;
                         break;
                     }
                 }
+                console.log(productExists, "============")
                 if (!productExists) {
                     let product = {
                         "productId": body.productId,
@@ -53,6 +69,7 @@ module.exports = {
                         "quantity": body.quantity
                     }
                     body.product = product
+                    console.log(body)
                     let cart = await orderModel.updateCart(body)
                 }
                 return { status: 200, data: "cart", message: "cart update successful" }
@@ -67,9 +84,9 @@ module.exports = {
     getCart: async (params, user) => {
         params.userId = user ? user.id : params.userId
         try {
-            params.paymentStatus = "pending"
+            params.paymentStatus = params.paymentStatus ? params.paymentStatus : "pending"
             let data = await orderModel.getPopulateCart(params)
-            if (data.length > 0) {
+            if (data) {
                 return { status: 200, data: data, message: "fetched cart successful" }
             } else {
                 return { status: 404, data: data, message: "No product available" }
@@ -86,7 +103,6 @@ module.exports = {
         try {
             let cartExist = await orderModel.getCart(body)
             body.totalPrice = Number(cartExist.totalPrice) - Number((body.price))
-            console.log(body)
             let data = await orderModel.removeCountFromCart(body)
             if (data.modifiedCount === 1) {
                 return { status: 200, data: "", message: "Product modified successful" }
@@ -122,18 +138,68 @@ module.exports = {
     checkout: async (body, user) => {
         body.userId = user ? user.id : body.userId
         try {
-            let cartOrder = await orderModel.getCart(body)
-
-            cartOrder.paymentMethod = body.paymentMethod;
-            cartOrder.shippingAddress = body.shippingAddress;
-            let totalPrice = 0;
-            cartOrder.products.forEach(item => {
-                totalPrice += Number(item.price * item.quantity);
-            });
-            cartOrder.totalPrice = totalPrice;
-
             let data = await orderModel.checkout(body)
             return { status: 200, data: "", message: "susscessfully" }
+        } catch (error) {
+            return {
+                error: error
+            }
+        }
+    },
+
+    getOrders: async (query, pagination) => {
+        try {
+            let {
+                data,
+                pagination: paginationData,
+                error,
+            } = await orderModel.getOrders(query, pagination);
+            if (error) {
+                throw new Error(error.message);
+            }
+            return {
+                status: 200,
+                pagination: paginationData,
+                data: data,
+                message: "Orders have been fetched.",
+            };
+        } catch (error) {
+            return {
+                error: error,
+                pagination,
+            };
+        }
+    },
+
+    updateOrders: async (body, query, user) => {
+        query.userId = user ? user.id : query.userId
+        try {
+            let data = await orderModel.updateOrders(body, query)
+            return { status: 200, data: "", message: "susscessfully" }
+        } catch (error) {
+            return {
+                error: error
+            }
+        }
+    },
+   
+    trackOrders: async (query, user) => {
+        query.userId = user ? user.id : query.userId
+        try {
+            let data = await trackingApi(query)
+            return { status: 200, data: data, message: "susscessfully" }
+        } catch (error) {
+            return {
+                error: error
+            }
+        }
+    },
+    
+    downloadOrders: async (query, user) => {
+        query.userId = user ? user.id : query.userId
+        try {
+            let data = await orderModel.downloadOrders(query)
+            return { status: 200, data: data, message: "susscessfully" }
         } catch (error) {
             return {
                 error: error

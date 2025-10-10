@@ -3,13 +3,31 @@ const app = express();
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const path = require('path')
+require('dotenv').config();
+const errorHandler = require('./middlewares/errorHandler')
+const logger = require('./logger')
+
+let url = []
+if(process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'Production'){
+    url = [
+        'https://www.lutui.in',
+        'http://www.lutui.in',
+        'https://lutui.in',
+        'http://lutui.in',
+        'www.lutui.in',
+        'lutui.in',
+    ]
+}else{
+    url.push(process.env.UI_LOCAL_URL)
+}
 
 let corsOptions = {
-    origin: ['http://localhost:5173'],
+    origin: url,
     methods: ["GET", "PUT", "POST", "OPTIONS"],
     allowedHeaders: [
         "Content-Type",
         "Authorization",
+        "Lutui-Auth-Token",
     ],
     credentials: true,
     preflightContinue: false,
@@ -19,8 +37,16 @@ let corsOptions = {
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
+app.set('trust proxy', true);
 
 const _dirname = path.resolve();
+
+app.use((req, res, next) => {  // all success logs
+  res.on('finish', () => {
+    logger.info(`${req.method} ${req.originalUrl} ${res.statusCode}`);
+  });
+  next();
+});
 
 require('./routes/zindex')(app);
 
@@ -29,12 +55,17 @@ const productRoutes = require('./routes/product.route')
 const uploadRoutes = require('./routes/uploadProduct.route')
 const ordersRoutes = require('./routes/orders.route')
 const paymentRoutes = require('./routes/razorpay.route')
+const visitors = require('./routes/visit.route')
+const thirdParty = require('./routes/thirdParty.route')
 
 app.use('/api/user', userRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/upload', uploadRoutes)
 app.use('/api/orders', ordersRoutes)
 app.use('/api', paymentRoutes)
+app.use('/api', visitors)
+app.use('/tp', thirdParty)
+
 
 app.use(express.static(path.join(_dirname, '/frontend/dist')))
 app.get('*',(req, res)=>{
@@ -53,5 +84,7 @@ app.use(function (req, res, next) {
         }
     });
 });
+
+app.use(errorHandler);
 
 module.exports = app;

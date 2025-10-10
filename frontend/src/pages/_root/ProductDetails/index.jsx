@@ -1,22 +1,10 @@
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import PageWrapper from "../../../components/shared/common/layouts/PageWrapper";
 import PageContent from "../../../components/shared/common/layouts/PageContent";
 import AddToCartButton from "../../../components/shared/common/layouts/AddToCartButton";
-import { ShirtIcon } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
 import { useGetProductByID } from "../../../lib/queries/queries";
-import SizeBadges from "./components/SizeBadges";
-import ColorOptions from "./components/ColorOptions";
 import SizeTabContent from "./components/SizeTabContent";
 import { useAuth } from "../../../context/AuthContext";
 
@@ -63,57 +51,59 @@ const ProductDetails = () => {
     <PageWrapper>
       <PageContent title="Product Details">
         {product ? (
-          <div className="flex flex-col gap-4">
-            <div className="grid md:grid-cols-2 gap-6 p-6 bg-white shadow-lg rounded-lg">
+          <div className="flex flex-col gap-4 px-2 sm:px-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 sm:p-6 bg-white shadow-lg rounded-lg">
               {/* Left Section - Image Gallery */}
               <div className="flex flex-col-reverse md:flex-row gap-2 items-center w-full">
                 {/* Thumbnails */}
-                <div className="max-h-[600px] md:h-full flex md:flex-col md:mt-4 gap-2 overflow-x-auto overflow-y-hidden md:overflow-x-hidden md:overflow-y-auto">
+                <div className="flex md:flex-col gap-2 max-w-full md:max-w-none overflow-x-auto md:overflow-y-auto scrollbar-thin">
                   {product.images.map((img, index) => (
                     <img
                       key={index}
                       src={img}
                       alt={`Thumbnail ${index}`}
-                      className={`w-16 h-16 object-cover border cursor-pointer transition-transform duration-200 ${
-                        (selectedImage === "" && index == 0) ||
-                        selectedImage === img
+                      onContextMenu={(e) => e.preventDefault()}
+                      draggable="false"
+                      onDragStart={(e) => e.preventDefault()}
+                      className={`w-14 h-14 sm:w-16 sm:h-16 object-cover border cursor-pointer transition-transform duration-200 ${(selectedImage === "" && index === 0) || selectedImage === img
                           ? "border-blue-500 scale-110 shadow-md"
                           : "border-gray-300 hover:scale-105"
-                      }`}
+                        }`}
                       onClick={() => setSelectedImage(img)}
                     />
                   ))}
                 </div>
 
                 {/* Main Product Image */}
-                <div className="p-2 flex-1">
+                <div className="p-2 flex-1 w-full">
                   <img
                     src={selectedImage || product.images[0]}
                     alt={product.name}
-                    className="max-h-[500px] w-full object-contain"
+                    onContextMenu={(e) => e.preventDefault()}
+                    draggable="false"
+                    onDragStart={(e) => e.preventDefault()}
+                    className="max-h-[400px] sm:max-h-[500px] w-full object-contain"
                   />
                 </div>
               </div>
 
               {/* Right Section - Product Info */}
-              <div className="space-y-4">
-                <h2 className="text-2xl font-semibold">{product.name}</h2>
-                <h3 className="text-xl font-semibold">{`₹ ${price}`}</h3>
+              <div className="space-y-4 w-full">
+                <h2 className="text-xl sm:text-2xl font-semibold">{product.name}</h2>
+                <h3 className="text-lg sm:text-xl font-semibold">{`₹ ${price}`}</h3>
 
-                <div>
+                {/* Tabs */}
+                <div className="w-full">
                   <Tabs
                     value={size}
-                    className="w-[400px]"
                     onValueChange={setSize}
+                    className="w-full"
                   >
-                    <TabsList className="grid w-full grid-cols-2 bg-red-100">
-                      <TabsTrigger value="regular" className="cursor-pointer">
-                        Regular Shirt
-                      </TabsTrigger>
-                      <TabsTrigger value="oversized" className="cursor-pointer">
-                        Oversize Shirt
-                      </TabsTrigger>
+                    <TabsList className="w-full grid grid-cols-2 text-sm sm:text-base bg-[#00BF63] rounded-md overflow-hidden">
+                      <TabsTrigger value="regular">Regular Shirt</TabsTrigger>
+                      <TabsTrigger value="oversized">Oversize Shirt</TabsTrigger>
                     </TabsList>
+
                     <TabsContent value="regular">
                       <SizeTabContent
                         product={product}
@@ -137,22 +127,37 @@ const ProductDetails = () => {
                   </Tabs>
                 </div>
 
-                <AddToCartButton product={{ ...cartData, productId: product }} btnVariant="blue" />
-                {/* {cartData && (
-                  <AddToCartButton product={cartData} btnVariant="blue" />
-                )} */}
+                {/* Add to Cart Button */}
+                <AddToCartButton
+                  product={{ ...cartData, productId: product }}
+                  disabled={!colorData}
+                  btnVariant="blue"
+                />
               </div>
             </div>
 
-            <div className="flex flex-col gap-2 bg-white shadow-lg rounded-lg p-6">
-              <h2 className="text-2xl underline font-semibold">
-                Design Description
-              </h2>
-              <p className="text-base md:text-lg indent-8 md:indent-24">
+            {/* Description Section */}
+            <div className="flex flex-col gap-2 bg-white shadow-lg rounded-lg p-4 sm:p-6">
+              <h2 className="text-xl sm:text-2xl underline font-semibold">Design Description</h2>
+              <p className="text-sm sm:text-base md:text-lg indent-6 sm:indent-12 md:indent-24">
                 {product.description}
               </p>
+
+              {product.credits && (
+                <div className="mt-4 sm:mt-6">
+                  <h3 className="text-lg sm:text-xl font-semibold underline mb-2">Design Credits</h3>
+                  <div className="text-sm sm:text-base">
+                    {Object.entries(product.credits).map(([role, name]) => (
+                      <p key={role}>
+                        <span className="font-semibold">{role}:</span> {name}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
+
         ) : (
           <div className="flex flex-col items-center justify-center">
             <h5 className="text-lg font-medium">Product does not exist.</h5>

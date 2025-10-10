@@ -4,6 +4,7 @@ import { useCart } from "../../../context/CartContext";
 
 const CartIcon = () => {
   const { cartQuantity } = useCart();
+  
   return (
     <div className="relative">
       <Link to="/cart" className="relative" title="Go to Cart">

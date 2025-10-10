@@ -1,5 +1,4 @@
 const productModel = require("../models/productModel/product.model");
-const ItemSku = require("../models/itemsku/itemskuModel");
 
 module.exports = {
   getProductsById: async (query) => {
@@ -11,6 +10,8 @@ module.exports = {
         "images": originalData.images,
         "category": originalData.category,
         "description": originalData.description,
+        "subCategory": originalData.subCategory,
+        "credits": originalData.credits,
         "sizeType": {
           "regular": {
             "price": originalData.regular.price,
@@ -18,7 +19,8 @@ module.exports = {
               "size": size.size,
               "colors": size.colors.map(color => ({
                 "color": color.color,
-                "count": color.count
+                "count": color.count,
+                "images" : color.images
               }))
             }))
           },
@@ -28,7 +30,8 @@ module.exports = {
               "size": size.size,
               "colors": size.colors.map(color => ({
                 "color": color.color,
-                "count": color.count
+                "count": color.count,
+                "images" : color.images
               }))
             }))
           }

@@ -12,13 +12,13 @@ const ContactInfo = () => {
           </li>
           <li className="flex items-center">
             <Phone size={20} className="mr-2" />
-            (91) 9938 452 439
+            (+91) 8093 938 446
           </li>
           <li className="flex items-center">
             <Mail size={20} className="mr-2" />
             <div>
-              <p>sales@lutui.in</p>
-              <p>help@lutui.in</p>
+              <p>kayom@lutui.in</p>
+              <p>info@lutui.in</p>
             </div>
           </li>
         </ul>

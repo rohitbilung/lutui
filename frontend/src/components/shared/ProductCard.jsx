@@ -8,7 +8,7 @@ const ProductCard = ({ product }) => {
 
   const visitProductDetails = () => {
     window.scrollTo(0, 0),
-    navigate(`/product/${product._id}`);
+      navigate(`/product/${product._id}`);
   };
 
   return (
@@ -17,8 +17,12 @@ const ProductCard = ({ product }) => {
       <div className="relative">
         <img
           src={product.images[0]}
+          onContextMenu={(e) => e.preventDefault()}
+          draggable="false"
+          onDragStart={(e) => e.preventDefault()}
           alt={product.name}
-          className="w-full object-cover aspect-square cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+          // className="w-full object-cover aspect-square cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+          className="w-full aspect-[3/4] object-cover cursor-pointer transition-transform duration-300 hover:scale-105 hover:shadow-lg"
           onClick={visitProductDetails}
         />
         {/* <div className="absolute inset-0 bg-black opacity-0 hover:opacity-20 transition-opacity duration-300"></div> */}

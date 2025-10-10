@@ -1,5 +1,8 @@
 const Razorpay = require('razorpay');
 const crypto = require('crypto')
+const ordersModel = require('../models/ordersModel/orders.model');
+const productModel = require('../models/productModel/product.model');
+
 require('dotenv').config();
 
 module.exports = {
@@ -43,10 +46,30 @@ module.exports = {
                 .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
                 .update(`${razorpay_order_id}|${razorpay_payment_id}`)
                 .digest("hex");
-            console.log(generated_signature === razorpay_signature)
             if (generated_signature === razorpay_signature) {
+                let data = {
+                    status : "paid",
+                    orderId : razorpay_order_id,
+                    paymentId : razorpay_payment_id
+                }
+                if(req.user){
+                    req.body.userId = req.user._id
+                }else{
+                    req.body.guestId = req.cookies.guestId
+                }
+                let orders = await ordersModel.getCart(req.body)
+                for (const item of orders.products) {
+                    await productModel.updateQuantityOfProduct(item)
+                }
+                await ordersModel.updatePaymentInfoToCart(req.body, data)
+                res.clearCookie('guestId', {
+                    httpOnly: true,
+                    sameSite: 'Lax',
+                    secure: process.env.NODE_ENV === 'production',
+                });
                 res.json({ success: true, payment_id: razorpay_payment_id });
             } else {
+                await ordersModel.updatePaymentInfoToCart(req.user,"failed")
                 res.status(400).json({ success: false, message: "Invalid signature" });
             }
         } catch (error) {

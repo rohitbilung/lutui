@@ -7,34 +7,38 @@ const AddToCartButton = ({
   product,
   btnVariant = "secondary",
   showViewButton = false,
+  disabled = false,
 }) => {
   const navigate = useNavigate();
   const { addToCart, removeOneFromCart, isInCart, getItemQuantity } = useCart();
-  const quantity = getItemQuantity(product._id);
 
   const visitProductDetails = () => {
     navigate(`/product/${product._id}`);
   };
 
   const addItemToCart = (product) => {
-    const itemObject = { ...product, quantity: quantity + 1 };
-    addToCart(itemObject);
-  }
+    addToCart(product);
+  };
 
   return (
     <div className="w-full flex items-center gap-1">
-      {isInCart(product._id) ? (
+      {isInCart(product) ? (
         <div className="flex flex-1 justify-between gap-2">
           <Button
-            onClick={() => removeOneFromCart(product._id)}
+            disabled={disabled}
+            onClick={() => removeOneFromCart(product)}
             variant={btnVariant}
           >
             <MinusIcon />
           </Button>
           <div className="text-lg font-semibold bg-white border w-full flex items-center justify-center cursor-not-allowed">
-            <span>{quantity}</span>
+            <span>{getItemQuantity(product)}</span>
           </div>
-          <Button onClick={() => addItemToCart(product)} variant={btnVariant}>
+          <Button
+            disabled={disabled}
+            onClick={() => addItemToCart(product)}
+            variant={btnVariant}
+          >
             <PlusIcon />
           </Button>
         </div>
@@ -42,6 +46,7 @@ const AddToCartButton = ({
         <Button
           onClick={() => addItemToCart(product)}
           variant={btnVariant}
+          disabled={disabled}
           className="flex-1"
         >
           ADD TO CART

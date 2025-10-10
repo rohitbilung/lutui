@@ -1,18 +1,27 @@
 const mongoose = require("mongoose");
 const Product = require("../productModel/product.schema");
-const ItemSku = require("../itemsku/itemskuSchema");
 
 module.exports = {
   getProducts: async (query, pagination) => {
     let page = Number(query.page),
       limit = Number(query.limit);
+    let match = {}
+    if(query.category!== ''){
+      match['category'] = query.category
+    }
+    if(query.subCategory!== ''){
+      match['subCategory'] = query.subCategory
+    }
+    if (query.search && query.search.trim() !== '') {
+      match['name'] = { $regex: query.search.trim(), $options: 'i' }; // case-insensitive regex
+    }
     try {
       let data = await Product.aggregate([
-        { $match: {} },
+        { $match: match },
         {
           $project: {
             name: 1,
-            images: 1,
+            images: 1,  
             category: 1,
             createdAt: 1,
           },
@@ -22,7 +31,7 @@ module.exports = {
         { $limit: limit },
       ]);
 
-      const total_records = await Product.countDocuments();
+      const total_records = await Product.countDocuments(match);
       const total_pages = Math.ceil(total_records / limit);
       let next_page = null;
       const viewed_records = (page - 1) * limit;
@@ -172,4 +181,30 @@ module.exports = {
       return error;
     }
   },
+
+  updateQuantityOfProduct: async (data) => {
+
+    const update = {
+      $inc: {
+        [`${data.type}.sizes.$[sizeElem].colors.$[colorElem].count`]: -data.quantity
+      }
+    };
+
+    const arrayFilters = [
+      { 'sizeElem.size': data.size },
+      { 'colorElem.color': data.color }
+    ];
+
+    try {
+      let res = await Product.updateOne(
+        { _id: data.productId },
+        update,
+        { arrayFilters }
+      );
+      return res;
+    } catch (error) {
+      return error;
+    }
+  },
+
 };

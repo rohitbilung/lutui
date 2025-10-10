@@ -1,84 +1,117 @@
-import { Phone, User, ChevronDown } from "lucide-react";
+import { User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import UserAvatar from "./UserAvatar";
+import { useCart } from "../../../context/CartContext";
 
 const TopHeader = () => {
-  const { isAuthenticated } = useAuth();
+  const { clearCart } = useCart()
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    clearCart();
+    logout();
+  };
+
   return (
-    <div className="bg-black text-white py-2">
-      <div className="container mx-auto px-4 flex flex-wrap items-center justify-between">
-        {/* Left Section: Currency, Language, and Phone */}
-        <div className="flex items-center space-x-4">
-          {/* Currency Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="text-sm font-medium text-white px-2"
-              >
-                INR <ChevronDown className="w-4 h-4 ml-1" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              <DropdownMenuItem>INR</DropdownMenuItem>
-              <DropdownMenuItem>USD</DropdownMenuItem>
-              <DropdownMenuItem>EUR</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+    <div className="bg-black text-white py-3 px-2 w-full">
+      <div className="w-full flex justify-center items-center text-center relative">
+        <p className="text-sm flex-1 flex items-center justify-center text-center gap-2">
+          Wearing Adivasi Narratives and Identity.
+        </p>
 
-          {/* Language Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="text-sm font-medium text-white px-2"
-              >
-                English <ChevronDown className="w-4 h-4 ml-1" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              <DropdownMenuItem>English</DropdownMenuItem>
-              <DropdownMenuItem>Hindi</DropdownMenuItem>
-              <DropdownMenuItem>French</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <div className="absolute right-0">
+          <div className="flex justify-end text-right">
+            <div className="flex items-center space-x-4">
+              {/* Mobile: show dropdown menu */}
+              <div className="md:hidden">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="p-2 cursor-pointer">
+                      <User className="w-5 h-5 text-white" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    {user ? (
+                      <>
+                        {user.role === "user" && (
+                          <>
+                            <DropdownMenuItem asChild>
+                              <span>My Account</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                              <span>My Orders</span>
+                            </DropdownMenuItem>
+                          </>
+                        )}
 
-          {/* Phone Contact */}
-          <p className="text-sm flex items-center gap-2">
-            <Phone className="w-4 h-4 -scale-x-100 text-white" /> +91 9938 452
-            439
-          </p>
-        </div>
+                        {user.role === "admin" && (
+                          <>
+                            <DropdownMenuItem asChild>
+                              <Link to="/dashboard" className="cursor-pointer">
+                                Dashboard
+                              </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                              <Link to="/profile" className="cursor-pointer">
+                                Profile
+                              </Link>
+                            </DropdownMenuItem>
+                          </>
+                        )}
+                        <DropdownMenuItem asChild>
+                          <button className="w-full text-left text-red-500 cursor-pointer" onClick={handleLogout}>
+                            Logout
+                          </button>
+                        </DropdownMenuItem>
+                      </>
+                    ) : (
+                      <>
+                        <DropdownMenuItem asChild>
+                          <Link to="/login" className="cursor-pointer">
+                            Login
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link to="/register" className="cursor-pointer">
+                            Create Account
+                          </Link>
+                        </DropdownMenuItem>
+                      </>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
 
-        {/* Right Section: User Menu */}
-        <div className="flex items-center space-x-4">
-          {/* User Icon (Mobile) */}
-          <Button variant="ghost" className="md:hidden p-2">
-            <User className="w-5 h-5 text-white" />
-          </Button>
-
-          {/* Login & Signup (Desktop) */}
-          <div className="hidden md:flex space-x-4 text-sm">
-            {isAuthenticated ? (
-              <UserAvatar />
-            ) : (
-              <>
-                <Link to="/login" className="hover:text-blue-500 uppercase">
-                  Login
-                </Link>
-                <Link to="/register" className="hover:text-blue-500 uppercase">
-                  Create Account
-                </Link>
-              </>
-            )}
+              {/* Desktop: show avatar or login/register */}
+              <div className="hidden md:flex space-x-4 text-sm items-center">
+                {user ? (
+                  <UserAvatar />
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="hover:text-blue-500 uppercase cursor-pointer"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/register"
+                      className="hover:text-blue-500 uppercase cursor-pointer"
+                    >
+                      Create Account
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>

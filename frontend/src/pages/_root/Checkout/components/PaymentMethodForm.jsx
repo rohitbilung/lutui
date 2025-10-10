@@ -7,27 +7,25 @@ const PaymentMethodForm = () => {
   const selected = watch("paymentMethod");
 
   return (
-    <div>
-      <h2 className="text-xl font-semibold mb-4">Payment Method</h2>
+    <div className="p-4 sm:p-6">
+      <h2 className="text-lg sm:text-xl font-semibold mb-4">Payment Method</h2>
       <RadioGroup
-        defaultValue="bank"
+        defaultValue="razorpay"
         value={selected}
         onValueChange={(val) => setValue("paymentMethod", val)}
         className="space-y-2"
       >
         {[
-          { id: "bank", label: "Direct Bank Transfer" },
-          { id: "cheque", label: "Cheque Payment" },
-          { id: "paypal", label: "PayPal" },
-          { id: "card", label: "Payment Information" },
+          { id: "razorpay", label: "Razorpay Payment" },
         ].map(({ id, label }) => (
           <div key={id} className="flex items-center space-x-2">
-            <RadioGroupItem value={id} id={id} />
-            <Label htmlFor={id}>{label}</Label>
+            <RadioGroupItem value={id} id={id} className="w-4 h-4 sm:w-5 sm:h-5" />
+            <Label htmlFor={id} className="text-sm sm:text-base">{label}</Label>
           </div>
         ))}
       </RadioGroup>
     </div>
+
   );
 };
 

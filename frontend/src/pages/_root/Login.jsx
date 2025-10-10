@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../lib/zodSchema";
@@ -17,11 +17,15 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { useLoginUser } from "../../lib/queries/Mutations";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Spinner from "../../components/shared/common/Loader/Spinner";
+import { useCart } from "../../context/CartContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
+  const { clearCart } = useCart()
   const { mutateAsync: loginUser, isPending: isLoggingIn } = useLoginUser();
   const loginForm = useForm({
     resolver: zodResolver(loginSchema),
@@ -32,17 +36,22 @@ const Login = () => {
   });
 
   const onSubmit = async (values) => {
+    if (isLoading || isLoggingIn) return;
+    setIsLoading(true);
     const response = await loginUser(values);
     if (response.success) {
+      clearCart();
       const { token, data: userData } = response;
       toast.success(response.message);
       loginForm.reset();
       await login({ token, userData });
       // Delay navigation by 2 seconds (2000ms)
       setTimeout(() => {
+        setIsLoading(false);
         navigate("/");
       }, 2000);
     } else {
+      setIsLoading(false);
       toast.error(response?.message || "Something went wrong!!!");
     }
   };
@@ -54,7 +63,7 @@ const Login = () => {
           <Form {...loginForm}>
             <form
               onSubmit={loginForm.handleSubmit(onSubmit)}
-              className="space-y-8 w-full"
+              className="space-y-4 mb-4 w-full"
             >
               <FormField
                 control={loginForm.control}
@@ -90,13 +99,30 @@ const Login = () => {
                   </FormItem>
                 )}
               />
-              <div className="flex justify-center items-center">
-                <Button type="submit" className="w-full" disabled={isLoggingIn}>
-                  Sign In
-                </Button>
-              </div>
+
+              <Button
+                type="submit"
+                className="w-full flex justify-center items-center cursor-pointer"
+                disabled={isLoading || isLoggingIn}
+              >
+                {isLoading || isLoggingIn ? (
+                  <>
+                    <Spinner text="" wrapperClassName="max-w-full" />
+                    <span>Loading...</span>
+                  </>
+                ) : (
+                  "Sign In"
+                )}
+              </Button>
             </form>
           </Form>
+
+          <div className="flex justify-center text-sm text-gray-600">
+            <span>Don’t have an account?</span>
+            <Link to="/register" className="ml-1 text-blue-600 hover:underline">
+              Create one
+            </Link>
+          </div>
         </div>
       </PageContent>
     </PageWrapper>

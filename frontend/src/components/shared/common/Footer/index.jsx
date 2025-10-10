@@ -15,7 +15,7 @@ const Footer = () => {
       </div>
 
       {/* Footer Main Section */}
-      <div className="bg-[var(--lutui)] py-6 text-white">
+      <div className="bg-[#440505] py-6 text-white">
         <div className="container mx-auto px-4 flex gap-3 flex-col md:flex-row justify-between">
           <FooterLinks />
           <ContactInfo />

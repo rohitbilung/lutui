@@ -2,49 +2,114 @@ const orderService = require('../services/orders.service')
 const { sendSuccessResponse, sendFailedResponse } = require('../utils/responseUtil')
 
 module.exports = {
-    addCart : async (req,res)=> {
+    addCart: async (req, res) => {
         let result = await orderService.addCart(req.body, req.user)
-        if(result){
+        if (result) {
             sendSuccessResponse(req, res, result)
-        }else{
+        } else {
             sendFailedResponse(req, res, result)
         }
     },
 
-    getCart : async (req,res)=> {
+    getCart: async (req, res) => {
         let result = await orderService.getCart(req.params, req.user)
-        if(result){
+        if (result) {
             sendSuccessResponse(req, res, result)
-        }else{
-            sendFailedResponse(req, res, result)
-        }
-    },
-    
-    removeCountFromCart : async (req,res)=> {
-        let result = await orderService.removeCountFromCart(req.body, req.user)
-        if(result){
-            sendSuccessResponse(req, res, result)
-        }else{
+        } else {
             sendFailedResponse(req, res, result)
         }
     },
 
-    removeProductFromCart : async (req,res)=> {
-        let result = await orderService.removeProductFromCart(req.body, req.user)
-        if(result){
+    removeCountFromCart: async (req, res) => {
+        let result = await orderService.removeCountFromCart(req.body, req.user)
+        if (result) {
             sendSuccessResponse(req, res, result)
-        }else{
+        } else {
+            sendFailedResponse(req, res, result)
+        }
+    },
+
+    removeProductFromCart: async (req, res) => {
+        let result = await orderService.removeProductFromCart(req.body, req.user)
+        if (result) {
+            sendSuccessResponse(req, res, result)
+        } else {
             sendFailedResponse(req, res, result)
         }
     },
     
-    checkout : async (req,res)=> {
-        let result = await orderService.checkout(req.body, req.user)
-        if(result){
+    stocks: async (req, res) => {
+        let result = {status:200, data:"", message:"" }
+        if (result) {
             sendSuccessResponse(req, res, result)
-        }else{
+        } else {
             sendFailedResponse(req, res, result)
         }
     },
+
+    checkout: async (req, res) => {
+        let result = await orderService.checkout(req.body, req.user)
+        if (result) {
+            sendSuccessResponse(req, res, result)
+        } else {
+            sendFailedResponse(req, res, result)
+        }
+    },
+
+    getOrders: async (req, res) => {
+        let pagination = {
+            total: 0,
+            page_records: 0,
+            page_no: 1,
+            total_pages: 1,
+            next_page: null,
+            prev_page: null,
+        };
+        let result = await orderService.getOrders(req.query, pagination)
+        if (result) {
+            res.status(result.status).send({
+                success: true,
+                data: result.data || req.user,
+                message: result.message || "",
+                pagination: result.pagination || pagination
+            });
+        } else {
+            res.status(500).send({
+                success: false,
+                message: 'Something went wrong in the server.',
+                pagination,
+                error: result.error,
+            });
+        }
+    },
+
+    updateOrders: async (req, res) => {
+        let result = await orderService.updateOrders(req.body, req.query, req.user)
+        if (result) {
+            sendSuccessResponse(req, res, result)
+        } else {
+            sendFailedResponse(req, res, result)
+        }
+    },
+    
+    trackOrders: async (req, res) => {
+        let result = await orderService.trackOrders(req.query, req.user)
+        if (result) {
+            sendSuccessResponse(req, res, result)
+        } else {
+            sendFailedResponse(req, res, result)
+        }
+    },
+
+    downloadOrders: async (req, res) => {
+        let result = await orderService.downloadOrders(req.query, req.user)
+        if (result) {
+            res.setHeader("Content-Disposition", "attachment; filename=order.json");
+            res.setHeader("Content-Type", "application/json");
+            res.send(JSON.stringify(result.data, null, 2));
+        } else {
+            sendFailedResponse(req, res, result)
+        }
+    }
 
 }

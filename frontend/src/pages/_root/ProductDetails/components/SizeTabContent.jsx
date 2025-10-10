@@ -92,9 +92,7 @@ const SizeTabContent = ({
               selected={colorData}
               setSelected={setColorData}
               size={shirtSize}
-              sizeTypeList={
-                product.sizeType[tab].sizes.find((s) => s.size === shirtSize)?.colors || []
-              }
+              sizeTypeList={product.sizeType[tab].sizes}
             />
           </div>
         </div>

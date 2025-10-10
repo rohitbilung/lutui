@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
-import { ShoppingBag, Menu, X } from "lucide-react"; // Icons from Lucide
-import { useState } from "react";
+import { ShoppingBag, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import CartIcon from "./CartIcon";
 import {
@@ -18,107 +17,148 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+const navLinks = [
+  { label: "Home", to: "/" },
+  {
+    label: "Products",
+    dropdown: [
+      {
+        label: "T-Shirts",
+        to: `/product-list/${encodeURIComponent("T-Shirts")}`,
+      },
+      {
+        label: "Tote Bags",
+        to: `/product-list/${encodeURIComponent("Tote Bags")}`,
+      },
+      {
+        label: "Pot Holders",
+        to: `/product-list/${encodeURIComponent("Pot Holders")}`,
+      },
+    ],
+  },
+  {
+    label: "Collection",
+    dropdown: [
+      {
+        label: "Jethuari",
+        to: `/collection/${encodeURIComponent("Jethuari")}`,
+      },
+      {
+        label: "Khadia Tribe",
+        to: `/collection/${encodeURIComponent("Khadia Tribe")}`,
+      },
+      {
+        label: "Cuisines",
+        to: `/collection/${encodeURIComponent("Cuisines")}`,
+      },
+    ],
+  },
+];
+
 export default function Header({
   className = "bg-[#440505] text-white",
   showShadow = false,
 }) {
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
-
   return (
     <header
-      className={clsx("py-1", className, {
-        "shadow-md": showShadow,
-      })}
-    >
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        {/* Desktop Logo */}
-        <div className="hidden lg:block">
-          <Link to="/">
-            <img src="/logo.png" alt="Logo" className="h-16" />
-          </Link>
-        </div>
+  className={clsx("py-1", className, {
+    "shadow-md": showShadow,
+  })}
+>
+  <div className="container mx-auto px-4 py-3 flex items-center justify-between lg:justify-between">
+    {/* Mobile View: Menu + Logo + Cart */}
+    <div className="flex w-full items-center justify-between lg:hidden relative">
+      {/* Menu Icon - Left */}
+      <DropdownMenu>
+        <DropdownMenuTrigger className="focus:outline-none cursor-pointer">
+          <Menu size={24} />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" className="w-56">
+          {navLinks.map((item, index) => (
+            <div key={index}>
+              {!item.dropdown ? (
+                <DropdownMenuItem asChild>
+                  <Link to={item.to} className="w-full text-left cursor-pointer">
+                    {item.label}
+                  </Link>
+                </DropdownMenuItem>
+              ) : (
+                <>
+                  <div className="px-2 py-1 text-sm font-medium text-muted-foreground">
+                    {item.label}
+                  </div>
+                  {item.dropdown.map((subItem, subIndex) => (
+                    <DropdownMenuItem asChild key={subIndex}>
+                      <Link to={subItem.to} className="pl-4 w-full text-left cursor-pointer">
+                        {subItem.label}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </>
+              )}
+            </div>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
 
-        {/* Mobile Menu Toggle */}
-        <div className="block lg:hidden">
-          <Button
-            variant="ghost"
-            className="p-2"
-            onClick={() => setMobileNavOpen(!mobileNavOpen)}
+      {/* Logo - Center */}
+      <Link to="/" className="absolute left-1/2 transform -translate-x-1/2">
+        <img src="/logo.png" alt="Logo" className="h-12" />
+      </Link>
+
+      {/* Cart Icon - Right */}
+      <CartIcon />
+    </div>
+
+    {/* Desktop View: Logo Left */}
+    <div className="hidden lg:block">
+      <Link to="/">
+        <img src="/logo.png" alt="Logo" className="h-16" />
+      </Link>
+    </div>
+
+    {/* Desktop Navigation */}
+    <nav className={clsx("hidden lg:flex lg:space-x-6 lg:w-2/6 justify-start")}>
+      {navLinks.map((link, index) =>
+        !link.dropdown ? (
+          <Link
+            key={index}
+            to={link.to}
+            className="hover:text-gray-600 cursor-pointer"
           >
-            {mobileNavOpen ? <X size={24} /> : <Menu size={24} />}
-          </Button>
-        </div>
-
-        {/* Navigation Links */}
-        <nav
-          className={clsx("lg:flex lg:space-x-6", {
-            "block absolute top-full left-0 w-full bg-white text-black shadow-md p-4":
-              mobileNavOpen,
-            hidden: !mobileNavOpen,
-          })}
-        >
-          <Link to="/" className="hover:text-gray-600">
-            Home
+            {link.label}
           </Link>
-          <span className="hover:text-gray-600 capitalize">
+        ) : (
+          <span key={index} className="hover:text-gray-600 capitalize">
             <HoverCard>
-              <HoverCardTrigger>Products</HoverCardTrigger>
-              <HoverCardContent className="bg-[#440505] border-0 z-[100]">
-                <div className="flex flex-col gap-2">
-                  <Link
-                    to="/coming-soon"
-                    className="text-white hover:text-white/75 capitalize rounded-xl text-center"
-                  >
-                    T-Shirt
-                  </Link>
-                  <Link
-                    to="/coming-soon"
-                    className="text-white hover:text-white/75 capitalize rounded-xl text-center"
-                  >
-                    Bag
-                  </Link>
-                  <Link
-                    to="/coming-soon"
-                    className="text-white hover:text-white/75 capitalize rounded-xl text-center"
-                  >
-                    Apron
-                  </Link>
-                </div>
-              </HoverCardContent>
-            </HoverCard>
-          </span>
-          <span className="hover:text-gray-600 capitalize">
-            <HoverCard>
-              <HoverCardTrigger>Collection</HoverCardTrigger>
+              <HoverCardTrigger className="cursor-pointer">
+                {link.label}
+              </HoverCardTrigger>
               <HoverCardContent className="bg-[#440505] border-0 z-[100]">
                 <div className="flex flex-col gap-2 text-center">
-                  <Link
-                    to="/coming-soon"
-                    className="text-white hover:text-white/75 capitalize rounded-xl text-center"
-                  >
-                    Jethuari
-                  </Link>
-                  <Link
-                    to="/coming-soon"
-                    className="text-white hover:text-white/75 capitalize rounded-xl text-center"
-                  >
-                    Khadia Tribe
-                  </Link>
+                  {link.dropdown.map((item, idx) => (
+                    <Link
+                      key={idx}
+                      to={item.to}
+                      className="text-white hover:text-white/75 capitalize rounded-xl text-center"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
                 </div>
               </HoverCardContent>
             </HoverCard>
           </span>
-          <Link to="/about-us" className="hover:text-gray-600">
-            About Us
-          </Link>
-          <Link to="/blog" className="hover:text-gray-600">
-            Blog
-          </Link>
-        </nav>
+        )
+      )}
+    </nav>
 
-        {/* Cart Icon */}
-        <CartIcon />
-      </div>
-    </header>
+    {/* Cart Icon for Desktop */}
+    <div className="hidden lg:block">
+      <CartIcon />
+    </div>
+  </div>
+</header>
+
   );
 }
