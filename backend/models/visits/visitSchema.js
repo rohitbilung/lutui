@@ -1,21 +1,27 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const visitorEntrySchema = new mongoose.Schema({
+const visitSchema = new mongoose.Schema(
+  {
     date: {
-        type: String, // Format: YYYY-MM-DD
-        required: true,
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
     },
-    ips: [String],
-});
 
-const visitSchema = new mongoose.Schema({
     count: {
-        type: Number,
-        default: 0,
+      type: Number,
+      default: 0,
     },
-    visitorsByDate: [visitorEntrySchema],
-});
 
-const Visit = mongoose.model('Visit', visitSchema);
+    ips: {
+      type: [String],
+      default: [],
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = Visit;
+module.exports = mongoose.model("Visit", visitSchema);

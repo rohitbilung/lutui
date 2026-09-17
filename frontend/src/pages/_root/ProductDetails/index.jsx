@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetProductByID } from "../../../lib/queries/queries";
 import SizeTabContent from "./components/SizeTabContent";
 import { useAuth } from "../../../context/AuthContext";
+import { STORE_CONFIG } from "@/config/storeConfig";
 
 const ProductDetails = () => {
   const { productId } = useParams();
@@ -65,10 +66,12 @@ const ProductDetails = () => {
                       onContextMenu={(e) => e.preventDefault()}
                       draggable="false"
                       onDragStart={(e) => e.preventDefault()}
-                      className={`w-14 h-14 sm:w-16 sm:h-16 object-cover border cursor-pointer transition-transform duration-200 ${(selectedImage === "" && index === 0) || selectedImage === img
+                      className={`w-14 h-14 sm:w-16 sm:h-16 object-cover border cursor-pointer transition-transform duration-200 ${
+                        (selectedImage === "" && index === 0) ||
+                        selectedImage === img
                           ? "border-blue-500 scale-110 shadow-md"
                           : "border-gray-300 hover:scale-105"
-                        }`}
+                      }`}
                       onClick={() => setSelectedImage(img)}
                     />
                   ))}
@@ -89,19 +92,19 @@ const ProductDetails = () => {
 
               {/* Right Section - Product Info */}
               <div className="space-y-4 w-full">
-                <h2 className="text-xl sm:text-2xl font-semibold">{product.name}</h2>
+                <h2 className="text-xl sm:text-2xl font-semibold">
+                  {product.name}
+                </h2>
                 <h3 className="text-lg sm:text-xl font-semibold">{`₹ ${price}`}</h3>
 
                 {/* Tabs */}
                 <div className="w-full">
-                  <Tabs
-                    value={size}
-                    onValueChange={setSize}
-                    className="w-full"
-                  >
+                  <Tabs value={size} onValueChange={setSize} className="w-full">
                     <TabsList className="w-full grid grid-cols-2 text-sm sm:text-base bg-[#00BF63] rounded-md overflow-hidden">
                       <TabsTrigger value="regular">Regular Shirt</TabsTrigger>
-                      <TabsTrigger value="oversized">Oversize Shirt</TabsTrigger>
+                      <TabsTrigger value="oversized">
+                        Oversize Shirt
+                      </TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="regular">
@@ -127,10 +130,34 @@ const ProductDetails = () => {
                   </Tabs>
                 </div>
 
+                {!STORE_CONFIG.isOpen && (
+                  <div className="rounded-xl border border-[#440505]/10 bg-[#440505]/5 p-4">
+                    <div className="flex items-start gap-3">
+                      <div className="text-2xl">🪷</div>
+
+                      <div>
+                        <h3 className="font-semibold text-[#440505]">
+                          We're Taking a Little Break
+                        </h3>
+
+                        <p className="mt-1 text-sm leading-6 text-gray-600">
+                          You can still explore our products and discover our
+                          collection, but orders are temporarily paused while we
+                          prepare something new.
+                        </p>
+
+                        <p className="mt-2 text-sm font-medium text-[#440505]">
+                          We'll be back soon. ❤️
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Add to Cart Button */}
                 <AddToCartButton
                   product={{ ...cartData, productId: product }}
-                  disabled={!colorData}
+                  disabled={!STORE_CONFIG.isOpen || !colorData}
                   btnVariant="blue"
                 />
               </div>
@@ -138,14 +165,18 @@ const ProductDetails = () => {
 
             {/* Description Section */}
             <div className="flex flex-col gap-2 bg-white shadow-lg rounded-lg p-4 sm:p-6">
-              <h2 className="text-xl sm:text-2xl underline font-semibold">Design Description</h2>
+              <h2 className="text-xl sm:text-2xl underline font-semibold">
+                Design Description
+              </h2>
               <p className="text-sm sm:text-base md:text-lg indent-6 sm:indent-12 md:indent-24">
                 {product.description}
               </p>
 
               {product.credits && (
                 <div className="mt-4 sm:mt-6">
-                  <h3 className="text-lg sm:text-xl font-semibold underline mb-2">Design Credits</h3>
+                  <h3 className="text-lg sm:text-xl font-semibold underline mb-2">
+                    Design Credits
+                  </h3>
                   <div className="text-sm sm:text-base">
                     {Object.entries(product.credits).map(([role, name]) => (
                       <p key={role}>
@@ -157,7 +188,6 @@ const ProductDetails = () => {
               )}
             </div>
           </div>
-
         ) : (
           <div className="flex flex-col items-center justify-center">
             <h5 className="text-lg font-medium">Product does not exist.</h5>

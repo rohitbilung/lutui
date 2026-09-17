@@ -4,6 +4,7 @@ import { useInView } from "react-intersection-observer";
 import TopHeader from "../TopHeader";
 import Footer from "../Footer";
 import Header from "../Header";
+import DiwaliPopup from "../../DiwaliPopup";
 
 const PageWrapper = ({ showInitialHeader = true, children=null }) => {
   const { ref, inView } = useInView({
@@ -39,6 +40,8 @@ const PageWrapper = ({ showInitialHeader = true, children=null }) => {
       {children}
 
       <Footer />
+
+      <DiwaliPopup />
     </div>
   );
 };

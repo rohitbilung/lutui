@@ -2,44 +2,47 @@ const mongoose = require("mongoose");
 const Visit = require("./visitSchema");
 
 module.exports = {
-    visitCount: async (req, res) => {
-        const ip =
-            req.headers["x-forwarded-for"]?.split(",").shift() ||
-            req.socket?.remoteAddress ||
-            req.ip;
+  visitCount: async (req, res) => {
+    const ip =
+      req.headers["x-forwarded-for"]?.split(",").shift() ||
+      req.socket?.remoteAddress ||
+      req.ip;
 
-        const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+    const today = new Date().toISOString().split("T")[0];
 
-        try {
-            let visit = await Visit.findOne();
+    try {
+      // Find today's document
+      let visit = await Visit.findOne({ date: today });
 
-            if (!visit) {
-                visit = new Visit({
-                    count: 1,
-                    visitorsByDate: [{ date: today, ips: [ip] }],
-                });
-            } else {
-                let entry = visit.visitorsByDate.find(e => e.date === today);
+      if (!visit) {
+        // First visitor of the day
+        visit = new Visit({
+          date: today,
+          count: 1,
+          ips: [ip],
+        });
+      } else if (!visit.ips.includes(ip)) {
+        // New IP for today
+        visit.ips.push(ip);
+        visit.count += 1;
+      }
 
-                if (!entry) {
-                    // No entry for today yet
-                    visit.count += 1;
-                    visit.visitorsByDate.push({ date: today, ips: [ip] });
-                } else if (!entry.ips.includes(ip)) {
-                    // New IP for today
-                    entry.ips.push(ip);
-                    visit.count += 1;
-                }
-            }
+      await visit.save();
 
-            await visit.save();
+      console.log("Today's visit count:", visit.count);
 
-            console.log('Visit count:', visit.count);
+      res.json({
+        success: true,
+        date: today,
+        count: visit.count,
+      });
+    } catch (err) {
+      console.error(err);
 
-            res.send(`<h1>Welcome!</h1><p>This site has been visited by ${visit.count} unique IPs.</p>`);
-        } catch (err) {
-            console.error(err);
-            res.status(500).send('Something went wrong');
-        }
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong",
+      });
     }
-}
+  },
+};
