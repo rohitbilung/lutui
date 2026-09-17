@@ -41,7 +41,7 @@ const PageWrapper = ({ showInitialHeader = true, children=null }) => {
 
       <Footer />
 
-      <DiwaliPopup />
+      {/* <DiwaliPopup /> */}
     </div>
   );
 };

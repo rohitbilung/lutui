@@ -2,6 +2,7 @@ import HomeSlider from "../../components/shared/HomeSlider";
 import FeaturedProducts from "../../components/shared/FeaturedProducts";
 import Header from "../../components/shared/common/Header";
 import PageWrapper from "../../components/shared/common/layouts/PageWrapper";
+import DiwaliPopup from "../../components/shared/DiwaliPopup";
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
       </div>
 
       <FeaturedProducts />
+      <DiwaliPopup/>
     </PageWrapper>
   );
 };
